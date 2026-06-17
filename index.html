@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Joydeep Mitra — Associate Director, UX Design</title>
+<meta name="description" content="Joydeep Mitra · Associate Director, UX Design at Kyndryl. Twenty years, six companies. End-to-end UX strategy for the AI era." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============== FILM GRAIN ============== -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============== CUSTOM CURSOR ============== -->
+<div class="cursor" id="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"><span class="cursor__label"></span></div>
+</div>
+
+<!-- ============== SCROLL PROGRESS ============== -->
+<div class="scrollbar" aria-hidden="true"><span id="scrollbarFill"></span></div>
+
+<!-- ============== PRELOADER ============== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <div class="loader__name">
+      <span class="line-clip"><span>Joydeep</span></span>
+      <span class="line-clip"><span>Mitra</span></span>
+    </div>
+    <div class="loader__meta">
+      <span class="loader__role">Associate Director, UX Design</span>
+      <span class="loader__count"><span id="loaderCount">0</span><i>/</i>100</span>
+    </div>
+  </div>
+  <div class="loader__bar"><span id="loaderBar"></span></div>
+</div>
+
+<!-- ============== NAV ============== -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" data-magnetic>JM<span>.</span></a>
+
+  <div class="nav__center">
+    <!-- ===== HOME MEGAMENU ===== -->
+    <div class="megamenu" id="megamenu">
+      <button class="megamenu__trigger" id="megaTrigger" type="button" aria-expanded="false" aria-controls="megaPanel" data-cursor>
+        <span>Explore</span><i class="caret"></i>
+      </button>
+
+      <div class="megamenu__panel" id="megaPanel" role="region" aria-label="Site sections">
+        <div class="mega__grid">
+
+          <a class="mtile" href="#work" data-cursor-label="Open">
+            <span class="mtile__num">01</span>
+            <span class="mtile__art">
+              <svg class="m-work" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2.4">
+                <rect class="m-bar m-bar--t" x="12" y="15" width="40" height="13" rx="2.5"/>
+                <rect class="m-bar m-bar--b" x="12" y="36" width="40" height="13" rx="2.5"/>
+              </svg>
+            </span>
+            <span class="mtile__label">Selected Work</span>
+            <span class="mtile__desc">Shipped at the scale of organisations</span>
+          </a>
+
+          <a class="mtile" href="#capabilities" data-cursor-label="Open">
+            <span class="mtile__num">02</span>
+            <span class="mtile__art">
+              <svg class="m-venn" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2">
+                <circle class="m-v m-v--1" cx="26" cy="27" r="15"/>
+                <circle class="m-v m-v--2" cx="38" cy="27" r="15"/>
+                <circle class="m-v m-v--3" cx="32" cy="38" r="15"/>
+              </svg>
+            </span>
+            <span class="mtile__label">How I Work</span>
+            <span class="mtile__desc">Strategist · operator · coach</span>
+          </a>
+
+          <a class="mtile" href="#thinking" data-cursor-label="Open">
+            <span class="mtile__num">03</span>
+            <span class="mtile__art">
+              <svg class="m-think" viewBox="0 0 64 64" width="60" height="60" fill="currentColor" stroke="currentColor">
+                <g class="m-net" fill="none" stroke-width="1.5">
+                  <line x1="32" y1="32" x2="14" y2="17"/>
+                  <line x1="32" y1="32" x2="51" y2="15"/>
+                  <line x1="32" y1="32" x2="52" y2="41"/>
+                  <line x1="32" y1="32" x2="17" y2="47"/>
+                  <line x1="32" y1="32" x2="35" y2="53"/>
+                </g>
+                <circle cx="32" cy="32" r="4"/>
+                <circle cx="14" cy="17" r="2.6"/><circle cx="51" cy="15" r="2.6"/>
+                <circle cx="52" cy="41" r="2.6"/><circle cx="17" cy="47" r="2.6"/>
+                <circle cx="35" cy="53" r="2.6"/>
+              </svg>
+            </span>
+            <span class="mtile__label">Thinking</span>
+            <span class="mtile__desc">Published on UX in the AI era</span>
+          </a>
+
+          <a class="mtile" href="#contact" data-cursor-label="Open">
+            <span class="mtile__num">04</span>
+            <span class="mtile__art">
+              <svg class="m-arrow" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="17" y1="47" x2="47" y2="17"/>
+                <polyline points="26,17 47,17 47,38"/>
+              </svg>
+            </span>
+            <span class="mtile__label">Contact</span>
+            <span class="mtile__desc">Let's build something useful</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+    <nav class="nav__links">
+      <a href="#approach" data-cursor>Approach</a>
+      <a href="#toolkit" data-cursor>Toolkit</a>
+      <a href="#arc" data-cursor>Arc</a>
+    </nav>
+  </div>
+
+  <a href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" class="nav__cta" data-magnetic data-cursor>
+    <span>LinkedIn</span><i>&#8599;</i>
+  </a>
+</header>
+
+<main id="top">
+
+<!-- ============== 01 · HERO ============== -->
+<section class="hero" id="hero">
+  <div class="hero__top reveal">
+    <span class="tag">pixeljoyDesigns_</span>
+    <span class="tag tag--mid">Bangalore, IND</span>
+    <span class="tag tag--clock" id="clock">--:--:--</span>
+  </div>
+
+  <h1 class="hero__head" id="heroQuote">
+    <span class="line-clip"><span>The best design work</span></span>
+    <span class="line-clip"><span>is <em class="underline">invisible</em> to the user.</span></span>
+  </h1>
+
+  <div class="hero__foot">
+    <div class="hero__attr" id="heroAttr">
+      <span class="dash">&mdash;</span> Joydeep Mitra
+      <span class="role">Associate Director, UX Design · Kyndryl</span>
+    </div>
+    <a href="#approach" class="scrollcue" data-cursor aria-label="Scroll">
+      <span>Scroll</span>
+      <i></i>
+    </a>
+  </div>
+
+  <!-- infinite marquee strip -->
+  <div class="marquee marquee--hero" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Twenty years</span><span class="sep">&#9670;</span>
+      <span>Six companies</span><span class="sep">&#9670;</span>
+      <span>Strategy</span><span class="sep">&#9670;</span>
+      <span>Field research at scale</span><span class="sep">&#9670;</span>
+      <span>AI-enabled UX</span><span class="sep">&#9670;</span>
+      <span>Design org leadership</span><span class="sep">&#9670;</span>
+      <span>Twenty years</span><span class="sep">&#9670;</span>
+      <span>Six companies</span><span class="sep">&#9670;</span>
+      <span>Strategy</span><span class="sep">&#9670;</span>
+      <span>Field research at scale</span><span class="sep">&#9670;</span>
+      <span>AI-enabled UX</span><span class="sep">&#9670;</span>
+      <span>Design org leadership</span><span class="sep">&#9670;</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 02 · MANIFESTO ============== -->
+<section class="manifesto" id="approach">
+  <span class="sec-num reveal">02 — The shift</span>
+  <p class="manifesto__body" data-words>
+    I didn't start here. Twenty years and six companies ago, I was making screens.
+    Now I change how organisations think about design — strategy in the room,
+    process behind it, people at the centre.
+  </p>
+
+  <div class="fromto">
+    <div class="fromto__row reveal"><span class="from">Double-diamond executor</span><i class="arr">&rarr;</i><span class="to">End-to-end UX strategist</span></div>
+    <div class="fromto__row reveal"><span class="from">Figma output</span><i class="arr">&rarr;</i><span class="to">Shipped products with metrics</span></div>
+    <div class="fromto__row reveal"><span class="from">Single-project contributor</span><i class="arr">&rarr;</i><span class="to">Design-org leadership</span></div>
+    <div class="fromto__row reveal"><span class="from">Process frameworks</span><i class="arr">&rarr;</i><span class="to">Field research at scale · 50+ participants</span></div>
+    <div class="fromto__row reveal"><span class="from">Tools awareness</span><i class="arr">&rarr;</i><span class="to">AI-enabled UX practice</span></div>
+    <div class="fromto__row reveal"><span class="from">2014&ndash;2023</span><i class="arr">&rarr;</i><span class="to">2000&ndash;2026, accelerating</span></div>
+  </div>
+</section>
+
+<!-- ============== 03 · SELECTED WORK (horizontal pinned) ============== -->
+<section class="work" id="work">
+  <div class="work__pin">
+    <div class="work__head">
+      <span class="sec-num">03 — Selected work</span>
+      <h2 class="work__title">Shipped at the scale<br />of organisations.</h2>
+      <span class="work__hint">Drag / scroll &rarr;</span>
+    </div>
+    <div class="work__track" id="workTrack">
+
+      <a class="card card--hero" href="work/kyndryl-bridge.html" data-cursor-label="View case">
+        <div class="card__index">01 / Hero case</div>
+        <div class="card__mid">
+          <h3>Kyndryl<br />Bridge</h3>
+          <p>UX for the world's largest IT-infrastructure PaaS.</p>
+        </div>
+        <div class="card__foot">
+          <div class="card__metrics">
+            <span><b>500+</b> enterprise customers</span>
+            <span><b>$2B</b> annual productivity savings</span>
+          </div>
+          <span class="card__go">Full case study <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <div class="card" data-cursor-label="Banking">
+        <div class="card__index">02</div>
+        <div class="card__mid">
+          <h3>Kyndryl Vital<br />— Banking</h3>
+          <p>All-India field research · 50+ participants · south-Indian finance sector.</p>
+        </div>
+        <div class="card__foot"><span class="card__tag">Field research · Banking</span></div>
+      </div>
+
+      <div class="card" data-cursor-label="AI strategy">
+        <div class="card__index">03</div>
+        <div class="card__mid">
+          <h3>Generative &amp;<br />Agentic AI</h3>
+          <p>Bank of Thailand POC &rarr; enterprise service offering · AI-era business strategy.</p>
+        </div>
+        <div class="card__foot"><span class="card__tag">AI strategy · Fintech</span></div>
+      </div>
+
+      <div class="card" data-cursor-label="Spatial UX">
+        <div class="card__index">04</div>
+        <div class="card__mid">
+          <h3>VR Branch<br />Banking</h3>
+          <p>Concept to low-fi to VR device — a user-tested spatial banking experience.</p>
+        </div>
+        <div class="card__foot"><span class="card__tag">Spatial UX · VR</span></div>
+      </div>
+
+      <div class="card card--list" data-cursor-label="More">
+        <div class="card__index">05 / Supporting</div>
+        <ul class="card__list">
+          <li><span>GPT / NL Language UX</span><i>AI · NLU</i></li>
+          <li><span>Informatica Design System</span><i>Enterprise</i></li>
+          <li><span>ADP — Wallet for the Unbanked</span><i>Fintech · Inclusion</i></li>
+          <li><span>Teaching IXD</span><i>Education</i></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== 04 · APPROACH / CAPABILITIES ============== -->
+<section class="caps" id="capabilities">
+  <div class="caps__head reveal">
+    <span class="sec-num">04 — How I work</span>
+    <h2 class="sec-head">Strategist, operator, coach &mdash; proven where organisations changed direction.</h2>
+  </div>
+  <div class="caps__list">
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">01</span>
+      <h3 class="cap__title">Strategy &amp; service design</h3>
+      <p class="cap__proof">BIAL pitch · Insurance · NBFC · Banking-sector door-opening strategy</p>
+      <span class="cap__plus">+</span>
+    </div>
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">02</span>
+      <h3 class="cap__title">Field research at scale</h3>
+      <p class="cap__proof">All-India banking study · 50+ cross-functional participants · south-Indian finance sector</p>
+      <span class="cap__plus">+</span>
+    </div>
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">03</span>
+      <h3 class="cap__title">LUMA facilitation &amp; AI-enabled UX</h3>
+      <p class="cap__proof">Kyndryl Vital · design-thinking studio · Figma AI · Claude · Maze</p>
+      <span class="cap__plus">+</span>
+    </div>
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">04</span>
+      <h3 class="cap__title">Design-org leadership</h3>
+      <p class="cap__proof">Built &amp; scaled UX teams across Tech Mahindra, Informatica, Kyndryl</p>
+      <span class="cap__plus">+</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 05 · THINKING ============== -->
+<section class="thinking" id="thinking">
+  <div class="thinking__head reveal">
+    <span class="sec-num">05 — Thinking</span>
+    <h2 class="sec-head">Published on UX in the AI era.</h2>
+  </div>
+  <div class="thinking__list">
+    <a class="post reveal" href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" data-cursor-label="Read">
+      <span class="post__ix">A1</span>
+      <span class="post__title">AI's impact on the UX design process</span>
+      <span class="post__tag">Research</span>
+    </a>
+    <a class="post reveal" href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" data-cursor-label="Read">
+      <span class="post__ix">A2</span>
+      <span class="post__title">Prompt engineering for designers</span>
+      <span class="post__tag">Practice</span>
+    </a>
+    <a class="post reveal" href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" data-cursor-label="Read">
+      <span class="post__ix">A3</span>
+      <span class="post__title">The future of the design profession</span>
+      <span class="post__tag">Strategy</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============== 06 · TOOLKIT MARQUEE ============== -->
+<section class="toolkit" id="toolkit">
+  <span class="sec-num reveal">06 — AI toolkit · a practice by phase</span>
+  <div class="toolkit__rows">
+    <div class="trow reveal">
+      <span class="trow__phase">Research &amp; synthesis</span>
+      <span class="trow__tools">Claude · ChatGPT · Dovetail · EnjoyHQ</span>
+    </div>
+    <div class="trow reveal">
+      <span class="trow__phase">Ideation &amp; generation</span>
+      <span class="trow__tools">Midjourney · Figma AI · Miro · Loveable</span>
+    </div>
+    <div class="trow reveal">
+      <span class="trow__phase">Prototyping &amp; build</span>
+      <span class="trow__tools">Figma · VS Code · Loveable · Galileo</span>
+    </div>
+    <div class="trow reveal">
+      <span class="trow__phase">Testing &amp; validation</span>
+      <span class="trow__tools">Maze · UserTesting · Dovetail</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 07 · THE ARC (timeline) ============== -->
+<section class="arc" id="arc">
+  <div class="arc__head reveal">
+    <span class="sec-num">07 — The arc</span>
+    <h2 class="sec-head">2000 <i>&rarr;</i> 2026.</h2>
+  </div>
+
+  <div class="arc__line" id="arcLine">
+    <div class="arc__fill" id="arcFill"></div>
+    <div class="arc__node" style="--at:2%"  data-co="Aesthetic Tech" data-rl="Multimedia → Interaction Designer"><b>2000</b></div>
+    <div class="arc__node" style="--at:15%" data-co="Web Spiders"    data-rl="Interaction Designer"><b>2003</b></div>
+    <div class="arc__node" style="--at:31%" data-co="Tech Mahindra"  data-rl="UX Lead → Architect → Business Leader"><b>2005</b></div>
+    <div class="arc__node" style="--at:52%" data-co="ADP"            data-rl="UX Design Manager"><b>2014</b></div>
+    <div class="arc__node" style="--at:63%" data-co="Gramener"       data-rl="UX Lead"><b>2016</b></div>
+    <div class="arc__node" style="--at:74%" data-co="Informatica"    data-rl="Principal Viz UXD · IXD"><b>2016</b></div>
+    <div class="arc__node arc__node--last" style="--at:96%" data-co="Kyndryl" data-rl="Associate Director, UX Design"><b>2023</b></div>
+  </div>
+
+  <div class="arc__bio reveal">
+    <p class="arc__big">20 years in UX. <em>10 in leadership.</em></p>
+    <p class="arc__sub">Artist, photographer, IKEA aficionado, AFOL. I lead the way the work asks to be led — strategy in the room, process behind it, people at the centre.</p>
+  </div>
+</section>
+
+<!-- ============== 08 · CONTACT / FOOTER ============== -->
+<section class="contact" id="contact">
+  <span class="sec-num reveal">08 — Contact</span>
+  <h2 class="contact__line" data-words>
+    Let's build something that <em>disappears</em> into usefulness.
+  </h2>
+
+  <a href="mailto:pixeljoy@gmail.com" class="contact__mail" data-magnetic data-cursor-label="Email">
+    pixeljoy@gmail.com
+  </a>
+
+  <div class="contact__grid reveal">
+    <a href="tel:+918008299419" data-cursor>+91 8008299419</a>
+    <a href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" data-cursor>LinkedIn &#8599;</a>
+    <a href="https://www.behance.net/" target="_blank" rel="noopener" data-cursor>Behance &#8599;</a>
+    <span>Bangalore, IND</span>
+  </div>
+
+  <div class="footer">
+    <div class="footer__big" id="footMono" aria-hidden="true">JM<span>.</span></div>
+    <div class="footer__meta">
+      <span>© 2026 Joydeep Mitra</span>
+      <span>pixeljoyDesigns_</span>
+      <button class="footer__top" id="toTop" data-cursor>Back to top <i>&uarr;</i></button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
