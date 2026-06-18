@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Supporting Work — Joydeep Mitra</title>
+<meta name="description" content="A broader body of work across AI/NLP, enterprise design systems, fintech inclusion, and design education." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --paper:  #F5F0E8;
+  --ink:    #1A1714;
+  --sienna: #C4410C;
+  --rule:   #E8E2D8;
+  --muted:  #9E9890;
+  --serif: "DM Serif Display", Georgia, serif;
+  --sans:  "DM Sans", system-ui, sans-serif;
+  --mono:  "DM Mono", ui-monospace, monospace;
+  --margin: 80px;
+  --gutter: 24px;
+  --maxw: 1440px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+::selection { background: var(--sienna); color: var(--paper); }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--margin); }
+.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); }
+section { position: relative; padding: 9vh 0; }
+.label { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.case-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 72px; display: flex; align-items: center; background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+.case-nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.back-link { font-family: var(--mono); font-size: 13px; color: var(--ink); letter-spacing: .04em; display: inline-flex; gap: 8px; align-items: center; }
+.back-link .arr { transition: transform .3s ease; }
+.back-link:hover .arr { transform: translateX(-5px); }
+.back-link:hover { color: var(--sienna); }
+.logotype { font-family: var(--serif); font-size: 24px; letter-spacing: -0.02em; }
+.logotype .dot { color: var(--sienna); }
+
+.case-hero { padding-top: 22vh; padding-bottom: 10vh; }
+.case-hero .label { margin-bottom: 22px; }
+.case-hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 7vw, 92px); line-height: .98; letter-spacing: -0.02em; margin: 0; grid-column: 1 / 11; }
+.case-hero .deck { grid-column: 1 / 9; font-weight: 300; font-size: 23px; line-height: 1.5; color: var(--ink); margin-top: 30px; }
+.metric-strip { grid-column: 1 / 13; margin-top: 56px; padding-top: 36px; border-top: 2px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 48px; }
+.metric .n { font-family: var(--serif); font-size: clamp(38px, 4.4vw, 56px); line-height: 1; letter-spacing: -0.02em; color: var(--sienna); }
+.metric .k { font-family: var(--sans); font-weight: 300; font-size: 15px; color: var(--muted); margin-top: 12px; max-width: 26ch; }
+
+.proj-block { padding: 9vh 0; border-top: 1px solid var(--rule); }
+.proj-block .grid12 { align-items: start; }
+.proj-block__num { grid-column: 1 / 4; }
+.proj-block__num .label { color: var(--sienna); }
+.proj-block__num h2 { font-family: var(--serif); font-weight: 400; font-size: 34px; letter-spacing: -0.01em; margin: 10px 0 0; line-height: 1.05; }
+.proj-block__num .tag { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--rule); border-radius: 100px; padding: 3px 10px; }
+.proj-block__body { grid-column: 5 / 12; }
+.proj-block__body p { font-weight: 300; font-size: 20px; line-height: 1.7; color: var(--ink); margin: 0 0 18px; text-wrap: pretty; }
+.proj-block__body ul { list-style: none; margin: 0; padding: 0; }
+.proj-block__body li { padding: 14px 0; border-top: 1px solid var(--rule); font-weight: 300; font-size: 18px; display: flex; gap: 16px; }
+.proj-block__body li:first-child { border-top: none; }
+.proj-block__body li .ix { font-family: var(--mono); font-size: 12px; color: var(--sienna); padding-top: 4px; }
+
+.case-foot { padding: 10vh 0 12vh; border-top: 1px solid var(--rule); }
+.case-foot .grid12 { align-items: center; }
+.case-foot__cta { grid-column: 1 / 9; }
+.case-foot__cta h3 { font-family: var(--serif); font-weight: 400; font-size: 40px; letter-spacing: -0.01em; margin: 0; }
+.case-foot__cta h3 em { font-style: italic; color: var(--sienna); }
+.case-foot a.big-back { grid-column: 10 / 13; justify-self: end; font-family: var(--mono); font-size: 13px; color: var(--sienna); letter-spacing: .04em; display: inline-flex; gap: 8px; align-items: center; }
+
+@media (max-width: 1080px) {
+  :root { --margin: 48px; }
+  .case-hero h1, .case-hero .deck { grid-column: 1 / 13; }
+  .proj-block__num, .proj-block__body { grid-column: 1 / 13; }
+  .proj-block__num { margin-bottom: 24px; }
+}
+@media (max-width: 720px) {
+  :root { --margin: 24px; }
+  body { font-size: 15px; }
+  .metric-strip { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="case-nav">
+  <div class="wrap">
+    <a href="../index.html#work" class="back-link"><span class="arr">&larr;</span> Back to work</a>
+    <a href="../index.html" class="logotype">JM<span class="dot">.</span></a>
+  </div>
+</nav>
+
+<main>
+
+<section class="case-hero">
+  <div class="wrap grid12">
+    <div style="grid-column:1 / 13;">
+      <div class="label">Supporting work · 05 / Archive</div>
+    </div>
+    <h1>A broader<br />body of work</h1>
+    <p class="deck">Projects that don't fit a single headline but reflect the range — AI/NLP interfaces, enterprise systems, fintech inclusion, and design education.</p>
+    <div class="metric-strip">
+      <div class="metric"><div class="n">20+</div><div class="k">years of output across industries and disciplines</div></div>
+      <div class="metric"><div class="n">4</div><div class="k">distinct practice areas outside the hero cases</div></div>
+      <div class="metric"><div class="n">Multi</div><div class="k">-disciplinary — strategy, systems, research, teaching</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="proj-block">
+  <div class="wrap grid12">
+    <div class="proj-block__num">
+      <div class="label">01</div>
+      <h2>GPT / NL Language UX</h2>
+      <span class="tag">AI · NLU</span>
+    </div>
+    <div class="proj-block__body">
+      <p>Interaction design for natural-language interfaces at a time before prompt engineering had a name. Designed conversational flows, intent-mapping UX, and disambiguation patterns for enterprise NLP pipelines.</p>
+      <ul>
+        <li><span class="ix">→</span>Conversation flow architecture for multi-turn dialogue</li>
+        <li><span class="ix">→</span>Error and fallback UX for low-confidence NLU responses</li>
+        <li><span class="ix">→</span>Intent taxonomy and slot-filling interaction patterns</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="proj-block">
+  <div class="wrap grid12">
+    <div class="proj-block__num">
+      <div class="label">02</div>
+      <h2>Informatica Design System</h2>
+      <span class="tag">Enterprise</span>
+    </div>
+    <div class="proj-block__body">
+      <p>Principal UX designer on the Informatica visualisation and interaction design system — a cross-product component library for one of the world's largest data management platforms.</p>
+      <ul>
+        <li><span class="ix">→</span>Component library spanning 40+ enterprise UI patterns</li>
+        <li><span class="ix">→</span>Data visualisation guidelines and chart interaction standards</li>
+        <li><span class="ix">→</span>Cross-team adoption across 6 product lines</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="proj-block">
+  <div class="wrap grid12">
+    <div class="proj-block__num">
+      <div class="label">03</div>
+      <h2>ADP — Wallet for the Unbanked</h2>
+      <span class="tag">Fintech · Inclusion</span>
+    </div>
+    <div class="proj-block__body">
+      <p>UX design for a digital wallet targeting unbanked and underbanked populations — one of the earliest fintech inclusion projects in the Indian market context. Designed for low-literacy users on entry-level Android devices.</p>
+      <ul>
+        <li><span class="ix">→</span>Low-literacy iconography and reduced-text interaction model</li>
+        <li><span class="ix">→</span>Offline-first architecture with graceful degradation</li>
+        <li><span class="ix">→</span>Field research with rural and semi-urban participant cohorts</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="proj-block">
+  <div class="wrap grid12">
+    <div class="proj-block__num">
+      <div class="label">04</div>
+      <h2>Teaching IXD</h2>
+      <span class="tag">Education</span>
+    </div>
+    <div class="proj-block__body">
+      <p>Interaction design curriculum development and teaching — from foundational UX principles to advanced prototyping methods. Delivered at design schools and corporate training programmes across India.</p>
+      <ul>
+        <li><span class="ix">→</span>Curriculum design for semester-length IXD courses</li>
+        <li><span class="ix">→</span>Workshop facilitation for working designers transitioning to UX</li>
+        <li><span class="ix">→</span>Industry mentorship and critique programmes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="case-foot">
+  <div class="wrap grid12">
+    <div class="case-foot__cta">
+      <h3>Depth comes from <em>breadth</em> over time.</h3>
+    </div>
+    <a class="big-back" href="../index.html#work"><span>&larr;</span> All work</a>
+  </div>
+</section>
+
+</main>
+</body>
+</html>

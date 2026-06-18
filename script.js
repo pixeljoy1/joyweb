@@ -8,6 +8,7 @@
   "use strict";
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var TIMER1_ = 5000;
   var isTouch = window.matchMedia("(hover: none)").matches;
   var $  = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
@@ -36,11 +37,18 @@
     { t: "A designer knows perfection when there is nothing left to take away.", u: "nothing left to take away", by: "Antoine de Saint-Exupéry", role: "Writer & aviator" }
   ];
 
-  (function rotatingQuote() {
-    var host = $("#heroQuote");
-    var attr = $("#heroAttr");
-    if (!host) return;
+  /* ============================================================
+     BUILD VERSION  — bump this each compile
+     ============================================================ */
+  var BUILD_VERSION = "2.3";
 
+  /* ============================================================
+     ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
+     ============================================================ */
+  var qHost = $("#heroQuote"), qAttr = $("#heroAttr"), qTimerTO = null;
+
+  function renderQuote() {
+    if (!qHost) return;
     var KEY = "jm_quote_seen", seen = [];
     try { seen = JSON.parse(sessionStorage.getItem(KEY) || "[]"); } catch (e) { seen = []; }
     if (!Array.isArray(seen) || seen.length >= QUOTES.length) seen = [];
@@ -57,18 +65,51 @@
       if (sp && sl.indexOf(sp) !== -1) return sl.replace(sp, '<em class="underline">' + sp + "</em>");
       return sl;
     }
-    var words = q.t.split(" "), mid = Math.ceil(words.length / 2);
+    // Strip trailing period — replaced by animated timer dot
+    var words = q.t.replace(/\.$/, "").split(" "), mid = Math.ceil(words.length / 2);
     var l1 = words.slice(0, mid).join(" "), l2 = words.slice(mid).join(" ");
-    // keep the underlined phrase intact on one line
     if (q.u && l2 && l1.indexOf(q.u) !== -1 && l1.lastIndexOf(q.u) + q.u.length > l1.length - 1) {
       l1 = words.slice(0, mid + 1).join(" "); l2 = words.slice(mid + 1).join(" ");
     }
-    host.innerHTML =
+    var C = (2 * Math.PI * 10).toFixed(2); // circle circumference ≈ 62.83
+    var dotHtml = '<span class="q-dot" id="qDot">' +
+      '<svg class="q-dot__svg" viewBox="0 0 24 24" aria-hidden="true">' +
+      '<circle cx="12" cy="12" r="10" fill="none" class="q-dot__track"/>' +
+      '<circle cx="12" cy="12" r="10" fill="none" class="q-dot__arc"' +
+      ' stroke-dasharray="' + C + '" stroke-dashoffset="0"/>' +
+      '</svg><span class="q-dot__pip"></span></span>';
+    qHost.innerHTML =
       '<span class="line-clip"><span>' + mark(l1) + "</span></span>" +
-      (l2 ? '<span class="line-clip"><span>' + mark(l2) + "</span></span>" : "");
-    if (attr) attr.innerHTML = '<span class="dash">&mdash;</span> ' + esc(q.by) +
+      '<span class="line-clip"><span>' + (l2 ? mark(l2) : "") + dotHtml + "</span></span>";
+    if (qAttr) qAttr.innerHTML = '<span class="dash">&mdash;</span> ' + esc(q.by) +
       '<span class="role">' + esc(q.role) + "</span>";
-  })();
+
+    var bb = $("#buildBadge");
+    if (bb) bb.textContent = "v" + BUILD_VERSION;
+  }
+
+  function startQuoteTimer() {
+    if (reduce) return; // respect reduced-motion preference
+    clearTimeout(qTimerTO);
+    var dot = $("#qDot");
+    if (dot) dot.classList.add("go");
+    qTimerTO = setTimeout(function () {
+      if (!qHost) return;
+      qHost.style.transition = "opacity .4s ease";
+      qHost.style.opacity = "0";
+      setTimeout(function () {
+        qHost.classList.remove("is-in");
+        qHost.style.transition = "";
+        qHost.style.opacity = "";
+        renderQuote();
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { qHost.classList.add("is-in"); startQuoteTimer(); });
+        });
+      }, 400);
+    }, TIMER1_);
+  }
+
+  renderQuote();
 
   /* ============================================================
      PRELOADER  → reveals the hero
@@ -77,10 +118,10 @@
     var loader = $("#loader");
     var countEl = $("#loaderCount");
     var barEl = $("#loaderBar");
-    var hero = $("#heroQuote");
     function reveal() {
       document.body.classList.add("is-loaded");
-      if (hero) hero.classList.add("is-in");
+      if (qHost) qHost.classList.add("is-in");
+      startQuoteTimer();
     }
     if (!loader) { reveal(); return; }
     if (reduce) {
@@ -350,6 +391,42 @@
       }
     }
     tick(); setInterval(tick, 1000);
+  })();
+
+  /* ============================================================
+     PDF RÉSUMÉ MODAL
+     ============================================================ */
+  (function resumeModal() {
+    var modal    = $("#pdfModal");
+    var backdrop = $("#pdfBackdrop");
+    var closeBtn = $("#pdfClose");
+    var frame    = $("#pdfFrame");
+    if (!modal || !frame) return;
+
+    var PDF_SRC = "resume/JoydeepMitra_resume_2025_v1.6_.pdf";
+    var loaded  = false;
+
+    function open() {
+      if (!loaded) { frame.setAttribute("src", PDF_SRC); loaded = true; }
+      modal.classList.add("open");
+      modal.removeAttribute("aria-hidden");
+      document.body.style.overflow = "hidden";
+    }
+    function close() {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    ["#resumeBtn", "#navResumeBtn"].forEach(function (id) {
+      var el = $(id);
+      if (el) el.addEventListener("click", open);
+    });
+    if (closeBtn) closeBtn.addEventListener("click", close);
+    if (backdrop) backdrop.addEventListener("click", close);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("open")) close();
+    });
   })();
 
 })();

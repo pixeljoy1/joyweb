@@ -53,20 +53,8 @@
       <div class="megamenu__panel" id="megaPanel" role="region" aria-label="Site sections">
         <div class="mega__grid">
 
-          <a class="mtile" href="#work" data-cursor-label="Open">
+          <a class="mtile" href="#approach" data-cursor-label="Open">
             <span class="mtile__num">01</span>
-            <span class="mtile__art">
-              <svg class="m-work" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2.4">
-                <rect class="m-bar m-bar--t" x="12" y="15" width="40" height="13" rx="2.5"/>
-                <rect class="m-bar m-bar--b" x="12" y="36" width="40" height="13" rx="2.5"/>
-              </svg>
-            </span>
-            <span class="mtile__label">Selected Work</span>
-            <span class="mtile__desc">Shipped at the scale of organisations</span>
-          </a>
-
-          <a class="mtile" href="#capabilities" data-cursor-label="Open">
-            <span class="mtile__num">02</span>
             <span class="mtile__art">
               <svg class="m-venn" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2">
                 <circle class="m-v m-v--1" cx="26" cy="27" r="15"/>
@@ -74,8 +62,20 @@
                 <circle class="m-v m-v--3" cx="32" cy="38" r="15"/>
               </svg>
             </span>
-            <span class="mtile__label">How I Work</span>
-            <span class="mtile__desc">Strategist · operator · coach</span>
+            <span class="mtile__label">Approach</span>
+            <span class="mtile__desc">The shift from screens to systems</span>
+          </a>
+
+          <a class="mtile" href="#arc" data-cursor-label="Open">
+            <span class="mtile__num">02</span>
+            <span class="mtile__art">
+              <svg class="m-arrow" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="17" y1="47" x2="47" y2="17"/>
+                <polyline points="26,17 47,17 47,38"/>
+              </svg>
+            </span>
+            <span class="mtile__label">Arc</span>
+            <span class="mtile__desc">Twenty years. Six companies. One thread.</span>
           </a>
 
           <a class="mtile" href="#thinking" data-cursor-label="Open">
@@ -96,19 +96,19 @@
               </svg>
             </span>
             <span class="mtile__label">Thinking</span>
-            <span class="mtile__desc">Published on UX in the AI era</span>
+            <span class="mtile__desc">A practitioner's view on UX in the AI era</span>
           </a>
 
-          <a class="mtile" href="#contact" data-cursor-label="Open">
+          <a class="mtile" href="#capabilities" data-cursor-label="Open">
             <span class="mtile__num">04</span>
             <span class="mtile__art">
-              <svg class="m-arrow" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="17" y1="47" x2="47" y2="17"/>
-                <polyline points="26,17 47,17 47,38"/>
+              <svg class="m-work" viewBox="0 0 64 64" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2.4">
+                <rect class="m-bar m-bar--t" x="12" y="15" width="40" height="13" rx="2.5"/>
+                <rect class="m-bar m-bar--b" x="12" y="36" width="40" height="13" rx="2.5"/>
               </svg>
             </span>
-            <span class="mtile__label">Contact</span>
-            <span class="mtile__desc">Let's build something useful</span>
+            <span class="mtile__label">How I Work</span>
+            <span class="mtile__desc">Visual-first. Systems-shaping. Built to ship.</span>
           </a>
 
         </div>
@@ -116,15 +116,20 @@
     </div>
 
     <nav class="nav__links">
-      <a href="#approach" data-cursor>Approach</a>
+      <a href="#work" data-cursor>Selected Work</a>
       <a href="#toolkit" data-cursor>Toolkit</a>
-      <a href="#arc" data-cursor>Arc</a>
+      <a href="#contact" data-cursor>Contact</a>
     </nav>
   </div>
 
-  <a href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" class="nav__cta" data-magnetic data-cursor>
-    <span>LinkedIn</span><i>&#8599;</i>
-  </a>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button class="nav__cta" id="navResumeBtn" data-magnetic data-cursor-label="Preview">
+      <span>Résumé</span><i>&#8595;</i>
+    </button>
+    <a href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" class="nav__cta" data-magnetic data-cursor>
+      <span>LinkedIn</span><i>&#8599;</i>
+    </a>
+  </div>
 </header>
 
 <main id="top">
@@ -134,6 +139,7 @@
   <div class="hero__top reveal">
     <span class="tag">pixeljoyDesigns_</span>
     <span class="tag tag--mid">Bangalore, IND</span>
+    <span class="build-badge" id="buildBadge">v2.11</span>
     <span class="tag tag--clock" id="clock">--:--:--</span>
   </div>
 
@@ -146,6 +152,7 @@
     <div class="hero__attr" id="heroAttr">
       <span class="dash">&mdash;</span> Joydeep Mitra
       <span class="role">Associate Director, UX Design · Kyndryl</span>
+      <span class="positioning">Twenty years turning strategy into shipped product.</span>
     </div>
     <a href="#approach" class="scrollcue" data-cursor aria-label="Scroll">
       <span>Scroll</span>
@@ -158,144 +165,67 @@
     <div class="marquee__track">
       <span>Twenty years</span><span class="sep">&#9670;</span>
       <span>Six companies</span><span class="sep">&#9670;</span>
-      <span>Strategy</span><span class="sep">&#9670;</span>
+      <span>Strategy made tangible</span><span class="sep">&#9670;</span>
       <span>Field research at scale</span><span class="sep">&#9670;</span>
-      <span>AI-enabled UX</span><span class="sep">&#9670;</span>
+      <span>AI-fluent practice</span><span class="sep">&#9670;</span>
       <span>Design org leadership</span><span class="sep">&#9670;</span>
       <span>Twenty years</span><span class="sep">&#9670;</span>
       <span>Six companies</span><span class="sep">&#9670;</span>
-      <span>Strategy</span><span class="sep">&#9670;</span>
+      <span>Strategy made tangible</span><span class="sep">&#9670;</span>
       <span>Field research at scale</span><span class="sep">&#9670;</span>
-      <span>AI-enabled UX</span><span class="sep">&#9670;</span>
+      <span>AI-fluent practice</span><span class="sep">&#9670;</span>
       <span>Design org leadership</span><span class="sep">&#9670;</span>
     </div>
   </div>
 </section>
 
-<!-- ============== 02 · MANIFESTO ============== -->
+<!-- ============== 01 · APPROACH ============== -->
 <section class="manifesto" id="approach">
-  <span class="sec-num reveal">02 — The shift</span>
+  <span class="sec-num reveal">01 — The shift</span>
   <p class="manifesto__body" data-words>
-    I didn't start here. Twenty years and six companies ago, I was making screens.
-    Now I change how organisations think about design — strategy in the room,
-    process behind it, people at the centre.
+    I've always been a visual person. Pencil before pixel — I still sketch before I open Figma. Twenty years ago I was designing screens. Now I shape the systems behind them: design strategy, org structure, research operations, and the artefacts that help product and engineering teams make decisions. The medium changed. The instinct didn't.
   </p>
 
   <div class="fromto">
-    <div class="fromto__row reveal"><span class="from">Double-diamond executor</span><i class="arr">&rarr;</i><span class="to">End-to-end UX strategist</span></div>
-    <div class="fromto__row reveal"><span class="from">Figma output</span><i class="arr">&rarr;</i><span class="to">Shipped products with metrics</span></div>
-    <div class="fromto__row reveal"><span class="from">Single-project contributor</span><i class="arr">&rarr;</i><span class="to">Design-org leadership</span></div>
+    <div class="fromto__row reveal"><span class="from">Double-diamond executor</span><i class="arr">&rarr;</i><span class="to">End-to-end strategy-to-ship integrator</span></div>
+    <div class="fromto__row reveal"><span class="from">Figma output</span><i class="arr">&rarr;</i><span class="to">Shipped products with measurable impact</span></div>
+    <div class="fromto__row reveal"><span class="from">Single-project contributor</span><i class="arr">&rarr;</i><span class="to">Design-org leadership across companies</span></div>
     <div class="fromto__row reveal"><span class="from">Process frameworks</span><i class="arr">&rarr;</i><span class="to">Field research at scale · 50+ participants</span></div>
-    <div class="fromto__row reveal"><span class="from">Tools awareness</span><i class="arr">&rarr;</i><span class="to">AI-enabled UX practice</span></div>
+    <div class="fromto__row reveal"><span class="from">Decks that explain</span><i class="arr">&rarr;</i><span class="to">Diagrams and prototypes that decide</span></div>
     <div class="fromto__row reveal"><span class="from">2014&ndash;2023</span><i class="arr">&rarr;</i><span class="to">2000&ndash;2026, accelerating</span></div>
   </div>
 </section>
 
-<!-- ============== 03 · SELECTED WORK (horizontal pinned) ============== -->
-<section class="work" id="work">
-  <div class="work__pin">
-    <div class="work__head">
-      <span class="sec-num">03 — Selected work</span>
-      <h2 class="work__title">Shipped at the scale<br />of organisations.</h2>
-      <span class="work__hint">Drag / scroll &rarr;</span>
-    </div>
-    <div class="work__track" id="workTrack">
+<!-- ============== 02 · THE ARC (timeline) ============== -->
+<section class="arc" id="arc">
+  <div class="arc__head reveal">
+    <span class="sec-num">02 — The arc</span>
+    <h2 class="sec-head">A career, not a CV. <i>2000 &rarr; 2026.</i></h2>
+  </div>
 
-      <a class="card card--hero" href="work/kyndryl-bridge.html" data-cursor-label="View case">
-        <div class="card__index">01 / Hero case</div>
-        <div class="card__mid">
-          <h3>Kyndryl<br />Bridge</h3>
-          <p>UX for the world's largest IT-infrastructure PaaS.</p>
-        </div>
-        <div class="card__foot">
-          <div class="card__metrics">
-            <span><b>500+</b> enterprise customers</span>
-            <span><b>$2B</b> annual productivity savings</span>
-          </div>
-          <span class="card__go">Full case study <i>&rarr;</i></span>
-        </div>
-      </a>
+  <div class="arc__line" id="arcLine">
+    <div class="arc__fill" id="arcFill"></div>
+    <div class="arc__node arc__node--ghost" style="--at:2%"  data-co="Aesthetic Tech" data-rl="Multimedia → Interaction Designer"><b>2000</b></div>
+    <div class="arc__node" style="--at:15%" data-co="WS / Wipro"    data-rl="Interaction Designer"><b>2003</b></div>
+    <div class="arc__node" style="--at:31%" data-co="Tech Mahindra"  data-rl="UX Lead → Architect → Business Leader"><b>2005</b></div>
+    <div class="arc__node" style="--at:52%" data-co="ADP"            data-rl="UX Design Manager"><b>2014</b></div>
+    <div class="arc__node" style="--at:63%" data-co="Gramener"       data-rl="UX Lead"><b>2016</b></div>
+    <div class="arc__node" style="--at:74%" data-co="Informatica"    data-rl="Principal Viz UXD · IXD"><b>2016</b></div>
+    <div class="arc__node arc__node--last arc__node--current" style="--at:96%" data-co="Kyndryl" data-rl="Associate Director, UX Design"><b>2023</b></div>
+  </div>
 
-      <div class="card" data-cursor-label="Banking">
-        <div class="card__index">02</div>
-        <div class="card__mid">
-          <h3>Kyndryl Vital<br />— Banking</h3>
-          <p>All-India field research · 50+ participants · south-Indian finance sector.</p>
-        </div>
-        <div class="card__foot"><span class="card__tag">Field research · Banking</span></div>
-      </div>
-
-      <div class="card" data-cursor-label="AI strategy">
-        <div class="card__index">03</div>
-        <div class="card__mid">
-          <h3>Generative &amp;<br />Agentic AI</h3>
-          <p>Bank of Thailand POC &rarr; enterprise service offering · AI-era business strategy.</p>
-        </div>
-        <div class="card__foot"><span class="card__tag">AI strategy · Fintech</span></div>
-      </div>
-
-      <div class="card" data-cursor-label="Spatial UX">
-        <div class="card__index">04</div>
-        <div class="card__mid">
-          <h3>VR Branch<br />Banking</h3>
-          <p>Concept to low-fi to VR device — a user-tested spatial banking experience.</p>
-        </div>
-        <div class="card__foot"><span class="card__tag">Spatial UX · VR</span></div>
-      </div>
-
-      <div class="card card--list" data-cursor-label="More">
-        <div class="card__index">05 / Supporting</div>
-        <ul class="card__list">
-          <li><span>GPT / NL Language UX</span><i>AI · NLU</i></li>
-          <li><span>Informatica Design System</span><i>Enterprise</i></li>
-          <li><span>ADP — Wallet for the Unbanked</span><i>Fintech · Inclusion</i></li>
-          <li><span>Teaching IXD</span><i>Education</i></li>
-        </ul>
-      </div>
-
-    </div>
+  <div class="arc__bio reveal">
+    <p class="arc__big">20 years in UX. <em>10 in leadership.</em></p>
+    <p class="arc__sub">Artist, photographer, IKEA aficionado, AFOL. The work speaks; the title follows. I lead the way the work asks to be led — strategy in the room, process behind it, people at the centre, artefacts on the wall.</p>
   </div>
 </section>
 
-<!-- ============== 04 · APPROACH / CAPABILITIES ============== -->
-<section class="caps" id="capabilities">
-  <div class="caps__head reveal">
-    <span class="sec-num">04 — How I work</span>
-    <h2 class="sec-head">Strategist, operator, coach &mdash; proven where organisations changed direction.</h2>
-  </div>
-  <div class="caps__list">
-    <div class="cap reveal" data-cursor>
-      <span class="cap__num">01</span>
-      <h3 class="cap__title">Strategy &amp; service design</h3>
-      <p class="cap__proof">BIAL pitch · Insurance · NBFC · Banking-sector door-opening strategy</p>
-      <span class="cap__plus">+</span>
-    </div>
-    <div class="cap reveal" data-cursor>
-      <span class="cap__num">02</span>
-      <h3 class="cap__title">Field research at scale</h3>
-      <p class="cap__proof">All-India banking study · 50+ cross-functional participants · south-Indian finance sector</p>
-      <span class="cap__plus">+</span>
-    </div>
-    <div class="cap reveal" data-cursor>
-      <span class="cap__num">03</span>
-      <h3 class="cap__title">LUMA facilitation &amp; AI-enabled UX</h3>
-      <p class="cap__proof">Kyndryl Vital · design-thinking studio · Figma AI · Claude · Maze</p>
-      <span class="cap__plus">+</span>
-    </div>
-    <div class="cap reveal" data-cursor>
-      <span class="cap__num">04</span>
-      <h3 class="cap__title">Design-org leadership</h3>
-      <p class="cap__proof">Built &amp; scaled UX teams across Tech Mahindra, Informatica, Kyndryl</p>
-      <span class="cap__plus">+</span>
-    </div>
-  </div>
-</section>
-
-<!-- ============== 05 · THINKING ============== -->
+<!-- ============== 03 · THINKING ============== -->
 <section class="thinking" id="thinking">
   <div class="thinking__head reveal">
-    <span class="sec-num">05 — Thinking</span>
+    <span class="sec-num">03 — Thinking</span>
     <h2 class="sec-head">Published on UX in the AI era.</h2>
+    <p class="thinking__pov">The practitioner's view — written by someone whose hands are on the tools.</p>
   </div>
   <div class="thinking__list">
     <a class="post reveal" href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" data-cursor-label="Read">
@@ -313,16 +243,55 @@
       <span class="post__title">The future of the design profession</span>
       <span class="post__tag">Strategy</span>
     </a>
+    <a class="post post--more reveal" href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" data-cursor-label="Open"><!-- TODO: Joydeep — replace with LinkedIn profile/articles URL -->
+      <span class="post__ix">&rarr;</span>
+      <span class="post__title">More writing on LinkedIn</span>
+      <span class="post__tag">&#8599;</span>
+    </a>
   </div>
 </section>
 
-<!-- ============== 06 · TOOLKIT MARQUEE ============== -->
+<!-- ============== 04 · HOW I WORK / CAPABILITIES ============== -->
+<section class="caps" id="capabilities">
+  <div class="caps__head reveal">
+    <span class="sec-num">04 — How I work</span>
+    <h2 class="sec-head">Visual-first. Systems-shaping. Built to ship.</h2>
+  </div>
+  <div class="caps__list">
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">01</span>
+      <h3 class="cap__title">Receives strategy. Gives it form.</h3>
+      <p class="cap__proof">Service design across BIAL, NBFCs, insurance, banking — turned into briefs teams can build from.</p>
+      <span class="cap__plus">+</span>
+    </div>
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">02</span>
+      <h3 class="cap__title">Listens at scale.</h3>
+      <p class="cap__proof">All-India banking field research · 50+ cross-functional participants · south-Indian finance sector.</p>
+      <span class="cap__plus">+</span>
+    </div>
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">03</span>
+      <h3 class="cap__title">Workshops on the wall. AI on the desk.</h3>
+      <p class="cap__proof">Kyndryl Vital — design-thinking studio. Figma AI, Claude, Maze, Dovetail in daily practice.</p>
+      <span class="cap__plus">+</span>
+    </div>
+    <div class="cap reveal" data-cursor>
+      <span class="cap__num">04</span>
+      <h3 class="cap__title">Builds the team that ships.</h3>
+      <p class="cap__proof">UX teams scaled and led across Tech Mahindra, Informatica, Kyndryl. People, not just process.</p>
+      <span class="cap__plus">+</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 05 · TOOLKIT ============== -->
 <section class="toolkit" id="toolkit">
-  <span class="sec-num reveal">06 — AI toolkit · a practice by phase</span>
+  <span class="sec-num reveal">05 — Toolkit · a practice by phase, not a logo dump</span>
   <div class="toolkit__rows">
     <div class="trow reveal">
       <span class="trow__phase">Research &amp; synthesis</span>
-      <span class="trow__tools">Claude · ChatGPT · Dovetail · EnjoyHQ</span>
+      <span class="trow__tools">Claude · ChatGPT · Dovetail · EnjoyHQ · Pencil &amp; paper</span>
     </div>
     <div class="trow reveal">
       <span class="trow__phase">Ideation &amp; generation</span>
@@ -339,33 +308,91 @@
   </div>
 </section>
 
-<!-- ============== 07 · THE ARC (timeline) ============== -->
-<section class="arc" id="arc">
-  <div class="arc__head reveal">
-    <span class="sec-num">07 — The arc</span>
-    <h2 class="sec-head">2000 <i>&rarr;</i> 2026.</h2>
-  </div>
+<!-- ============== 06 · SELECTED WORK (horizontal pinned) ============== -->
+<section class="work" id="work">
+  <div class="work__pin">
+    <div class="work__head">
+      <span class="sec-num">06 — Selected work</span>
+      <h2 class="work__title">Shipped at the scale<br />of organisations changing direction.</h2>
+      <span class="work__hint">Drag / scroll &rarr;</span>
+    </div>
+    <div class="work__track" id="workTrack">
 
-  <div class="arc__line" id="arcLine">
-    <div class="arc__fill" id="arcFill"></div>
-    <div class="arc__node" style="--at:2%"  data-co="Aesthetic Tech" data-rl="Multimedia → Interaction Designer"><b>2000</b></div>
-    <div class="arc__node" style="--at:15%" data-co="Web Spiders"    data-rl="Interaction Designer"><b>2003</b></div>
-    <div class="arc__node" style="--at:31%" data-co="Tech Mahindra"  data-rl="UX Lead → Architect → Business Leader"><b>2005</b></div>
-    <div class="arc__node" style="--at:52%" data-co="ADP"            data-rl="UX Design Manager"><b>2014</b></div>
-    <div class="arc__node" style="--at:63%" data-co="Gramener"       data-rl="UX Lead"><b>2016</b></div>
-    <div class="arc__node" style="--at:74%" data-co="Informatica"    data-rl="Principal Viz UXD · IXD"><b>2016</b></div>
-    <div class="arc__node arc__node--last" style="--at:96%" data-co="Kyndryl" data-rl="Associate Director, UX Design"><b>2023</b></div>
-  </div>
+      <a class="card card--hero" href="work/kyndryl-bridge.html" data-cursor-label="View case">
+        <div class="card__index">01 / Hero case</div>
+        <div class="card__mid">
+          <h3>Kyndryl<br />Bridge</h3>
+          <p>UX for the world's largest IT-infrastructure PaaS.</p>
+          <p class="card__role">Role: UX strategy → IA → design-system integration → ship.</p>
+        </div>
+        <div class="card__foot">
+          <div class="card__metrics">
+            <span><b>500+</b> enterprise customers</span>
+            <span><b>$2B</b> annual productivity savings</span>
+          </div>
+          <span class="card__go">Full case study <i>&rarr;</i></span>
+        </div>
+      </a>
 
-  <div class="arc__bio reveal">
-    <p class="arc__big">20 years in UX. <em>10 in leadership.</em></p>
-    <p class="arc__sub">Artist, photographer, IKEA aficionado, AFOL. I lead the way the work asks to be led — strategy in the room, process behind it, people at the centre.</p>
+      <a class="card" href="work/kyndryl-vital.html" data-cursor-label="View case">
+        <div class="card__index">02</div>
+        <div class="card__mid">
+          <h3>Kyndryl Vital<br />— Banking</h3>
+          <p>All-India field research · 50+ participants · south-Indian finance sector.</p>
+          <p class="card__role">Role: Research lead · 50+ pax · synthesis to service blueprint.</p>
+        </div>
+        <div class="card__foot">
+          <span class="card__tag">Field research · Banking</span>
+          <span class="card__go">View case <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <a class="card" href="work/ai-strategy.html" data-cursor-label="View case">
+        <div class="card__index">03</div>
+        <div class="card__mid">
+          <h3>Generative &amp;<br />Agentic AI</h3>
+          <p>Bank of Thailand POC &rarr; enterprise service offering · AI-era business strategy.</p>
+          <p class="card__role">Role: UX strategy lead · POC to service offering.</p>
+        </div>
+        <div class="card__foot">
+          <span class="card__tag">AI strategy · Fintech</span>
+          <span class="card__go">View case <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <a class="card" href="work/vr-banking.html" data-cursor-label="View case">
+        <div class="card__index">04</div>
+        <div class="card__mid">
+          <h3>VR Branch<br />Banking</h3>
+          <p>Concept to low-fi to VR device — a user-tested spatial banking experience.</p>
+          <p class="card__role">Role: Concept lead · low-fi to VR device · user testing.</p>
+        </div>
+        <div class="card__foot">
+          <span class="card__tag">Spatial UX · VR</span>
+          <span class="card__go">View case <i>&rarr;</i></span>
+        </div>
+      </a>
+
+      <a class="card card--list" href="work/supporting.html" data-cursor-label="View all">
+        <div class="card__index">05 / Supporting</div>
+        <ul class="card__list">
+          <li><span>GPT / NL Language UX</span><i>AI · NLU</i></li>
+          <li><span>Informatica Design System</span><i>Enterprise</i></li>
+          <li><span>ADP — Wallet for the Unbanked</span><i>Fintech · Inclusion</i></li>
+          <li><span>Teaching IXD</span><i>Education</i></li>
+        </ul>
+        <div class="card__foot" style="margin-top:auto;padding-top:24px;">
+          <span class="card__go">View all <i>&rarr;</i></span>
+        </div>
+      </a>
+
+    </div>
   </div>
 </section>
 
-<!-- ============== 08 · CONTACT / FOOTER ============== -->
+<!-- ============== 07 · CONTACT / FOOTER ============== -->
 <section class="contact" id="contact">
-  <span class="sec-num reveal">08 — Contact</span>
+  <span class="sec-num reveal">07 — Contact</span>
   <h2 class="contact__line" data-words>
     Let's build something that <em>disappears</em> into usefulness.
   </h2>
@@ -374,9 +401,17 @@
     pixeljoy@gmail.com
   </a>
 
+  <div class="contact__actions reveal">
+    <a href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" class="btn-cta" data-magnetic data-cursor>
+      LinkedIn <i>&#8599;</i>
+    </a>
+    <button class="btn-cta btn-cta--sienna" id="resumeBtn" data-cursor-label="Preview">
+      View résumé <i>&#8595;</i>
+    </button>
+  </div>
+
   <div class="contact__grid reveal">
     <a href="tel:+918008299419" data-cursor>+91 8008299419</a>
-    <a href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" data-cursor>LinkedIn &#8599;</a>
     <a href="https://www.behance.net/" target="_blank" rel="noopener" data-cursor>Behance &#8599;</a>
     <span>Bangalore, IND</span>
   </div>
@@ -392,6 +427,23 @@
 </section>
 
 </main>
+
+<!-- ============== PDF RÉSUMÉ MODAL ============== -->
+<div class="pdf-modal" id="pdfModal" aria-hidden="true" role="dialog" aria-label="Résumé preview">
+  <div class="pdf-modal__backdrop" id="pdfBackdrop"></div>
+  <div class="pdf-modal__panel">
+    <div class="pdf-modal__bar">
+      <span class="pdf-modal__title">JoydeepMitra — résumé 2025 v1.6</span>
+      <div class="pdf-modal__actions">
+        <a href="resume/JoydeepMitra_resume_2025_v1.6_.pdf" download class="pdf-modal__dl" data-cursor>
+          Download <i>&#8595;</i>
+        </a>
+        <button class="pdf-modal__close" id="pdfClose" aria-label="Close preview">&#215;</button>
+      </div>
+    </div>
+    <embed class="pdf-modal__frame" id="pdfFrame" src="" type="application/pdf" />
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="script.js"></script>

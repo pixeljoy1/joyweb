@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kyndryl Vital — Banking · Case Study · Joydeep Mitra</title>
+<meta name="description" content="All-India field research across the banking and finance sector — 50+ participants, NBFC, south-Indian banking. UX strategy that opened doors." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --paper:  #F5F0E8;
+  --ink:    #1A1714;
+  --sienna: #C4410C;
+  --rule:   #E8E2D8;
+  --muted:  #9E9890;
+  --paper-deep: #EFE8DC;
+  --serif: "DM Serif Display", Georgia, serif;
+  --sans:  "DM Sans", system-ui, sans-serif;
+  --mono:  "DM Mono", ui-monospace, monospace;
+  --margin: 80px;
+  --gutter: 24px;
+  --maxw: 1440px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-weight: 400; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+::selection { background: var(--sienna); color: var(--paper); }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--margin); }
+.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: var(--gutter); }
+section { position: relative; padding: 9vh 0; }
+.label { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* NAV */
+.case-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: 72px; display: flex; align-items: center; background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+.case-nav .wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.back-link { font-family: var(--mono); font-size: 13px; color: var(--ink); letter-spacing: .04em; display: inline-flex; gap: 8px; align-items: center; }
+.back-link .arr { transition: transform .3s ease; }
+.back-link:hover .arr { transform: translateX(-5px); }
+.back-link:hover { color: var(--sienna); }
+.logotype { font-family: var(--serif); font-size: 24px; letter-spacing: -0.02em; }
+.logotype .dot { color: var(--sienna); }
+
+/* HERO */
+.case-hero { padding-top: 22vh; padding-bottom: 10vh; }
+.case-hero .label { margin-bottom: 22px; }
+.case-hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 7vw, 92px); line-height: .98; letter-spacing: -0.02em; margin: 0; grid-column: 1 / 11; }
+.case-hero .deck { grid-column: 1 / 9; font-weight: 300; font-size: 23px; line-height: 1.5; color: var(--ink); margin-top: 30px; }
+
+.metric-strip { grid-column: 1 / 13; margin-top: 56px; padding-top: 36px; border-top: 2px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 48px; }
+.metric .n { font-family: var(--serif); font-size: clamp(38px, 4.4vw, 56px); line-height: 1; letter-spacing: -0.02em; color: var(--sienna); }
+.metric .k { font-family: var(--sans); font-weight: 300; font-size: 15px; color: var(--muted); margin-top: 12px; max-width: 26ch; }
+
+/* BLOCKS */
+.case-block { padding: 9vh 0; border-top: 1px solid var(--rule); }
+.case-block .grid12 { align-items: start; }
+.case-block__num { grid-column: 1 / 4; }
+.case-block__num .label { color: var(--sienna); }
+.case-block__num h2 { font-family: var(--serif); font-weight: 400; font-size: 34px; letter-spacing: -0.01em; margin: 10px 0 0; line-height: 1.05; }
+.case-block__body { grid-column: 5 / 12; }
+.case-block__body p { font-weight: 300; font-size: 20px; line-height: 1.7; color: var(--ink); margin: 0 0 18px; text-wrap: pretty; }
+.case-list { list-style: none; margin: 0; padding: 0; }
+.case-list li { padding: 16px 0; border-top: 1px solid var(--rule); font-weight: 300; font-size: 18px; display: flex; gap: 16px; }
+.case-list li:first-child { border-top: none; }
+.case-list li .ix { font-family: var(--mono); font-size: 12px; color: var(--sienna); padding-top: 5px; }
+.case-pending { color: var(--muted); font-style: italic; font-weight: 300; }
+
+/* FOOT */
+.case-foot { padding: 10vh 0 12vh; border-top: 1px solid var(--rule); }
+.case-foot .grid12 { align-items: center; }
+.case-foot__cta { grid-column: 1 / 9; }
+.case-foot__cta h3 { font-family: var(--serif); font-weight: 400; font-size: 40px; letter-spacing: -0.01em; margin: 0; }
+.case-foot__cta h3 em { font-style: italic; color: var(--sienna); }
+.case-foot a.big-back { grid-column: 10 / 13; justify-self: end; font-family: var(--mono); font-size: 13px; color: var(--sienna); letter-spacing: .04em; display: inline-flex; gap: 8px; align-items: center; }
+
+@media (max-width: 1080px) {
+  :root { --margin: 48px; }
+  .case-hero h1, .case-hero .deck { grid-column: 1 / 13; }
+  .case-block__num, .case-block__body { grid-column: 1 / 13; }
+  .case-block__num { margin-bottom: 24px; }
+}
+@media (max-width: 720px) {
+  :root { --margin: 24px; }
+  body { font-size: 15px; }
+  .metric-strip { grid-template-columns: 1fr 1fr; }
+}
+.case-prep { max-width: 720px; margin: 6rem auto 2rem; padding: 2rem; border: 0.5px solid var(--rule); border-radius: 8px; text-align: center; font-family: var(--sans); }
+.case-prep__label { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sienna); padding-bottom: 12px; border-bottom: 0.5px solid var(--rule); margin-bottom: 16px; }
+.case-prep p { color: var(--muted); margin: 0 0 24px; }
+.case-prep__back { display: inline-block; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--sienna); padding-bottom: 2px; }
+</style>
+</head>
+<body>
+
+<nav class="case-nav">
+  <div class="wrap">
+    <a href="../index.html#work" class="back-link"><span class="arr">&larr;</span> Back to work</a>
+    <a href="../index.html" class="logotype">JM<span class="dot">.</span></a>
+  </div>
+</nav>
+
+<main>
+
+<div class="case-prep">
+  <span class="case-prep__label">Case in preparation</span>
+  <p>Detailed walkthrough coming soon. For now, see the headline in the index, or get in touch.</p>
+  <a href="../index.html#work" class="case-prep__back">← Back to selected work</a>
+</div>
+
+<section class="case-hero">
+  <div class="wrap grid12">
+    <div style="grid-column:1 / 13;">
+      <div class="label">Case study 02 · /work/kyndryl-vital</div>
+    </div>
+    <h1>Kyndryl Vital<br />— Banking</h1>
+    <p class="deck">All-India field research across the banking and NBFC sector — 50+ participants, south-Indian finance institutions. UX strategy that opened market doors and framed a new service offering.</p>
+
+    <div class="metric-strip">
+      <div class="metric"><div class="n">50+</div><div class="k">research participants across banking and NBFC sector</div></div>
+      <div class="metric"><div class="n">All-India</div><div class="k">geographic reach — urban and semi-urban banking contexts</div></div>
+      <div class="metric"><div class="n">3</div><div class="k">NBFC and banking clients engaged through research outcomes</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="case-block">
+  <div class="wrap grid12">
+    <div class="case-block__num"><div class="label">01</div><h2>Brief</h2></div>
+    <div class="case-block__body">
+      <p>Kyndryl needed to enter the Indian banking and financial services sector — a market that is intensely relationship-driven and conservative about new IT infrastructure vendors. The brief was to understand not just the UX pain points, but the decision-making language of banking operations: what does "productivity" mean to a branch manager in Coimbatore, not just a CTO in Mumbai.</p>
+      <p>Kyndryl Vital was the product vehicle — an enterprise operations platform — and the research was both market intelligence and UX framing in one effort.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-block">
+  <div class="wrap grid12">
+    <div class="case-block__num"><div class="label">02</div><h2>My role</h2></div>
+    <div class="case-block__body">
+      <p>Research strategy, coordination, and synthesis — I designed the study protocol and led the on-ground sessions across multiple states.</p>
+      <ul class="case-list">
+        <li><span class="ix">→</span>Research study design and participant recruitment strategy</li>
+        <li><span class="ix">→</span>On-site field interviews — bank branches, NBFC offices, IT ops centres</li>
+        <li><span class="ix">→</span>Cross-functional synthesis sessions (Kyndryl sales, product, engineering)</li>
+        <li><span class="ix">→</span>UX framing and narrative for the Kyndryl Vital banking pitch</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="case-block">
+  <div class="wrap grid12">
+    <div class="case-block__num"><div class="label">03</div><h2>The challenge</h2></div>
+    <div class="case-block__body">
+      <p>South Indian banking is not a monolith. The sector spans nationalised banks, cooperative banks, private sector institutions, and shadow-banking NBFCs — each with distinct IT procurement culture, regulatory pressure, and on-ground operational reality.</p>
+      <p>The challenge was to synthesise across this diversity and surface actionable insight — not generic "banking wants reliability" research, but specific friction points that Kyndryl's platform could credibly address.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-block">
+  <div class="wrap grid12">
+    <div class="case-block__num"><div class="label">04</div><h2>What I drove</h2></div>
+    <div class="case-block__body">
+      <ul class="case-list">
+        <li><span class="ix">01</span>Designed a contextual inquiry protocol combining on-site observation with semi-structured interviews</li>
+        <li><span class="ix">02</span>Coordinated logistics across 5+ cities — Bangalore, Chennai, Coimbatore, Hyderabad, Mumbai</li>
+        <li><span class="ix">03</span>Led LUMA-facilitated synthesis workshops to identify patterns across participant segments</li>
+        <li><span class="ix">04</span>Built the research narrative that framed Kyndryl Vital's value proposition for Indian banking</li>
+        <li><span class="ix">05</span>Delivered findings to the Kyndryl sales and product leadership — directly informing the sector go-to-market</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="case-block">
+  <div class="wrap grid12">
+    <div class="case-block__num"><div class="label">05</div><h2>The outcome</h2></div>
+    <div class="case-block__body">
+      <ul class="case-list">
+        <li><span class="ix">→</span>Research outcomes directly shaped the Kyndryl Vital banking pitch narrative</li>
+        <li><span class="ix">→</span>Three NBFC and banking clients entered active sales conversations following the research-informed pitch</li>
+        <li><span class="ix">→</span>Synthesis methodology was adopted as the standard for subsequent sector research within the Kyndryl UX practice</li>
+        <li><span class="ix">→</span>Demonstrated that large-scale qualitative research is viable inside an infrastructure services company — a first for the practice</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="case-block">
+  <div class="wrap grid12">
+    <div class="case-block__num"><div class="label">06</div><h2>What I'd do differently</h2></div>
+    <div class="case-block__body">
+      <p class="case-pending">Reflection in progress — the maturity to name what I'd change matters as much as what worked.</p>
+    </div>
+  </div>
+</section>
+
+<section class="case-foot">
+  <div class="wrap grid12">
+    <div class="case-foot__cta">
+      <h3>The best design work is <em>invisible</em> to the user.</h3>
+    </div>
+    <a class="big-back" href="../index.html#work"><span class="arr">&larr;</span> All work</a>
+  </div>
+</section>
+
+</main>
+</body>
+</html>

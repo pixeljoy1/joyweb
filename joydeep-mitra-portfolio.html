@@ -94,6 +94,33 @@ section {
   color: var(--sienna);
 }
 
+/* Build badge */
+.build-badge {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .06em;
+  padding: 2px 9px; border: 1px solid var(--rule); border-radius: 100px;
+  color: var(--sienna); background: transparent; display: inline-block;
+}
+
+/* Quote timer dot */
+.q-dot {
+  display: inline-flex; align-items: center; justify-content: center;
+  position: relative; width: 10px; height: 10px;
+  vertical-align: baseline; margin-left: 35px; top: 0; flex-shrink: 0;
+}
+.q-dot__svg {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  width: 46px; height: 46px; overflow: visible;
+}
+.q-dot__track { stroke: color-mix(in srgb, var(--ink) 20%, transparent); stroke-width: 1; }
+.q-dot__arc  { stroke: var(--sienna); stroke-linecap: round; stroke-width: 1; }
+@keyframes q-drain { to { stroke-dashoffset: 62.83; } }
+.q-dot.go .q-dot__arc { animation: q-drain 5s linear forwards; }
+.q-dot__pip {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--sienna); position: relative; z-index: 1; flex-shrink: 0;
+}
+
 .display {
   font-family: var(--serif);
   font-weight: 400;
@@ -354,7 +381,7 @@ p.body {
   gap: 8vh 64px;
 }
 .cap {
-  position: relative;
+  position: relative; overflow: hidden;
   padding-top: 34px;
   border-top: 1px solid var(--rule);
 }
@@ -493,6 +520,7 @@ p.body {
 .toolkit__head .section-num { display:block; margin-bottom: 14px; }
 .bands { grid-column: 1 / 13; }
 .band {
+  position: relative; overflow: hidden;
   display: grid;
   grid-template-columns: 5fr 7fr;
   align-items: center;
@@ -664,6 +692,44 @@ p.body {
   .thread { display: none; }
   .arc-timeline { overflow-x: auto; }
 }
+
+/* ============================================================
+   HOVER EXTENSIONS — universal sienna line-item system
+   ============================================================ */
+
+/* 02 — The Shift */
+.fromto { position: relative; overflow: hidden; }
+.fromto::before { content: ""; position: absolute; inset: 0; background: var(--sienna); transform: translateY(101%); transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 0; }
+.fromto:hover::before { transform: translateY(0); }
+.fromto > * { position: relative; z-index: 1; transition: color .4s ease; }
+.fromto:hover > * { color: var(--paper); }
+
+/* 03 — Capabilities */
+.cap::before { content: ""; position: absolute; inset: 0; background: var(--sienna); transform: translateY(101%); transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 0; }
+.cap:hover::before { transform: translateY(0); }
+.cap > * { position: relative; z-index: 1; transition: color .4s ease; }
+.cap:hover > * { color: var(--paper); }
+
+/* 04 — Selected Work rows */
+.work-row { position: relative; overflow: hidden; cursor: pointer; }
+.work-row::before { content: ""; position: absolute; inset: 0; background: var(--sienna); transform: translateY(101%); transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 0; }
+.work-row:hover::before { transform: translateY(0); }
+.work-row > * { position: relative; z-index: 1; transition: color .4s ease; }
+.work-row:hover > * { color: var(--paper); }
+.work-row__tag .tag { transition: color .4s ease; }
+.work-row:hover .work-row__tag .tag { color: var(--paper); }
+
+/* 04 — Work hero */
+.work-hero { cursor: pointer; transition: border-top-color .3s ease; }
+.work-hero:hover { border-top-color: var(--sienna); }
+.work-hero__title h3 { background-image: linear-gradient(var(--sienna),var(--sienna)); background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 2.5px; transition: background-size .5s ease; padding-bottom: 3px; }
+.work-hero:hover .work-hero__title h3 { background-size: 100% 2.5px; }
+
+/* 06 — Toolkit bands */
+.band::before { content: ""; position: absolute; inset: 0; background: var(--sienna); transform: translateY(101%); transition: transform .5s cubic-bezier(.16,1,.3,1); z-index: 0; }
+.band:hover::before { transform: translateY(0); }
+.band > * { position: relative; z-index: 1; transition: color .4s ease; }
+.band:hover > * { color: var(--paper); }
 
 /* ============================================================
    REDUCED MOTION — transforms off, opacity only
@@ -883,7 +949,10 @@ p.body {
 <section class="hero" data-reveal>
   <div class="wrap grid12">
     <div class="hero__headline">
-      <span class="label">Joydeep Mitra — pixeljoyDesigns_</span>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <span class="label">Joydeep Mitra — pixeljoyDesigns_</span>
+        <span class="build-badge" id="buildBadge">v2.11</span>
+      </div>
       <h1 class="display" id="heroQuote" style="margin-top:24px;">
         <span class="line-reveal d1"><span>The best design work</span></span>
         <span class="line-reveal d2"><span>is <em class="draw-underline">invisible</em> to the user.</span></span>
@@ -980,7 +1049,7 @@ p.body {
       <div class="work-hero__title">
         <h3>Kyndryl Bridge</h3>
         <p class="lead">UX for the world's largest IT infrastructure PaaS.</p>
-        <a class="case-link" href="kyndryl-bridge-case.html">View full case study <span class="arr">&rarr;</span></a>
+        <a class="case-link" href="work/kyndryl-bridge.html">View full case study <span class="arr">&rarr;</span></a>
       </div>
       <div class="work-hero__quote">
         <blockquote>500+ global enterprise customers. <em>$2 billion</em> in annual productivity savings.</blockquote>
@@ -988,32 +1057,32 @@ p.body {
     </div>
 
     <!-- 3 asymmetric work rows -->
-    <div class="work-row from-left" data-reveal>
+    <a class="work-row from-left" href="work/kyndryl-vital.html" data-reveal>
       <div class="work-row__index">02</div>
       <div class="work-row__main">
         <h4>Kyndryl Vital &mdash; Banking</h4>
         <p>All-India field research · 50+ participants · south Indian finance sector.</p>
       </div>
       <div class="work-row__tag"><span class="tag">Field Research · Banking</span></div>
-    </div>
+    </a>
 
-    <div class="work-row alt from-right" data-reveal>
+    <a class="work-row alt from-right" href="work/ai-strategy.html" data-reveal>
       <div class="work-row__index">03</div>
       <div class="work-row__main">
         <h4>Generative &amp; Agentic AI &mdash; UX Strategy</h4>
         <p>Bank of Thailand POC &rarr; enterprise service offering · AI-era business strategy.</p>
       </div>
       <div class="work-row__tag"><span class="tag">AI Strategy · Fintech</span></div>
-    </div>
+    </a>
 
-    <div class="work-row from-left" data-reveal>
+    <a class="work-row from-left" href="work/vr-banking.html" data-reveal>
       <div class="work-row__index">04</div>
       <div class="work-row__main">
         <h4>VR Branch Banking</h4>
         <p>Concept to low-fi to VR device &mdash; user-tested spatial banking experience.</p>
       </div>
       <div class="work-row__tag"><span class="tag">Spatial UX · VR · Banking</span></div>
-    </div>
+    </a>
 
     <!-- Supporting 4 -->
     <div class="work-support">
@@ -1437,16 +1506,14 @@ p.body {
      No quote repeats until all have been shown (cycle via
      sessionStorage of the shown-order). Attribution shown below.
      ============================================================ */
-  (function rotatingHeadline() {
+  (function () {
+    var BUILD_VERSION = "2.3";
+    var TIMER1_ = 5000;
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var host = document.getElementById("heroQuote");
+    var attrEl = document.getElementById("heroAttr");
     if (!host) return;
 
-    /* Curated, widely-documented lines. Each entry:
-       t   = the line (kept short),
-       u   = the word/phrase to carry the sienna underline,
-       by  = name, role = attribution role.
-       Where a thinker's exact phrasing is long or contested, the
-       line is a faithful short paraphrase of their well-known view. */
     var QUOTES = [
       { t: "Design is not just how it looks — it is how it works.", u: "how it works", by: "Steve Jobs", role: "Co-founder, Apple" },
       { t: "The best interface is no interface at all.", u: "no interface", by: "Golden Krishna", role: "Designer & author" },
@@ -1474,57 +1541,99 @@ p.body {
       { t: "The best way to predict the future is to invent it.", u: "invent it", by: "Alan Kay", role: "Computer scientist" }
     ];
 
-    /* ---- choose an index that hasn't been shown this cycle ----- */
     var KEY = "joyweb_quote_seen";
-    var seen = [];
-    try { seen = JSON.parse(sessionStorage.getItem(KEY) || "[]"); } catch (e) { seen = []; }
-    if (!Array.isArray(seen) || seen.length >= QUOTES.length) seen = []; // new cycle
-    var pool = [];
-    for (var i = 0; i < QUOTES.length; i++) if (seen.indexOf(i) === -1) pool.push(i);
-    var pick = pool[Math.floor(Math.random() * pool.length)];
-    seen.push(pick);
-    try { sessionStorage.setItem(KEY, JSON.stringify(seen)); } catch (e) {}
+    var timerTO = null;
 
-    var q = QUOTES[pick];
-
-    /* ---- split the line into two display rows near the middle,
-            keeping the underlined phrase intact on its row -------- */
-    function escapeHtml(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+    function escapeHtml(s) { return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
     function underlineMarkup(line, phrase) {
       var safeLine = escapeHtml(line);
       var safePhrase = escapeHtml(phrase);
       if (safePhrase && safeLine.indexOf(safePhrase) !== -1) {
-        return safeLine.replace(safePhrase,
-          '<em class="draw-underline">' + safePhrase + '</em>');
+        return safeLine.replace(safePhrase, '<em class="draw-underline">' + safePhrase + '</em>');
       }
       return safeLine;
     }
-    // balance into two lines: break at the space nearest the midpoint
-    var words = q.t.split(" ");
-    var mid = Math.ceil(words.length / 2);
-    var bestBreak = mid;
-    // try not to split inside the underlined phrase
-    var line1 = words.slice(0, bestBreak).join(" ");
-    var line2 = words.slice(bestBreak).join(" ");
-    if (q.u && line1.indexOf(q.u) !== -1 && line1.lastIndexOf(q.u) + q.u.length > line1.length - 1 && line2.length) {
-      // phrase straddles the break — push break later
-      line1 = words.slice(0, bestBreak + 1).join(" ");
-      line2 = words.slice(bestBreak + 1).join(" ");
+
+    function pickQuote() {
+      var seen = [];
+      try { seen = JSON.parse(sessionStorage.getItem(KEY) || "[]"); } catch (e) { seen = []; }
+      if (!Array.isArray(seen) || seen.length >= QUOTES.length) seen = [];
+      var pool = [];
+      for (var i = 0; i < QUOTES.length; i++) if (seen.indexOf(i) === -1) pool.push(i);
+      var pick = pool[Math.floor(Math.random() * pool.length)];
+      seen.push(pick);
+      try { sessionStorage.setItem(KEY, JSON.stringify(seen)); } catch (e) {}
+      return QUOTES[pick];
     }
 
-    host.innerHTML =
-      '<span class="line-reveal d1"><span>' + underlineMarkup(line1, q.u) + '</span></span>' +
-      '<span class="line-reveal d2"><span>' + underlineMarkup(line2, q.u) + '</span></span>';
+    function renderQuote() {
+      var q = pickQuote();
+      var words = q.t.replace(/\.$/, "").split(" ");
+      var mid = Math.ceil(words.length / 2);
+      var bestBreak = mid;
+      var line1 = words.slice(0, bestBreak).join(" ");
+      var line2 = words.slice(bestBreak).join(" ");
+      if (q.u && line1.indexOf(q.u) !== -1 && line1.lastIndexOf(q.u) + q.u.length > line1.length - 1 && line2.length) {
+        line1 = words.slice(0, bestBreak + 1).join(" ");
+        line2 = words.slice(bestBreak + 1).join(" ");
+      }
 
-    var attr = document.getElementById("heroAttr");
-    if (attr) {
-      attr.innerHTML = '<span class="qmark">—</span> ' + escapeHtml(q.by) +
-                       '<span class="qrole">' + escapeHtml(q.role) + '</span>';
+      var C = (2 * Math.PI * 10).toFixed(2);
+      var dotHtml = '<span class="q-dot" id="qDot">' +
+        '<svg class="q-dot__svg" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<circle cx="12" cy="12" r="10" fill="none" class="q-dot__track"/>' +
+        '<circle cx="12" cy="12" r="10" fill="none" class="q-dot__arc"' +
+        ' stroke-dasharray="' + C + '" stroke-dashoffset="0"/>' +
+        '</svg><span class="q-dot__pip"></span></span>';
+
+      host.innerHTML =
+        '<span class="line-reveal d1"><span>' + underlineMarkup(line1, q.u) + '</span></span>' +
+        '<span class="line-reveal d2"><span>' + underlineMarkup(line2, q.u) + dotHtml + '</span></span>';
+
+      if (attrEl) {
+        attrEl.innerHTML = '<span class="qmark">—</span> ' + escapeHtml(q.by) +
+                           '<span class="qrole">' + escapeHtml(q.role) + '</span>';
+      }
+
+      var bb = document.getElementById("buildBadge");
+      if (bb) bb.textContent = "v" + BUILD_VERSION;
     }
 
-    // ensure the reveal animation fires for the freshly-injected lines
-    var hero = host.closest("[data-reveal]");
-    if (hero) requestAnimationFrame(function(){ hero.classList.add("in"); });
+    function startTimer() {
+      if (reduce) return;
+      clearTimeout(timerTO);
+      var dot = document.getElementById("qDot");
+      if (dot) requestAnimationFrame(function() { dot.classList.add("go"); });
+      timerTO = setTimeout(function() {
+        host.style.transition = "opacity .4s ease";
+        host.style.opacity = "0";
+        setTimeout(function() {
+          host.style.transition = "";
+          host.style.opacity = "";
+          renderQuote();
+          host.style.opacity = "0";
+          host.style.transition = "opacity .4s ease";
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              host.style.opacity = "1";
+              setTimeout(function() {
+                host.style.transition = "";
+                host.style.opacity = "";
+                startTimer();
+              }, 420);
+            });
+          });
+        }, 420);
+      }, TIMER1_);
+    }
+
+    renderQuote();
+
+    var heroSection = host.closest("[data-reveal]");
+    if (heroSection) requestAnimationFrame(function() {
+      heroSection.classList.add("in");
+      startTimer();
+    });
   })();
 
 </script>
