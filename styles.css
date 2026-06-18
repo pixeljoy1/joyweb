@@ -383,6 +383,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .manifesto__body .word { display: inline-block; opacity: .14; transition: opacity .5s ease; }
 .manifesto__body .word.lit { opacity: 1; }
 
+.qualities-kw { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--sienna); text-transform: uppercase; margin: 0 0 4px; padding-top: 18px; }
 .fromto { border-top: 1px solid var(--ink); }
 .fromto__row {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline; gap: 24px;
