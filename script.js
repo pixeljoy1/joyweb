@@ -467,4 +467,85 @@
     if (section) sectionObs.observe(section);
   })();
 
+  /* ============================================================
+     SETTINGS — Theme & Mode switcher
+     ============================================================ */
+  (function settingsSwitcher() {
+    var btn   = $("settingsBtn") || document.getElementById("settingsBtn");
+    var panel = document.getElementById("settingsPanel");
+    if (!btn || !panel) return;
+
+    var root = document.documentElement;
+    var mq   = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function notify() {
+      if (typeof window.onThemeChange === "function") window.onThemeChange();
+    }
+
+    function applyMode(mode) {
+      var effective = (mode === "system") ? (mq.matches ? "dark" : "light") : mode;
+      root.setAttribute("data-theme", effective);
+      localStorage.setItem("jm-mode", mode);
+      panel.querySelectorAll("[data-set-mode]").forEach(function (b) {
+        b.classList.toggle("is-active", b.getAttribute("data-set-mode") === mode);
+      });
+      notify();
+    }
+
+    function applyColor(color) {
+      if (color === "orange") {
+        root.removeAttribute("data-color");
+      } else {
+        root.setAttribute("data-color", color);
+      }
+      localStorage.setItem("jm-color", color);
+      panel.querySelectorAll("[data-set-color]").forEach(function (b) {
+        b.classList.toggle("is-active", b.getAttribute("data-set-color") === color);
+      });
+      notify();
+    }
+
+    /* Restore saved prefs on load */
+    applyMode(localStorage.getItem("jm-mode") || "system");
+    applyColor(localStorage.getItem("jm-color") || "orange");
+
+    /* Track OS preference changes */
+    mq.addEventListener("change", function () {
+      if ((localStorage.getItem("jm-mode") || "system") === "system") applyMode("system");
+    });
+
+    /* Toggle panel open/close */
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var opening = !panel.classList.contains("is-open");
+      panel.classList.toggle("is-open", opening);
+      panel.setAttribute("aria-hidden", opening ? "false" : "true");
+      btn.setAttribute("aria-expanded", opening ? "true" : "false");
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!panel.contains(e.target) && e.target !== btn) {
+        panel.classList.remove("is-open");
+        panel.setAttribute("aria-hidden", "true");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && panel.classList.contains("is-open")) {
+        panel.classList.remove("is-open");
+        panel.setAttribute("aria-hidden", "true");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    panel.querySelectorAll("[data-set-mode]").forEach(function (b) {
+      b.addEventListener("click", function () { applyMode(b.getAttribute("data-set-mode")); });
+    });
+
+    panel.querySelectorAll("[data-set-color]").forEach(function (b) {
+      b.addEventListener("click", function () { applyColor(b.getAttribute("data-set-color")); });
+    });
+  })();
+
 })();

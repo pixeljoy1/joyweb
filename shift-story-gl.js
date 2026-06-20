@@ -6,34 +6,31 @@
 
   /* ── constants ─────────────────────────────────────────────────── */
   var N         = 800;
-  var LERP_POS  = 0.055;   /* particle morph speed          */
-  var LERP_XFRM = 0.04;    /* group position / scale lerp   */
+  var LERP_POS  = 0.055;
+  var LERP_XFRM = 0.04;
   var CONN_DIST = 0.38;
   var CONN_MAX  = 1000;
 
+  /* ── initial colors — may be updated by onThemeChange ──────────── */
   var COL_STATE1 = new THREE.Color(0x2D2926);
   var COL_STATE2 = new THREE.Color(0x918A7E);
   var COL_STATE3 = new THREE.Color(0xC4410C);
   var COL_LINE   = new THREE.Color(0xC4410C);
 
   /* ── per-step spatial / speed config ───────────────────────────── */
-  /*   posX      : scene-unit X offset (positive = shift right in view)
-       scale     : uniform group scale
-       ptSize    : PointsMaterial size
-       rotSpeedY : Y-axis auto-rotation rad/s                          */
+  /*   posX: calibrated so cloud + knot have 20% pull left vs v2.3.4 */
   var STEP_CFG = [
-    { posX: 1.5,  scale: 1.00, ptSize: 0.039, rotSpeedY: 0.100 }, /* 1 cloud   */
+    { posX: 1.2,  scale: 1.00, ptSize: 0.039, rotSpeedY: 0.100 }, /* 1 cloud   */
     { posX: 0.8,  scale: 1.30, ptSize: 0.065, rotSpeedY: 0.115 }, /* 2 network */
-    { posX: 2.0,  scale: 1.00, ptSize: 0.042, rotSpeedY: 0.100 }, /* 3 knot    */
+    { posX: 1.6,  scale: 1.00, ptSize: 0.042, rotSpeedY: 0.100 }, /* 3 knot    */
   ];
 
-  /* live lerp targets (initialised to step 1) */
   var targetPosX   = STEP_CFG[0].posX;
   var targetScale  = STEP_CFG[0].scale;
   var targetPtSize = STEP_CFG[0].ptSize;
   var targetRotSpY = STEP_CFG[0].rotSpeedY;
   var liveRotSpY   = STEP_CFG[0].rotSpeedY;
-  var accBaseY     = 0;    /* accumulated Y rotation from auto-spin */
+  var accBaseY     = 0;
   var lastT        = 0;
 
   /* ── label copy ─────────────────────────────────────────────────── */
@@ -43,7 +40,6 @@
     'Tangible, cohesive UX structure shipped; systemic complexity simplified.'
   ];
 
-  /* ── tooltip + dot refs ─────────────────────────────────────────── */
   var dotEl     = document.getElementById('context-label-dot');
   var tooltipEl = document.getElementById('context-tooltip');
 
@@ -66,7 +62,7 @@
   var camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
   camera.position.z = 8;
 
-  /* ── particle target positions ──────────────────────────────────── */
+  /* ── particle targets ───────────────────────────────────────────── */
   function buildCloud() {
     var arr = new Float32Array(N * 3);
     for (var i = 0; i < N; i++) {
@@ -160,7 +156,6 @@
   var sceneGroup = new THREE.Group();
   sceneGroup.add(points);
   sceneGroup.add(lines);
-  /* Pre-set to step-1 X position so there's no opening snap */
   sceneGroup.position.x = STEP_CFG[0].posX;
   scene.add(sceneGroup);
 
@@ -177,6 +172,8 @@
 
     updateLabelContent(idx);
     updateNavActive(idx);
+    /* fade navigator out on step 3, restore on steps 1-2 */
+    if (navEl) navEl.classList.toggle('is-fading', idx === 2);
 
     var cfg      = STEP_CFG[idx];
     targetPosX   = cfg.posX;
@@ -272,16 +269,16 @@
   var mouseNDC   = { x: 9, y: 9 };
   var isHovering = false;
 
-  /* ── 3-point step navigator ─────────────────────────────────────── */
+  /* ── 3-point navigator (injected, horizontal) ───────────────────── */
   var navEl = document.createElement('div');
   navEl.id  = 'step-nav';
   navEl.setAttribute('aria-label', 'Approach section navigator');
   navEl.innerHTML =
-    '<button class="step-nav__node is-active" data-nav-step="1" aria-label="Step 1: Cloud"></button>' +
+    '<button class="step-nav__node is-active" data-nav-step="1" aria-label="Step 1"></button>' +
     '<div class="step-nav__track"></div>' +
-    '<button class="step-nav__node" data-nav-step="2" aria-label="Step 2: Network"></button>' +
+    '<button class="step-nav__node" data-nav-step="2" aria-label="Step 2"></button>' +
     '<div class="step-nav__track"></div>' +
-    '<button class="step-nav__node" data-nav-step="3" aria-label="Step 3: Form"></button>';
+    '<button class="step-nav__node" data-nav-step="3" aria-label="Step 3"></button>';
   document.body.appendChild(navEl);
 
   var navNodes   = navEl.querySelectorAll('.step-nav__node');
@@ -296,19 +293,39 @@
   navNodes.forEach(function (node) {
     node.addEventListener('click', function () {
       var s = parseInt(node.getAttribute('data-nav-step'), 10) - 1;
-      if (storySteps[s]) {
-        storySteps[s].scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      if (storySteps[s]) storySteps[s].scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   });
 
-  /* show/hide navigator when approach section is in view */
   var approachSection = document.getElementById('approach');
   if (approachSection) {
     new IntersectionObserver(function (entries) {
       navEl.classList.toggle('is-visible', entries[0].isIntersecting);
     }, { threshold: 0.05 }).observe(approachSection);
   }
+
+  /* ── theme color sync ───────────────────────────────────────────── */
+  /* Called by script.js settings switcher whenever theme changes     */
+  window.onThemeChange = function () {
+    /* One rAF to ensure CSS is recalculated before we read vars */
+    requestAnimationFrame(function () {
+      var cs     = getComputedStyle(document.documentElement);
+      var s1     = (cs.getPropertyValue('--gl-s1')  || '').trim() || '#2D2926';
+      var s2     = (cs.getPropertyValue('--gl-s2')  || '').trim() || '#918A7E';
+      var accent = (cs.getPropertyValue('--sienna') || '').trim() || '#C4410C';
+
+      COL_STATE1.set(s1);
+      COL_STATE2.set(s2);
+      COL_STATE3.set(accent);
+      COL_LINE.set(accent);
+      lineMat.color.set(accent);
+
+      /* re-point the lerp target so the transition picks up immediately */
+      if (currentTargetIndex === 0)      targetColor.copy(COL_STATE1);
+      else if (currentTargetIndex === 1) targetColor.copy(COL_STATE2);
+      else                               targetColor.copy(COL_STATE3);
+    });
+  };
 
   /* ── resize ─────────────────────────────────────────────────────── */
   function onResize() {
@@ -335,7 +352,7 @@
     var step = parseInt(raw, 10) || 1;
     setStep(step);
 
-    /* lerp particles toward morph target */
+    /* lerp particles */
     var target  = targets[currentTargetIndex];
     var posAttr = ptGeo.attributes.position;
     for (var i = 0; i < N; i++) {
@@ -367,7 +384,7 @@
     lineMat.opacity += (targetOpacityLine - lineMat.opacity) * 0.06;
 
     /* per-step spatial lerps */
-    sceneGroup.position.x += (targetPosX  - sceneGroup.position.x) * LERP_XFRM;
+    sceneGroup.position.x += (targetPosX - sceneGroup.position.x) * LERP_XFRM;
     var newScale = sceneGroup.scale.x + (targetScale - sceneGroup.scale.x) * LERP_XFRM;
     sceneGroup.scale.setScalar(newScale);
     ptMat.size += (targetPtSize - ptMat.size) * 0.06;
@@ -380,14 +397,13 @@
       dragRot.y += dragVel.y;
     }
 
-    /* auto-rotation: accumulate with live speed so step-2 feels faster */
-    liveRotSpY  += (targetRotSpY - liveRotSpY) * 0.03;
-    accBaseY    += liveRotSpY * Math.min(dt, 0.05); /* cap dt to avoid jumps */
+    /* auto-rotation (accumulated, speed lerps per step) */
+    liveRotSpY += (targetRotSpY - liveRotSpY) * 0.03;
+    accBaseY   += liveRotSpY * Math.min(dt, 0.05);
 
     var baseX = Math.sin(t * 0.07) * 0.3;
     var baseY = accBaseY;
 
-    /* lerp rotation toward base + drag */
     sceneGroup.rotation.x += (baseX + dragRot.x - sceneGroup.rotation.x) * 0.1;
     sceneGroup.rotation.y += (baseY + dragRot.y - sceneGroup.rotation.y) * 0.1;
 

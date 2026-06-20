@@ -129,8 +129,38 @@
     <a href="https://in.linkedin.com/in/joydeep-mitra-847b287" target="_blank" rel="noopener" class="nav__cta" data-magnetic data-cursor>
       <span>LinkedIn</span><i>&#8599;</i>
     </a>
+    <button class="nav__settings" id="settingsBtn" aria-label="Display settings" aria-expanded="false" aria-controls="settingsPanel">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+        <line x1="2" y1="4"  x2="14" y2="4"/>
+        <line x1="2" y1="8"  x2="14" y2="8"/>
+        <line x1="2" y1="12" x2="14" y2="12"/>
+        <circle cx="5.5" cy="4"  r="1.8" fill="currentColor" stroke="none"/>
+        <circle cx="9.5" cy="8"  r="1.8" fill="currentColor" stroke="none"/>
+        <circle cx="6.5" cy="12" r="1.8" fill="currentColor" stroke="none"/>
+      </svg>
+    </button>
   </div>
 </header>
+
+<!-- Settings panel (fixed, theme switcher) -->
+<div class="settings-panel" id="settingsPanel" aria-hidden="true" role="dialog" aria-label="Display settings">
+  <div class="settings-panel__section">
+    <span class="settings-panel__label">Mode</span>
+    <div class="settings-panel__options">
+      <button class="s-opt" data-set-mode="system">System</button>
+      <button class="s-opt" data-set-mode="light">Light</button>
+      <button class="s-opt" data-set-mode="dark">Dark</button>
+    </div>
+  </div>
+  <div class="settings-panel__section">
+    <span class="settings-panel__label">Theme</span>
+    <div class="settings-panel__options">
+      <button class="s-opt" data-set-color="orange">Orange</button>
+      <button class="s-opt" data-set-color="bw">B&amp;W</button>
+      <button class="s-opt" data-set-color="cyan">Cyan</button>
+    </div>
+  </div>
+</div>
 
 <main id="top">
 
