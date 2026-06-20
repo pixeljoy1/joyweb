@@ -569,48 +569,49 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 }
 #context-tooltip.is-visible { opacity: 1; }
 
-/* --- 3-point step navigator (horizontal) --- */
+/* --- 3-step media-player navigator (bottom-center) --- */
 #step-nav {
   position: fixed;
-  right: 25vw;
-  top: 50vh;
-  transform: translate(50%, -50%);
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translate(-50%, 20px);
   z-index: 50;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0;
+  gap: 8px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
-#step-nav.is-visible        { opacity: 1; pointer-events: auto; }
-#step-nav.is-fading         { opacity: 0; pointer-events: none; }
-.step-nav__track {
-  width: 30px;
-  height: 1px;
-  background: color-mix(in srgb, var(--ink) 18%, transparent);
-  flex-shrink: 0;
+#step-nav.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
 }
+#step-nav.is-fading {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 20px);
+}
+.step-nav__track { display: none; } /* gap handles spacing */
 .step-nav__node {
-  width: 6px;
-  height: 6px;
-  border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
-  background: transparent;
+  width: 60px;
+  height: 8px;
+  border-radius: 4px;
+  border: none;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
   outline: none;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease;
 }
 .step-nav__node:hover {
-  border-color: var(--sienna);
-  background: color-mix(in srgb, var(--sienna) 20%, transparent);
+  background: color-mix(in srgb, var(--sienna) 55%, transparent);
 }
 .step-nav__node.is-active {
   background: var(--sienna);
-  border-color: var(--sienna);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sienna) 25%, transparent);
 }
 
 /* Mobile: stack canvas above text */
@@ -714,7 +715,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .cap {
   position: relative; display: grid; overflow: hidden;
   grid-template-columns: 80px 1fr auto; align-items: center; gap: 24px;
-  padding: clamp(24px, 3vw, 44px) 0; border-top: 1px solid var(--rule);
+  padding: clamp(24px, 3vw, 44px) clamp(12px, 1.25rem, 20px); border-top: 1px solid var(--rule);
 }
 .caps__list .cap:last-child { border-bottom: 1px solid var(--rule); }
 .cap__num { font-family: var(--mono); font-size: 13px; color: var(--sienna); }
@@ -737,7 +738,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .thinking__list { border-top: 1px solid var(--ink); }
 .post {
   display: grid; grid-template-columns: 70px 1fr auto; align-items: center; gap: 24px;
-  padding: clamp(22px, 3vw, 40px) 0; border-bottom: 1px solid var(--rule);
+  padding: clamp(22px, 3vw, 40px) clamp(12px, 1.25rem, 20px); border-bottom: 1px solid var(--rule);
   position: relative; overflow: hidden;
 }
 .post::before { content: ""; position: absolute; inset: 0; background: var(--sienna); transform: translateY(101%); transition: transform .5s var(--ease); z-index: 0; }
@@ -756,7 +757,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
    ============================================================ */
 .toolkit { display: grid; gap: clamp(30px, 5vh, 56px); }
 .toolkit__rows { border-top: 1px solid var(--rule); }
-.trow { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 2fr; gap: 24px; align-items: baseline; padding: clamp(20px, 2.6vw, 34px) 0; border-bottom: 1px solid var(--rule); }
+.trow { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr 2fr; gap: 24px; align-items: baseline; padding: clamp(20px, 2.6vw, 34px) clamp(12px, 1.25rem, 20px); border-bottom: 1px solid var(--rule); }
 .trow__phase { font-family: var(--mono); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--sienna); }
 .trow__tools { font-family: var(--serif); font-size: clamp(18px, 2.2vw, 32px); letter-spacing: -0.01em; }
 @media (max-width: 640px) { .trow { grid-template-columns: 1fr; gap: 8px; } }

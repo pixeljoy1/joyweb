@@ -11,24 +11,23 @@
   var CONN_DIST = 0.38;
   var CONN_MAX  = 1000;
 
-  /* ── initial colors — may be updated by onThemeChange ──────────── */
   var COL_STATE1 = new THREE.Color(0x2D2926);
   var COL_STATE2 = new THREE.Color(0x918A7E);
   var COL_STATE3 = new THREE.Color(0xC4410C);
   var COL_LINE   = new THREE.Color(0xC4410C);
 
-  /* ── per-step spatial / speed config ───────────────────────────── */
-  /*   posX: calibrated so cloud + knot have 20% pull left vs v2.3.4 */
+  /* ── per-step config: posX / scale / ptSize / rotSpeedY / rotZ ─── */
   var STEP_CFG = [
-    { posX: 1.2,  scale: 1.00, ptSize: 0.039, rotSpeedY: 0.100 }, /* 1 cloud   */
-    { posX: 0.8,  scale: 1.30, ptSize: 0.065, rotSpeedY: 0.115 }, /* 2 network */
-    { posX: 1.6,  scale: 1.00, ptSize: 0.042, rotSpeedY: 0.100 }, /* 3 knot    */
+    { posX: 1.2, scale: 1.00, ptSize: 0.039, rotSpeedY: 0.100, rotZ: 0            },
+    { posX: 0.8, scale: 1.30, ptSize: 0.065, rotSpeedY: 0.115, rotZ: 0            },
+    { posX: 1.4, scale: 1.05, ptSize: 0.040, rotSpeedY: 0.090, rotZ: Math.PI / 5  },
   ];
 
   var targetPosX   = STEP_CFG[0].posX;
   var targetScale  = STEP_CFG[0].scale;
   var targetPtSize = STEP_CFG[0].ptSize;
   var targetRotSpY = STEP_CFG[0].rotSpeedY;
+  var targetRotZ   = STEP_CFG[0].rotZ;
   var liveRotSpY   = STEP_CFG[0].rotSpeedY;
   var accBaseY     = 0;
   var lastT        = 0;
@@ -89,20 +88,30 @@
     return arr;
   }
 
-  function buildKnot() {
-    var arr = new Float32Array(N * 3);
+  /* DNA double helix — two intertwined spirals along Y, with jitter */
+  function buildHelix() {
+    var arr         = new Float32Array(N * 3);
+    var halfN       = Math.floor(N / 2);
+    var radius      = 1.2;
+    var turns       = 3.5;
+    var tMax        = turns * Math.PI * 2;
+    var heightScale = 0.18;
+
     for (var i = 0; i < N; i++) {
-      var t   = (i / N) * Math.PI * 2;
-      var jit = (Math.random() - 0.5) * 0.18;
-      var r   = Math.cos(3 * t) + 2.2;
-      arr[i * 3]     = r * Math.cos(2 * t) * 0.9 + jit;
-      arr[i * 3 + 1] = r * Math.sin(2 * t) * 0.9 + jit;
-      arr[i * 3 + 2] = -Math.sin(3 * t) * 2.0    + jit;
+      var strand = (i < halfN) ? 0 : 1;
+      var idx    = (i < halfN) ? i : (i - halfN);
+      var t      = (idx / (halfN - 1)) * tMax;
+      var phase  = strand * Math.PI;            /* strands are π apart */
+      var jit    = (Math.random() - 0.5) * 0.07;
+
+      arr[i * 3]     = radius * Math.cos(t + phase) + jit;
+      arr[i * 3 + 1] = (t - tMax * 0.5) * heightScale + jit;
+      arr[i * 3 + 2] = radius * Math.sin(t + phase) + jit;
     }
     return arr;
   }
 
-  var targets = [buildCloud(), buildNetwork(), buildKnot()];
+  var targets = [buildCloud(), buildNetwork(), buildHelix()];
 
   /* ── particle geometry ──────────────────────────────────────────── */
   var ptGeo = new THREE.BufferGeometry();
@@ -119,7 +128,7 @@
 
   var points = new THREE.Points(ptGeo, ptMat);
 
-  /* ── connection lines ───────────────────────────────────────────── */
+  /* ── connection lines (network topology) ───────────────────────── */
   function computeConnections(posArr) {
     var pairs = [];
     outer: for (var i = 0; i < N; i++) {
@@ -144,24 +153,39 @@
   lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
 
   var lineMat = new THREE.LineBasicMaterial({
-    color: COL_LINE,
-    transparent: true,
-    opacity: 0,
-    depthWrite: false
+    color: COL_LINE, transparent: true, opacity: 0, depthWrite: false
   });
 
   var lines = new THREE.LineSegments(lineGeo, lineMat);
+
+  /* ── DNA rung lines (helix step only) ──────────────────────────── */
+  var halfN      = Math.floor(N / 2);
+  var RUNG_STEP  = 20;           /* one rung every 20 particles per strand */
+  var rungPairs  = [];
+  for (var ri = 0; ri < halfN; ri += RUNG_STEP) {
+    rungPairs.push(ri, ri + halfN);
+  }
+  var rungCount  = rungPairs.length / 2;
+  var rungPos    = new Float32Array(rungCount * 6);
+  var rungGeo    = new THREE.BufferGeometry();
+  rungGeo.setAttribute('position', new THREE.BufferAttribute(rungPos, 3));
+  var rungMat    = new THREE.LineBasicMaterial({
+    color: COL_LINE, transparent: true, opacity: 0, depthWrite: false
+  });
+  var rungLines  = new THREE.LineSegments(rungGeo, rungMat);
 
   /* ── scene group ────────────────────────────────────────────────── */
   var sceneGroup = new THREE.Group();
   sceneGroup.add(points);
   sceneGroup.add(lines);
+  sceneGroup.add(rungLines);
   sceneGroup.position.x = STEP_CFG[0].posX;
   scene.add(sceneGroup);
 
   /* ── state ──────────────────────────────────────────────────────── */
   var currentTargetIndex = 0;
   var targetOpacityLine  = 0;
+  var targetOpacityRung  = 0;
   var currentColor       = COL_STATE1.clone();
   var targetColor        = COL_STATE1.clone();
 
@@ -172,24 +196,26 @@
 
     updateLabelContent(idx);
     updateNavActive(idx);
-    /* fade navigator out on step 3, restore on steps 1-2 */
-    if (navEl) navEl.classList.toggle('is-fading', idx === 2);
 
     var cfg      = STEP_CFG[idx];
     targetPosX   = cfg.posX;
     targetScale  = cfg.scale;
     targetPtSize = cfg.ptSize;
     targetRotSpY = cfg.rotSpeedY;
+    targetRotZ   = cfg.rotZ;
 
     if (idx === 0) {
       targetColor.copy(COL_STATE1);
       targetOpacityLine = 0;
+      targetOpacityRung = 0;
     } else if (idx === 1) {
       targetColor.copy(COL_STATE2);
       targetOpacityLine = 0.45;
+      targetOpacityRung = 0;
     } else {
       targetColor.copy(COL_STATE3);
       targetOpacityLine = 0;
+      targetOpacityRung = 0.38;
     }
   }
 
@@ -269,16 +295,16 @@
   var mouseNDC   = { x: 9, y: 9 };
   var isHovering = false;
 
-  /* ── 3-point navigator (injected, horizontal) ───────────────────── */
+  /* ── 3-step pill navigator ──────────────────────────────────────── */
   var navEl = document.createElement('div');
   navEl.id  = 'step-nav';
   navEl.setAttribute('aria-label', 'Approach section navigator');
   navEl.innerHTML =
-    '<button class="step-nav__node is-active" data-nav-step="1" aria-label="Step 1"></button>' +
+    '<button class="step-nav__node is-active" data-nav-step="1" aria-label="Step 1: Cloud"></button>' +
     '<div class="step-nav__track"></div>' +
-    '<button class="step-nav__node" data-nav-step="2" aria-label="Step 2"></button>' +
+    '<button class="step-nav__node" data-nav-step="2" aria-label="Step 2: Network"></button>' +
     '<div class="step-nav__track"></div>' +
-    '<button class="step-nav__node" data-nav-step="3" aria-label="Step 3"></button>';
+    '<button class="step-nav__node" data-nav-step="3" aria-label="Step 3: DNA Helix"></button>';
   document.body.appendChild(navEl);
 
   var navNodes   = navEl.querySelectorAll('.step-nav__node');
@@ -297,17 +323,36 @@
     });
   });
 
-  var approachSection = document.getElementById('approach');
-  if (approachSection) {
+  /* ── navigator visibility: step-1 entry → show; step-3 exit → hide */
+  var step1El = storySteps[0];
+  var step3El = storySteps[2];
+
+  if (step1El) {
+    /* Show when step 1 is well-centred in viewport (threshold 0.65) */
     new IntersectionObserver(function (entries) {
-      navEl.classList.toggle('is-visible', entries[0].isIntersecting);
-    }, { threshold: 0.05 }).observe(approachSection);
+      if (entries[0].isIntersecting) {
+        navEl.classList.remove('is-fading');
+        navEl.classList.add('is-visible');
+      }
+    }, { threshold: 0.65 }).observe(step1El);
+  }
+
+  if (step3El) {
+    /* Hide when step 3 exits the viewport from the top (scrolled past) */
+    new IntersectionObserver(function (entries) {
+      var entry = entries[0];
+      if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+        navEl.classList.add('is-fading');
+        navEl.classList.remove('is-visible');
+      } else if (entry.isIntersecting) {
+        navEl.classList.remove('is-fading');
+        navEl.classList.add('is-visible');
+      }
+    }, { threshold: 0.1 }).observe(step3El);
   }
 
   /* ── theme color sync ───────────────────────────────────────────── */
-  /* Called by script.js settings switcher whenever theme changes     */
   window.onThemeChange = function () {
-    /* One rAF to ensure CSS is recalculated before we read vars */
     requestAnimationFrame(function () {
       var cs     = getComputedStyle(document.documentElement);
       var s1     = (cs.getPropertyValue('--gl-s1')  || '').trim() || '#2D2926';
@@ -319,8 +364,8 @@
       COL_STATE3.set(accent);
       COL_LINE.set(accent);
       lineMat.color.set(accent);
+      rungMat.color.set(accent);
 
-      /* re-point the lerp target so the transition picks up immediately */
       if (currentTargetIndex === 0)      targetColor.copy(COL_STATE1);
       else if (currentTargetIndex === 1) targetColor.copy(COL_STATE2);
       else                               targetColor.copy(COL_STATE3);
@@ -352,7 +397,7 @@
     var step = parseInt(raw, 10) || 1;
     setStep(step);
 
-    /* lerp particles */
+    /* lerp particles toward morph target */
     var target  = targets[currentTargetIndex];
     var posAttr = ptGeo.attributes.position;
     for (var i = 0; i < N; i++) {
@@ -363,7 +408,7 @@
     }
     posAttr.needsUpdate = true;
 
-    /* update line endpoints */
+    /* update network line endpoints */
     var lineAttr = lineGeo.attributes.position;
     for (var k = 0; k < lineCount; k++) {
       var ia = connPairs[k * 2];
@@ -378,12 +423,28 @@
     }
     lineAttr.needsUpdate = true;
 
-    /* colour + line opacity */
+    /* update DNA rung endpoints */
+    var rungAttr = rungGeo.attributes.position;
+    for (var r = 0; r < rungCount; r++) {
+      var ra = rungPairs[r * 2];
+      var rb = rungPairs[r * 2 + 1];
+      var rl = r * 6;
+      rungAttr.array[rl]     = posAttr.array[ra * 3];
+      rungAttr.array[rl + 1] = posAttr.array[ra * 3 + 1];
+      rungAttr.array[rl + 2] = posAttr.array[ra * 3 + 2];
+      rungAttr.array[rl + 3] = posAttr.array[rb * 3];
+      rungAttr.array[rl + 4] = posAttr.array[rb * 3 + 1];
+      rungAttr.array[rl + 5] = posAttr.array[rb * 3 + 2];
+    }
+    rungAttr.needsUpdate = true;
+
+    /* colour + opacity lerps */
     currentColor.lerp(targetColor, 0.06);
     ptMat.color.copy(currentColor);
     lineMat.opacity += (targetOpacityLine - lineMat.opacity) * 0.06;
+    rungMat.opacity += (targetOpacityRung - rungMat.opacity) * 0.06;
 
-    /* per-step spatial lerps */
+    /* spatial lerps */
     sceneGroup.position.x += (targetPosX - sceneGroup.position.x) * LERP_XFRM;
     var newScale = sceneGroup.scale.x + (targetScale - sceneGroup.scale.x) * LERP_XFRM;
     sceneGroup.scale.setScalar(newScale);
@@ -397,7 +458,7 @@
       dragRot.y += dragVel.y;
     }
 
-    /* auto-rotation (accumulated, speed lerps per step) */
+    /* auto-rotation (speed lerps per step) */
     liveRotSpY += (targetRotSpY - liveRotSpY) * 0.03;
     accBaseY   += liveRotSpY * Math.min(dt, 0.05);
 
@@ -406,6 +467,7 @@
 
     sceneGroup.rotation.x += (baseX + dragRot.x - sceneGroup.rotation.x) * 0.1;
     sceneGroup.rotation.y += (baseY + dragRot.y - sceneGroup.rotation.y) * 0.1;
+    sceneGroup.rotation.z += (targetRotZ - sceneGroup.rotation.z) * LERP_XFRM;
 
     renderer.render(scene, camera);
 
