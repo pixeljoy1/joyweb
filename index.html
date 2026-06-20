@@ -179,15 +179,106 @@
   </div>
 </section>
 
-<!-- ============== 01 · APPROACH ============== -->
-<section class="manifesto" id="approach">
+<!-- ============== 01 · APPROACH — scrollytelling ============== -->
+<section class="shift-story" id="approach">
   <span class="sec-num reveal">01 — Approach</span>
-  <p class="manifesto__body" data-words>
-    Associate Director, UX Design — CTO organisation, Kyndryl. I lead a UX squad working at enterprise scale: a global infrastructure platform, multi-cloud environments, a CIO audience with zero patience for the third click. Through 2025–26, that squad moved into DevOps — a new function, the same discipline. I've always been a visual person. Pencil before pixel. That instinct doesn't shrink to fit the problem — it scales to meet it. I receive strategy, give it form, and move it forward: service design that engineering can build from, AI-enabled prototyping that compresses the calendar, UX that ships. The qualities below are how the external world should read me.
-  </p>
+
+  <div class="shift-story__stage" id="shiftStage">
+
+    <!-- STICKY VISUAL CANVAS -->
+    <div class="visual-canvas" id="visualCanvas" data-active-step="">
+
+      <!-- STATE 1 · Enterprise / Architecture -->
+      <div class="canvas-state canvas-state--1" aria-hidden="true">
+        <svg class="canvas-svg" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- Horizontal grid lines -->
+          <line class="cvs-line" x1="0" y1="68"  x2="480" y2="68"  style="--dl:.04s;stroke-dasharray:480;stroke-dashoffset:480"/>
+          <line class="cvs-line" x1="0" y1="136" x2="480" y2="136" style="--dl:.10s;stroke-dasharray:480;stroke-dashoffset:480"/>
+          <line class="cvs-line" x1="0" y1="204" x2="480" y2="204" style="--dl:.16s;stroke-dasharray:480;stroke-dashoffset:480"/>
+          <line class="cvs-line" x1="0" y1="272" x2="480" y2="272" style="--dl:.22s;stroke-dasharray:480;stroke-dashoffset:480"/>
+          <!-- Vertical grid lines -->
+          <line class="cvs-line" x1="96"  y1="0" x2="96"  y2="340" style="--dl:.07s;stroke-dasharray:340;stroke-dashoffset:340"/>
+          <line class="cvs-line" x1="192" y1="0" x2="192" y2="340" style="--dl:.13s;stroke-dasharray:340;stroke-dashoffset:340"/>
+          <line class="cvs-line" x1="288" y1="0" x2="288" y2="340" style="--dl:.19s;stroke-dasharray:340;stroke-dashoffset:340"/>
+          <line class="cvs-line" x1="384" y1="0" x2="384" y2="340" style="--dl:.25s;stroke-dasharray:340;stroke-dashoffset:340"/>
+          <!-- Nested structural rects -->
+          <rect class="cvs-rect" x="120" y="80"  width="240" height="180" style="--dl:.35s;stroke-dasharray:840;stroke-dashoffset:840"/>
+          <rect class="cvs-rect" x="168" y="114" width="144" height="112" style="--dl:.52s;stroke-dasharray:512;stroke-dashoffset:512"/>
+          <!-- Intersection dots -->
+          <circle class="cvs-dot" cx="96"  cy="136" r="2.5" style="--dl:.45s"/>
+          <circle class="cvs-dot" cx="192" cy="136" r="2.5" style="--dl:.50s"/>
+          <circle class="cvs-dot" cx="288" cy="136" r="2.5" style="--dl:.55s"/>
+          <circle class="cvs-dot" cx="384" cy="136" r="2.5" style="--dl:.60s"/>
+          <circle class="cvs-dot" cx="96"  cy="204" r="2.5" style="--dl:.45s"/>
+          <circle class="cvs-dot" cx="192" cy="204" r="2.5" style="--dl:.50s"/>
+          <circle class="cvs-dot" cx="288" cy="204" r="2.5" style="--dl:.55s"/>
+          <circle class="cvs-dot" cx="384" cy="204" r="2.5" style="--dl:.60s"/>
+        </svg>
+      </div>
+
+      <!-- STATE 2 · Pencil & AI Intersection -->
+      <div class="canvas-state canvas-state--2" aria-hidden="true">
+        <svg class="canvas-svg" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ghost grid -->
+          <line class="cvs-line cvs-line--ghost" x1="0" y1="136" x2="480" y2="136"/>
+          <line class="cvs-line cvs-line--ghost" x1="0" y1="204" x2="480" y2="204"/>
+          <line class="cvs-line cvs-line--ghost" x1="192" y1="0" x2="192" y2="340"/>
+          <line class="cvs-line cvs-line--ghost" x1="288" y1="0" x2="288" y2="340"/>
+          <!-- Organic pencil paths -->
+          <path class="cvs-path" d="M 24,300 C 100,180 170,240 240,160 S 360,60 460,90" style="--dl:.08s;stroke-dasharray:580;stroke-dashoffset:580"/>
+          <path class="cvs-path" d="M 20,60  C 110,130 160,80  240,170 S 360,260 460,220" style="--dl:.28s;stroke-dasharray:570;stroke-dashoffset:570"/>
+          <!-- AI glow halos -->
+          <circle class="cvs-halo" cx="240" cy="160" r="22" style="--dl:.72s"/>
+          <circle class="cvs-halo" cx="340" cy="108" r="16" style="--dl:.88s"/>
+          <circle class="cvs-halo" cx="140" cy="196" r="12" style="--dl:.96s"/>
+          <!-- AI nodes -->
+          <circle class="cvs-node" cx="240" cy="160" r="7"   style="--dl:.65s"/>
+          <circle class="cvs-node" cx="340" cy="108" r="5"   style="--dl:.80s"/>
+          <circle class="cvs-node" cx="140" cy="196" r="4"   style="--dl:.90s"/>
+          <circle class="cvs-node" cx="390" cy="210" r="3.5" style="--dl:1.0s"/>
+        </svg>
+      </div>
+
+      <!-- STATE 3 · Convergence / Ship -->
+      <div class="canvas-state canvas-state--3" aria-hidden="true">
+        <svg class="canvas-svg" viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- Converging lines to focal (240,170) -->
+          <line class="cvs-conv" x1="0"   y1="0"   x2="240" y2="170" style="--dl:.04s;stroke-dasharray:294;stroke-dashoffset:294"/>
+          <line class="cvs-conv" x1="480" y1="0"   x2="240" y2="170" style="--dl:.08s;stroke-dasharray:294;stroke-dashoffset:294"/>
+          <line class="cvs-conv" x1="0"   y1="340" x2="240" y2="170" style="--dl:.12s;stroke-dasharray:294;stroke-dashoffset:294"/>
+          <line class="cvs-conv" x1="480" y1="340" x2="240" y2="170" style="--dl:.16s;stroke-dasharray:294;stroke-dashoffset:294"/>
+          <line class="cvs-conv" x1="0"   y1="170" x2="240" y2="170" style="--dl:.06s;stroke-dasharray:240;stroke-dashoffset:240"/>
+          <line class="cvs-conv" x1="480" y1="170" x2="240" y2="170" style="--dl:.10s;stroke-dasharray:240;stroke-dashoffset:240"/>
+          <line class="cvs-conv" x1="240" y1="0"   x2="240" y2="170" style="--dl:.05s;stroke-dasharray:170;stroke-dashoffset:170"/>
+          <line class="cvs-conv" x1="240" y1="340" x2="240" y2="170" style="--dl:.09s;stroke-dasharray:170;stroke-dashoffset:170"/>
+          <!-- Focal ring -->
+          <circle class="cvs-focal-ring" cx="240" cy="170" r="30" style="--dl:.58s;stroke-dasharray:189;stroke-dashoffset:189"/>
+          <!-- Focal diamond -->
+          <polygon class="cvs-focal-gem" points="240,138 272,170 240,202 208,170" style="--dl:.72s"/>
+          <!-- Centre pip -->
+          <circle class="cvs-focal-pip" cx="240" cy="170" r="5" style="--dl:.88s"/>
+        </svg>
+      </div>
+
+    </div><!-- /visual-canvas -->
+
+    <!-- SCROLLING STORY TEXT -->
+    <div class="story-content">
+      <div class="story-step" data-step="1">
+        <p>Associate Director, UX Design — CTO Organisation, Kyndryl. I lead a focused UX squad dedicated to making structural UX improvements across complex, evolving enterprise ecosystems. From navigating the deep technical shifts of DevOps to shaping multi-cloud platforms, our work spans the full product development lifecycle and scales alongside enterprise maturity.</p>
+      </div>
+      <div class="story-step" data-step="2">
+        <p>My practice sits at the intersection of traditional design foundations and AI-extended workflows. I do not merely translate strategy; I facilitate and evoke it. I believe in harnessing the speed and power of modern AI without abandoning the age-old methodologies — like visceral, pencil-and-paper systems thinking — that ensure long-term architectural integrity.</p>
+      </div>
+      <div class="story-step" data-step="3">
+        <p>By balancing proven best practices with next-generation tooling, I guide teams to untangle systemic complexity and turn abstract business goals into tangible, high-fidelity UX that ships.</p>
+      </div>
+    </div><!-- /story-content -->
+
+  </div><!-- /shift-story__stage -->
 
   <div class="fromto">
-  <p class="qualities-kw reveal">QUALITIES_</p>
+    <p class="qualities-kw reveal">QUALITIES_</p>
     <div class="fromto__row reveal"><span class="from">Double-diamond executor</span><i class="arr">&rarr;</i><span class="to">End-to-end strategy-to-ship integrator</span></div>
     <div class="fromto__row reveal"><span class="from">Figma output</span><i class="arr">&rarr;</i><span class="to">Shipped products with measurable impact</span></div>
     <div class="fromto__row reveal"><span class="from">Single-project contributor</span><i class="arr">&rarr;</i><span class="to">Design-org leadership across companies</span></div>

@@ -429,4 +429,42 @@
     });
   })();
 
+  /* ============================================================
+     SHIFT STORY — scrollytelling IntersectionObserver
+     ============================================================ */
+  (function shiftStory() {
+    var section = $("#approach");
+    var canvas  = $("#visualCanvas");
+    var steps   = document.querySelectorAll(".story-step");
+    if (!canvas || !steps.length) return;
+
+    function activate(n) {
+      steps.forEach(function (s) {
+        s.classList.toggle("is-active", parseInt(s.getAttribute("data-step"), 10) === n);
+      });
+      canvas.setAttribute("data-active-step", String(n));
+    }
+
+    /* Per-step observer — triggers in a 25%-to-45% viewport band */
+    var stepObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          activate(parseInt(e.target.getAttribute("data-step"), 10));
+        }
+      });
+    }, { rootMargin: "-25% 0px -50% 0px", threshold: 0 });
+
+    /* Section entry observer — fires state 1 when section first arrives,
+       then hands off to per-step observer */
+    var sectionObs = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        activate(1);
+        sectionObs.disconnect();
+        steps.forEach(function (s) { stepObs.observe(s); });
+      }
+    }, { rootMargin: "0px 0px -45% 0px", threshold: 0 });
+
+    if (section) sectionObs.observe(section);
+  })();
+
 })();
