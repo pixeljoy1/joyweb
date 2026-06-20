@@ -268,11 +268,16 @@ img { display: block; max-width: 100%; }
   background: var(--paper);
   border: 1px solid var(--rule);
   min-width: 210px;
+  max-width: calc(100vw - 2rem);
+  overflow-x: hidden;
   padding: 20px 20px 16px;
   opacity: 0;
   pointer-events: none;
   transform: translateY(-6px);
   transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.35s ease;
+}
+@media (max-width: 600px) {
+  .settings-panel { right: 1rem; }
 }
 .settings-panel.is-open {
   opacity: 1;
@@ -800,6 +805,30 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   width: 20px; height: 20px; background: var(--sienna); border-color: var(--sienna);
   box-shadow: 0 0 0 6px color-mix(in srgb, var(--sienna) 22%, transparent),
               0 0 0 13px color-mix(in srgb, var(--sienna) 9%, transparent);
+}
+
+/* Timeline company logos — revealed as pellet passes each node */
+.timeline-logo {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  bottom: 54px;
+  left: 50%;
+  margin-left: -16px;
+  opacity: 0.1;
+  filter: grayscale(100%);
+  transform: translateY(10px);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              filter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  user-select: none;
+}
+.timeline-logo.is-revealed {
+  opacity: 1;
+  filter: grayscale(0%);
+  transform: translateY(0);
 }
 
 .arc__bio { display: grid; gap: 22px; max-width: 56ch; }

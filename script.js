@@ -320,14 +320,18 @@
       track.style.transform = "translateX(" + (-workExtra * eased) + "px)";
     }
 
-    // arc fill + node lighting
+    // arc fill + node lighting + logo reveal
     if (arcSec && arcFill) {
       var r = arcSec.getBoundingClientRect();
-      var ap = clamp((innerHeight * 0.78 - r.top) / (r.height * 0.55), 0, 1);
+      // Start as soon as section enters viewport; complete over 50% of section height
+      var ap = clamp((innerHeight - r.top) / (r.height * 0.5), 0, 1);
       arcFill.style.width = ap * 100 + "%";
       arcNodes.forEach(function (n) {
         var at = (parseFloat(n.style.getPropertyValue("--at")) || 0) / 100;
-        n.classList.toggle("lit", at <= ap);
+        var passed = at <= ap;
+        n.classList.toggle("lit", passed);
+        var logo = n.querySelector(".timeline-logo");
+        if (logo) logo.classList.toggle("is-revealed", passed);
       });
     }
   }
@@ -514,6 +518,12 @@
       if ((localStorage.getItem("jm-mode") || "system") === "system") applyMode("system");
     });
 
+    function closePanel() {
+      panel.classList.remove("is-open");
+      panel.setAttribute("aria-hidden", "true");
+      btn.setAttribute("aria-expanded", "false");
+    }
+
     /* Toggle panel open/close */
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
@@ -524,27 +534,19 @@
     });
 
     document.addEventListener("click", function (e) {
-      if (!panel.contains(e.target) && e.target !== btn) {
-        panel.classList.remove("is-open");
-        panel.setAttribute("aria-hidden", "true");
-        btn.setAttribute("aria-expanded", "false");
-      }
+      if (!panel.contains(e.target) && e.target !== btn) closePanel();
     });
 
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && panel.classList.contains("is-open")) {
-        panel.classList.remove("is-open");
-        panel.setAttribute("aria-hidden", "true");
-        btn.setAttribute("aria-expanded", "false");
-      }
+      if (e.key === "Escape" && panel.classList.contains("is-open")) closePanel();
     });
 
     panel.querySelectorAll("[data-set-mode]").forEach(function (b) {
-      b.addEventListener("click", function () { applyMode(b.getAttribute("data-set-mode")); });
+      b.addEventListener("click", function () { applyMode(b.getAttribute("data-set-mode")); closePanel(); });
     });
 
     panel.querySelectorAll("[data-set-color]").forEach(function (b) {
-      b.addEventListener("click", function () { applyColor(b.getAttribute("data-set-color")); });
+      b.addEventListener("click", function () { applyColor(b.getAttribute("data-set-color")); closePanel(); });
     });
   })();
 
