@@ -372,55 +372,65 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ============================================================
-   01 · APPROACH — scrollytelling
+   01 · APPROACH — immersive overlay scrollytelling
    ============================================================ */
-/* Section layout */
 .shift-story { padding-bottom: 0; }
-.shift-story > .sec-num { display: block; margin-bottom: clamp(48px, 8vh, 72px); }
+.shift-story > .sec-num { display: block; margin-bottom: clamp(32px, 5vh, 56px); }
 
-/* Two-column stage: sticky canvas left, scrolling text right */
+/* Stage: full-bleed, relative context for absolute canvas */
 .shift-story__stage {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: clamp(32px, 4vw, 64px);
-  align-items: start;
-  margin-bottom: clamp(64px, 10vh, 120px);
+  position: relative;
+  margin-left: calc(-1 * var(--pad));
+  margin-right: calc(-1 * var(--pad));
+  margin-bottom: clamp(48px, 8vh, 100px);
 }
 
-/* --- Sticky canvas — Three.js container --- */
+/* --- Visual canvas: absolute, right-anchored, 70% wide --- */
+/* height: 100% tracks the stage (driven by story-content height)  */
+/* The sticky <canvas> inside it holds the viewport for the viewer */
 .visual-canvas {
-  position: sticky;
-  top: 20vh;
-  height: 60vh;
-  align-self: start;
-  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 70%;
+  height: 100%;
+  pointer-events: auto;
 }
-/* Three.js injects <canvas> as absolute child */
+
+/* Three.js canvas sticks at top of viewport within its absolute parent */
 .visual-canvas > canvas {
-  position: absolute !important;
-  inset: 0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  display: block !important;
   width: 100% !important;
-  height: 100% !important;
+  height: 100vh !important;
+  pointer-events: auto;
+}
+
+/* --- Story content: left 50%, overlays on top of canvas --- */
+/* pointer-events: none lets drags pass through empty vertical gaps */
+.story-content {
+  position: relative;
+  z-index: 10;
+  width: 50%;
+  padding: 14vh 0 20vh var(--pad);
   pointer-events: none;
 }
-
-/* --- Story steps (scrolling text) --- */
-.story-content { padding: 14vh 0 20vh; }
 
 .story-step {
   min-height: 70vh;
   display: flex;
   align-items: center;
-  padding-left: clamp(12px, 3%, 36px);
-  opacity: 0.15;
-  transition: opacity 0.6s ease;
+  opacity: 0.12;
+  transition: opacity 0.7s ease;
+  pointer-events: auto;
 }
 .story-step.is-active { opacity: 1; }
 
 .story-step p {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-size: clamp(1.8rem, 3.2vw, 3rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--ink);
@@ -428,7 +438,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   max-width: 26ch;
 }
 
-/* Sienna left rule — grows when step is active */
+/* Sienna left rule */
 .story-step::before {
   content: "";
   display: block;
@@ -442,18 +452,74 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 }
 .story-step.is-active::before { height: clamp(48px, 8vh, 80px); }
 
-/* Mobile: stack vertically */
+/* --- Red dot hover indicator --- */
+#context-label-dot {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--sienna);
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.6);
+  transition: opacity 0.25s ease, transform 0.25s ease, box-shadow 0.3s ease;
+}
+#context-label-dot.is-visible {
+  opacity: 0.7;
+  transform: translate(-50%, -50%) scale(1);
+}
+#context-label-dot.is-glowing {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.5);
+  box-shadow: 0 0 0 5px rgba(196,65,12,0.2), 0 0 18px rgba(196,65,12,0.45);
+}
+
+/* --- Context tooltip --- */
+#context-tooltip {
+  position: fixed;
+  z-index: 201;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  line-height: 1.55;
+  max-width: 220px;
+  padding: 12px 16px;
+  border-left: 2px solid var(--sienna);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+#context-tooltip.is-visible { opacity: 1; }
+
+/* Mobile: stack canvas above text */
 @media (max-width: 900px) {
-  .shift-story__stage { grid-template-columns: 1fr; }
+  .shift-story__stage {
+    margin-left: 0;
+    margin-right: 0;
+  }
   .visual-canvas {
     position: relative;
-    top: auto;
-    height: clamp(260px, 50vw, 380px);
+    width: 100%;
+    height: clamp(280px, 55vw, 420px);
     margin-bottom: 4vh;
   }
-  .story-step { min-height: 55vh; padding-left: 0; }
+  .visual-canvas > canvas {
+    position: absolute !important;
+    top: 0 !important;
+    height: 100% !important;
+  }
+  .story-content {
+    width: 100%;
+    padding-left: 0;
+    pointer-events: auto;
+  }
+  .story-step { min-height: 55vh; pointer-events: auto; }
   .story-step p { font-size: clamp(1.5rem, 5vw, 2.2rem); }
   .story-step::before { display: none; }
+  #context-label-dot, #context-tooltip { display: none; }
 }
 
 .qualities-kw { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--sienna); text-transform: uppercase; margin: 0 0 4px; padding-top: 18px; }

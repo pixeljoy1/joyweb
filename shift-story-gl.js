@@ -4,9 +4,9 @@
   var container = document.getElementById('visualCanvas');
   if (!container || typeof THREE === 'undefined') return;
 
-  /* ── constants ────────────────────────────────────────────────────── */
+  /* ── constants ─────────────────────────────────────────────────── */
   var N          = 800;
-  var LERP       = 0.055;
+  var LERP_POS   = 0.055;
   var CONN_DIST  = 0.38;
   var CONN_MAX   = 1000;
 
@@ -15,9 +15,27 @@
   var COL_STATE3 = new THREE.Color(0xC4410C);
   var COL_LINE   = new THREE.Color(0xC4410C);
 
-  /* ── scene setup ──────────────────────────────────────────────────── */
+  /* ── label copy per step ────────────────────────────────────────── */
+  var STEP_LABELS = [
+    'Navigating raw complexity of disjointed multi-cloud enterprise systems.',
+    'AI as the connective tissue; leveraging visceral tools (pencil) and advanced models to bridge gaps.',
+    'Tangible, cohesive UX structure shipped; systemic complexity simplified.'
+  ];
+
+  /* ── tooltip + dot refs ─────────────────────────────────────────── */
+  var dotEl     = document.getElementById('context-label-dot');
+  var tooltipEl = document.getElementById('context-tooltip');
+
+  function updateLabelContent(idx) {
+    if (tooltipEl) tooltipEl.textContent = STEP_LABELS[idx] || '';
+  }
+  updateLabelContent(0);
+
+  /* ── renderer ───────────────────────────────────────────────────── */
+  /* Width from container (70% of full-bleed stage ≈ 70vw).          */
+  /* Height fixed to viewport — canvas is position:sticky 100vh.     */
   var W = container.clientWidth;
-  var H = container.clientHeight;
+  var H = window.innerHeight;
 
   var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -29,7 +47,7 @@
   var camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
   camera.position.z = 8;
 
-  /* ── target position arrays ───────────────────────────────────────── */
+  /* ── particle target positions ──────────────────────────────────── */
   function buildCloud() {
     var arr = new Float32Array(N * 3);
     for (var i = 0; i < N; i++) {
@@ -59,38 +77,34 @@
   function buildKnot() {
     var arr = new Float32Array(N * 3);
     for (var i = 0; i < N; i++) {
-      var t     = (i / N) * Math.PI * 2;
-      var jit   = (Math.random() - 0.5) * 0.18;
-      var r     = Math.cos(3 * t) + 2.2;
-      arr[i * 3]     = (r * Math.cos(2 * t) * 0.9) + jit;
-      arr[i * 3 + 1] = (r * Math.sin(2 * t) * 0.9) + jit;
-      arr[i * 3 + 2] = (-Math.sin(3 * t) * 2.0) + jit;
+      var t   = (i / N) * Math.PI * 2;
+      var jit = (Math.random() - 0.5) * 0.18;
+      var r   = Math.cos(3 * t) + 2.2;
+      arr[i * 3]     = r * Math.cos(2 * t) * 0.9 + jit;
+      arr[i * 3 + 1] = r * Math.sin(2 * t) * 0.9 + jit;
+      arr[i * 3 + 2] = -Math.sin(3 * t) * 2.0    + jit;
     }
     return arr;
   }
 
   var targets = [buildCloud(), buildNetwork(), buildKnot()];
 
-  /* ── live position buffer (starts at state 1) ─────────────────────── */
-  var livePos = new Float32Array(targets[0]);
-
-  /* ── particle geometry ────────────────────────────────────────────── */
+  /* ── particle geometry ──────────────────────────────────────────── */
   var ptGeo = new THREE.BufferGeometry();
-  ptGeo.setAttribute('position', new THREE.BufferAttribute(livePos.slice(), 3));
+  ptGeo.setAttribute('position', new THREE.BufferAttribute(targets[0].slice(), 3));
 
   var ptMat = new THREE.PointsMaterial({
-    size: 0.06,
+    size: 0.065,
     color: COL_STATE1,
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.88,
     sizeAttenuation: true,
     depthWrite: false
   });
 
   var points = new THREE.Points(ptGeo, ptMat);
-  scene.add(points);
 
-  /* ── connection lines ─────────────────────────────────────────────── */
+  /* ── connection lines ───────────────────────────────────────────── */
   function computeConnections(posArr) {
     var pairs = [];
     outer: for (var i = 0; i < N; i++) {
@@ -107,11 +121,9 @@
     return pairs;
   }
 
-  /* Use network target positions to compute fixed connection topology */
   var connPairs = computeConnections(targets[1]);
   var lineCount = connPairs.length / 2;
-
-  var linePos = new Float32Array(lineCount * 6);
+  var linePos   = new Float32Array(lineCount * 6);
 
   var lineGeo = new THREE.BufferGeometry();
   lineGeo.setAttribute('position', new THREE.BufferAttribute(linePos, 3));
@@ -124,18 +136,24 @@
   });
 
   var lines = new THREE.LineSegments(lineGeo, lineMat);
-  scene.add(lines);
 
-  /* ── state management ─────────────────────────────────────────────── */
+  /* ── scene group (rotates as one) ───────────────────────────────── */
+  var sceneGroup = new THREE.Group();
+  sceneGroup.add(points);
+  sceneGroup.add(lines);
+  scene.add(sceneGroup);
+
+  /* ── state ──────────────────────────────────────────────────────── */
   var currentTargetIndex = 0;
   var targetOpacityLine  = 0;
-  var currentColorState  = COL_STATE1.clone();
+  var currentColor       = COL_STATE1.clone();
   var targetColor        = COL_STATE1.clone();
 
   function setStep(n) {
     var idx = Math.max(0, Math.min(2, n - 1));
     if (idx === currentTargetIndex) return;
     currentTargetIndex = idx;
+    updateLabelContent(idx);
 
     if (idx === 0) {
       targetColor.copy(COL_STATE1);
@@ -149,44 +167,126 @@
     }
   }
 
-  /* ── resize ───────────────────────────────────────────────────────── */
+  /* ── drag / inertia state ───────────────────────────────────────── */
+  var isDragging  = false;
+  var prevMouse   = { x: 0, y: 0 };
+  var dragVel     = { x: 0, y: 0 };
+  var dragRot     = { x: 0, y: 0 };
+  var DRAG_SENS   = 0.004;
+  var DRAG_DECAY  = 0.95;
+
+  /* Mouse drag — starts on the canvas so scroll is never hijacked */
+  renderer.domElement.addEventListener('mousedown', function (e) {
+    isDragging  = true;
+    prevMouse.x = e.clientX;
+    prevMouse.y = e.clientY;
+    dragVel.x   = 0;
+    dragVel.y   = 0;
+  });
+
+  window.addEventListener('mousemove', function (e) {
+    /* drag */
+    if (isDragging) {
+      var dx  = e.clientX - prevMouse.x;
+      var dy  = e.clientY - prevMouse.y;
+      dragVel.y   = dx * DRAG_SENS;
+      dragVel.x   = dy * DRAG_SENS;
+      dragRot.y  += dragVel.y;
+      dragRot.x  += dragVel.x;
+      prevMouse.x = e.clientX;
+      prevMouse.y = e.clientY;
+    }
+
+    /* mouse NDC for raycaster (relative to canvas rect) */
+    var rect = renderer.domElement.getBoundingClientRect();
+    mouseNDC.x =  ((e.clientX - rect.left)  / rect.width)  * 2 - 1;
+    mouseNDC.y = -((e.clientY - rect.top)   / rect.height) * 2 + 1;
+
+    /* position dot + tooltip */
+    if (dotEl) {
+      dotEl.style.left = (e.clientX + 18) + 'px';
+      dotEl.style.top  = (e.clientY - 18) + 'px';
+    }
+    if (tooltipEl) {
+      tooltipEl.style.left = (e.clientX + 24) + 'px';
+      tooltipEl.style.top  = (e.clientY - 10) + 'px';
+    }
+  });
+
+  window.addEventListener('mouseup', function () { isDragging = false; });
+
+  /* Show / hide dot when entering/leaving canvas */
+  renderer.domElement.addEventListener('mouseenter', function () {
+    if (dotEl) dotEl.classList.add('is-visible');
+  });
+  renderer.domElement.addEventListener('mouseleave', function () {
+    if (dotEl)     { dotEl.classList.remove('is-visible', 'is-glowing'); }
+    if (tooltipEl) { tooltipEl.classList.remove('is-visible'); }
+    mouseNDC.x = 9; mouseNDC.y = 9; /* move ray off-screen */
+    isDragging = false;
+  });
+
+  /* Touch drag */
+  renderer.domElement.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) return;
+    isDragging  = true;
+    prevMouse.x = e.touches[0].clientX;
+    prevMouse.y = e.touches[0].clientY;
+    dragVel.x   = 0;
+    dragVel.y   = 0;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', function (e) {
+    if (!isDragging || e.touches.length !== 1) return;
+    var dx  = e.touches[0].clientX - prevMouse.x;
+    var dy  = e.touches[0].clientY - prevMouse.y;
+    dragVel.y   = dx * DRAG_SENS;
+    dragVel.x   = dy * DRAG_SENS;
+    dragRot.y  += dragVel.y;
+    dragRot.x  += dragVel.x;
+    prevMouse.x = e.touches[0].clientX;
+    prevMouse.y = e.touches[0].clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchend', function () { isDragging = false; });
+
+  /* ── raycaster ──────────────────────────────────────────────────── */
+  var raycaster = new THREE.Raycaster();
+  raycaster.params.Points = { threshold: 0.28 };
+  var mouseNDC  = { x: 9, y: 9 }; /* start off-screen */
+  var isHovering = false;
+
+  /* ── resize ─────────────────────────────────────────────────────── */
   function onResize() {
     W = container.clientWidth;
-    H = container.clientHeight;
+    H = window.innerHeight;
     camera.aspect = W / H;
     camera.updateProjectionMatrix();
     renderer.setSize(W, H);
   }
   window.addEventListener('resize', onResize);
 
-  /* ── animation loop ───────────────────────────────────────────────── */
-  var t0    = performance.now();
-  var pivot = new THREE.Group();
-  pivot.add(points);
-  pivot.add(lines);
-  scene.add(pivot);
-  /* remove direct scene add so they rotate together */
-  scene.remove(points);
-  scene.remove(lines);
+  /* ── animation loop ─────────────────────────────────────────────── */
+  var t0 = performance.now();
 
   function animate(ts) {
     requestAnimationFrame(animate);
 
     var t = (ts - t0) * 0.001;
 
-    /* read scroll state */
+    /* scroll state → target morph */
     var raw  = container.getAttribute('data-active-step');
     var step = parseInt(raw, 10) || 1;
     setStep(step);
 
-    /* lerp particles toward target */
-    var target = targets[currentTargetIndex];
+    /* lerp particles */
+    var target  = targets[currentTargetIndex];
     var posAttr = ptGeo.attributes.position;
     for (var i = 0; i < N; i++) {
-      var base = i * 3;
-      posAttr.array[base]     += (target[base]     - posAttr.array[base])     * LERP;
-      posAttr.array[base + 1] += (target[base + 1] - posAttr.array[base + 1]) * LERP;
-      posAttr.array[base + 2] += (target[base + 2] - posAttr.array[base + 2]) * LERP;
+      var b = i * 3;
+      posAttr.array[b]     += (target[b]     - posAttr.array[b])     * LERP_POS;
+      posAttr.array[b + 1] += (target[b + 1] - posAttr.array[b + 1]) * LERP_POS;
+      posAttr.array[b + 2] += (target[b + 2] - posAttr.array[b + 2]) * LERP_POS;
     }
     posAttr.needsUpdate = true;
 
@@ -195,28 +295,48 @@
     for (var k = 0; k < lineCount; k++) {
       var ia = connPairs[k * 2];
       var ib = connPairs[k * 2 + 1];
-      var lBase = k * 6;
-      lineAttr.array[lBase]     = posAttr.array[ia * 3];
-      lineAttr.array[lBase + 1] = posAttr.array[ia * 3 + 1];
-      lineAttr.array[lBase + 2] = posAttr.array[ia * 3 + 2];
-      lineAttr.array[lBase + 3] = posAttr.array[ib * 3];
-      lineAttr.array[lBase + 4] = posAttr.array[ib * 3 + 1];
-      lineAttr.array[lBase + 5] = posAttr.array[ib * 3 + 2];
+      var lb = k * 6;
+      lineAttr.array[lb]     = posAttr.array[ia * 3];
+      lineAttr.array[lb + 1] = posAttr.array[ia * 3 + 1];
+      lineAttr.array[lb + 2] = posAttr.array[ia * 3 + 2];
+      lineAttr.array[lb + 3] = posAttr.array[ib * 3];
+      lineAttr.array[lb + 4] = posAttr.array[ib * 3 + 1];
+      lineAttr.array[lb + 5] = posAttr.array[ib * 3 + 2];
     }
     lineAttr.needsUpdate = true;
 
-    /* lerp particle color */
-    currentColorState.lerp(targetColor, 0.06);
-    ptMat.color.copy(currentColorState);
-
-    /* lerp line opacity */
+    /* lerp colour + line opacity */
+    currentColor.lerp(targetColor, 0.06);
+    ptMat.color.copy(currentColor);
     lineMat.opacity += (targetOpacityLine - lineMat.opacity) * 0.06;
 
-    /* continuous rotation */
-    pivot.rotation.y = t * 0.10;
-    pivot.rotation.x = Math.sin(t * 0.07) * 0.3;
+    /* drag deceleration */
+    if (!isDragging) {
+      dragVel.x *= DRAG_DECAY;
+      dragVel.y *= DRAG_DECAY;
+      dragRot.x += dragVel.x;
+      dragRot.y += dragVel.y;
+    }
+
+    /* base auto-rotation targets */
+    var baseX = Math.sin(t * 0.07) * 0.3;
+    var baseY = t * 0.10;
+
+    /* lerp scene group toward base + user drag */
+    sceneGroup.rotation.x += (baseX + dragRot.x - sceneGroup.rotation.x) * 0.1;
+    sceneGroup.rotation.y += (baseY + dragRot.y - sceneGroup.rotation.y) * 0.1;
 
     renderer.render(scene, camera);
+
+    /* raycaster hover — run after render so geometry is fresh */
+    raycaster.setFromCamera(mouseNDC, camera);
+    var hits    = raycaster.intersectObject(points);
+    var newHover = hits.length > 0;
+    if (newHover !== isHovering) {
+      isHovering = newHover;
+      if (dotEl)     dotEl.classList.toggle('is-glowing', isHovering);
+      if (tooltipEl) tooltipEl.classList.toggle('is-visible', isHovering);
+    }
   }
 
   requestAnimationFrame(animate);
