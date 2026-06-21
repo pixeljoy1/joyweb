@@ -5,8 +5,7 @@
   if (!container || typeof THREE === 'undefined') return;
 
   /* ── constants ─────────────────────────────────────────────────── */
-  var N        = 1200;                  // total particles
-  var STRAND_N = Math.floor(N / 3);    // 400 per strand; remainder = rung particles
+  var N        = 1200;
 
   var LERP_POS  = 0.055;
   var LERP_XFRM = 0.04;
@@ -22,7 +21,7 @@
   var STEP_CFG = [
     { posX: 1.2, scale: 1.00, ptSize: 0.036, rotSpeedY: 0.100, rotZ: 0           },  // cloud
     { posX: 0.8, scale: 1.30, ptSize: 0.058, rotSpeedY: 0.115, rotZ: 0           },  // network
-    { posX: 1.2, scale: 1.00, ptSize: 0.033, rotSpeedY: 0.070, rotZ: Math.PI / 5 },  // DNA helix
+    { posX: 1.2, scale: 1.00, ptSize: 0.031, rotSpeedY: 0.065, rotZ: Math.PI / 6 },  // knot
   ];
 
   var targetPosX   = STEP_CFG[0].posX;
@@ -90,70 +89,26 @@
     return arr;
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     DNA double helix — mathematically accurate:
-       • Strand 1 (indices 0…STRAND_N-1):   cos(t), heightScale*t, sin(t)
-       • Strand 2 (indices STRAND_N…2N/3-1): offset by π, antiparallel
-       • Base-pair rungs (indices 2N/3…N-1): interpolated bridges,
-         50 rungs × 8 particles each = 400 rung particles
-     Scale multiplier 1.3 makes the form 30 % larger than the previous
-     iteration's 1.2 radius / 0.18 heightScale.
-  ───────────────────────────────────────────────────────────────── */
-  function buildHelix() {
-    var SCALE        = 1.3;
-    var arr          = new Float32Array(N * 3);
-    var radius       = 1.4  * SCALE;           // 1.82
-    var turns        = 5;
-    var tMax         = turns * Math.PI * 2;
-    var heightScale  = 0.20 * SCALE;           // 0.26
-    var jitAmp       = 0.04 * SCALE;           // 0.052
-
-    /* Strand 1 ─ indices 0 … STRAND_N-1 */
-    for (var i = 0; i < STRAND_N; i++) {
-      var t   = (i / (STRAND_N - 1)) * tMax;
-      var jit = (Math.random() - 0.5) * jitAmp;
-      arr[i * 3]     = Math.cos(t) * radius + jit;
-      arr[i * 3 + 1] = (t - tMax * 0.5) * heightScale + jit;
-      arr[i * 3 + 2] = Math.sin(t) * radius + jit;
-    }
-
-    /* Strand 2 ─ indices STRAND_N … 2×STRAND_N-1, phase = π */
-    for (var i = 0; i < STRAND_N; i++) {
-      var b   = STRAND_N + i;
-      var t   = (i / (STRAND_N - 1)) * tMax;
-      var jit = (Math.random() - 0.5) * jitAmp;
-      arr[b * 3]     = Math.cos(t + Math.PI) * radius + jit;
-      arr[b * 3 + 1] = (t - tMax * 0.5) * heightScale + jit;
-      arr[b * 3 + 2] = Math.sin(t + Math.PI) * radius + jit;
-    }
-
-    /* Base-pair rungs ─ indices 2×STRAND_N … N-1
-       50 rung positions × 8 interpolated particles each */
-    var RUNG_COUNT = 50;
-    var PER_RUNG   = Math.floor((N - 2 * STRAND_N) / RUNG_COUNT);  // 8
-    for (var ri = 0; ri < RUNG_COUNT; ri++) {
-      var sIdx   = Math.round((ri / (RUNG_COUNT - 1)) * (STRAND_N - 1));
-      var t      = (sIdx / (STRAND_N - 1)) * tMax;
-      var yLevel = (t - tMax * 0.5) * heightScale;
-      var x1 = Math.cos(t)            * radius;
-      var z1 = Math.sin(t)            * radius;
-      var x2 = Math.cos(t + Math.PI) * radius;
-      var z2 = Math.sin(t + Math.PI) * radius;
-
-      for (var rp = 0; rp < PER_RUNG; rp++) {
-        var pidx = 2 * STRAND_N + ri * PER_RUNG + rp;
-        if (pidx >= N) break;
-        var frac = (PER_RUNG > 1) ? rp / (PER_RUNG - 1) : 0.5;
-        var jit  = (Math.random() - 0.5) * 0.028;
-        arr[pidx * 3]     = x1 + (x2 - x1) * frac + jit;
-        arr[pidx * 3 + 1] = yLevel + jit * 0.4;
-        arr[pidx * 3 + 2] = z1 + (z2 - z1) * frac + jit;
-      }
+  /* (3,5) torus knot — winds 3× around the z-axis, 5× through the tube.
+     Jitter kept tight (0.07) so crossings read as deliberate structure. */
+  function buildKnot() {
+    var arr = new Float32Array(N * 3);
+    var p = 3, q = 5;
+    var R = 1.50, r = 0.52;
+    for (var i = 0; i < N; i++) {
+      var t   = (i / N) * Math.PI * 2;
+      var jit = (Math.random() - 0.5) * 0.07;
+      var x = (R + r * Math.cos(q * t)) * Math.cos(p * t);
+      var y = (R + r * Math.cos(q * t)) * Math.sin(p * t);
+      var z = r * Math.sin(q * t) * 3.0;
+      arr[i * 3]     = x * 0.82 + jit;
+      arr[i * 3 + 1] = y * 0.82 + jit;
+      arr[i * 3 + 2] = z        + jit;
     }
     return arr;
   }
 
-  var targets = [buildCloud(), buildNetwork(), buildHelix()];
+  var targets = [buildCloud(), buildNetwork(), buildKnot()];
 
   /* ── particle geometry ──────────────────────────────────────────── */
   var ptGeo = new THREE.BufferGeometry();
@@ -200,36 +155,16 @@
 
   var lines = new THREE.LineSegments(lineGeo, lineMat);
 
-  /* ── DNA backbone rung lines (strand1↔strand2 connectors) ──────── */
-  var RUNG_STEP = 10;                      // visual rung every 10 strand particles
-  var rungPairs = [];
-  for (var ri = 0; ri < STRAND_N; ri += RUNG_STEP) {
-    rungPairs.push(ri, STRAND_N + ri);     // strand1[i] ↔ strand2[i]
-  }
-  var rungCount = rungPairs.length / 2;   // 40 rung lines
-  var rungPos   = new Float32Array(rungCount * 6);
-
-  var rungGeo = new THREE.BufferGeometry();
-  rungGeo.setAttribute('position', new THREE.BufferAttribute(rungPos, 3));
-
-  var rungMat = new THREE.LineBasicMaterial({
-    color: COL_LINE, transparent: true, opacity: 0, depthWrite: false
-  });
-
-  var rungLines = new THREE.LineSegments(rungGeo, rungMat);
-
   /* ── scene group ────────────────────────────────────────────────── */
   var sceneGroup = new THREE.Group();
   sceneGroup.add(points);
   sceneGroup.add(lines);
-  sceneGroup.add(rungLines);
   sceneGroup.position.x = STEP_CFG[0].posX;
   scene.add(sceneGroup);
 
   /* ── step state ─────────────────────────────────────────────────── */
   var currentTargetIndex = 0;
   var targetOpacityLine  = 0;
-  var targetOpacityRung  = 0;
   var currentColor       = COL_STATE1.clone();
   var targetColor        = COL_STATE1.clone();
 
@@ -251,15 +186,12 @@
     if (idx === 0) {
       targetColor.copy(COL_STATE1);
       targetOpacityLine = 0;
-      targetOpacityRung = 0;
     } else if (idx === 1) {
       targetColor.copy(COL_STATE2);
       targetOpacityLine = 0.45;
-      targetOpacityRung = 0;
     } else {
       targetColor.copy(COL_STATE3);
       targetOpacityLine = 0;
-      targetOpacityRung = 0.42;
     }
   }
 
@@ -403,7 +335,6 @@
       COL_STATE3.set(accent);
       COL_LINE.set(accent);
       lineMat.color.set(accent);
-      rungMat.color.set(accent);
 
       if (currentTargetIndex === 0)      targetColor.copy(COL_STATE1);
       else if (currentTargetIndex === 1) targetColor.copy(COL_STATE2);
@@ -467,26 +398,10 @@
     }
     lineAttr.needsUpdate = true;
 
-    /* update DNA backbone rung endpoints */
-    var rungAttr = rungGeo.attributes.position;
-    for (var r = 0; r < rungCount; r++) {
-      var ra = rungPairs[r * 2];
-      var rb = rungPairs[r * 2 + 1];
-      var rl = r * 6;
-      rungAttr.array[rl]     = posAttr.array[ra * 3];
-      rungAttr.array[rl + 1] = posAttr.array[ra * 3 + 1];
-      rungAttr.array[rl + 2] = posAttr.array[ra * 3 + 2];
-      rungAttr.array[rl + 3] = posAttr.array[rb * 3];
-      rungAttr.array[rl + 4] = posAttr.array[rb * 3 + 1];
-      rungAttr.array[rl + 5] = posAttr.array[rb * 3 + 2];
-    }
-    rungAttr.needsUpdate = true;
-
     /* colour + opacity lerps */
     currentColor.lerp(targetColor, 0.06);
     ptMat.color.copy(currentColor);
     lineMat.opacity += (targetOpacityLine - lineMat.opacity) * 0.06;
-    rungMat.opacity += (targetOpacityRung - rungMat.opacity) * 0.06;
 
     /* spatial lerps */
     sceneGroup.position.x += (targetPosX - sceneGroup.position.x) * LERP_XFRM;
