@@ -328,6 +328,42 @@
     });
   });
 
+  /* ── shared step jump (keyboard + swipe) ─────────────────────────── */
+  function goToStep(n) {
+    var next = Math.max(0, Math.min(storySteps.length - 1, n));
+    if (storySteps[next]) storySteps[next].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function storyNavActive() {
+    return navEl.classList.contains('is-visible');
+  }
+
+  /* ── keyboard ← → navigation ─────────────────────────────────────── */
+  document.addEventListener('keydown', function (e) {
+    if (!storyNavActive()) return;
+    if (document.querySelector('.pvr.pvr--open')) return; /* lightbox has priority */
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      goToStep(currentTargetIndex + (e.key === 'ArrowRight' ? 1 : -1));
+    }
+  });
+
+  /* ── touch swipe → step navigation (mobile) ──────────────────────── */
+  var _swX = 0, _swY = 0;
+  document.addEventListener('touchstart', function (e) {
+    _swX = e.changedTouches[0].clientX;
+    _swY = e.changedTouches[0].clientY;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function (e) {
+    if (!storyNavActive()) return;
+    var dx = e.changedTouches[0].clientX - _swX;
+    var dy = e.changedTouches[0].clientY - _swY;
+    /* require clear horizontal intent: ≥72px and horizontal > 1.5× vertical */
+    if (Math.abs(dx) < 72 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    goToStep(currentTargetIndex + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
   /* ── navigator visibility observers ────────────────────────────── */
   var step1El = storySteps[0];
   var step3El = storySteps[2];
