@@ -186,6 +186,33 @@ section { position: relative; padding: 16vh 0; }
 .case-foot a.big-back:hover .arr { transform: translateX(-5px); }
 
 /* ── Responsive ──────────────────────────────────────────────── */
+/* ── CSR photo gallery ───────────────────────────────────────────── */
+.csr-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: clamp(28px, 4vh, 44px);
+}
+.csr-gallery__item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--rule);
+  aspect-ratio: 4 / 3;
+}
+.csr-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+.csr-gallery__item img:hover {
+  transform: scale(1.04);
+  opacity: 0.88;
+}
+
 @media (max-width: 1080px) {
   :root { --margin: 48px; }
   .case-hero h1, .case-hero .deck { grid-column: 1 / 13; }

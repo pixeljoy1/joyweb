@@ -5,7 +5,7 @@
   if (!container || typeof THREE === 'undefined') return;
 
   /* ── constants ─────────────────────────────────────────────────── */
-  var N        = 1200;
+  var N        = 2000;
 
   var LERP_POS  = 0.055;
   var LERP_XFRM = 0.04;
@@ -19,9 +19,9 @@
 
   /* ── per-step config ────────────────────────────────────────────── */
   var STEP_CFG = [
-    { posX: 1.2, scale: 1.00, ptSize: 0.036, rotSpeedY: 0.100, rotZ: 0           },  // cloud
-    { posX: 0.8, scale: 1.30, ptSize: 0.058, rotSpeedY: 0.115, rotZ: 0           },  // network
-    { posX: 1.2, scale: 1.00, ptSize: 0.031, rotSpeedY: 0.065, rotZ: Math.PI / 6 },  // knot
+    { posX: 1.2, scale: 1.00, ptSize: 0.036, rotSpeedY: 0.100, rotZ: 0              },  // cloud
+    { posX: 0.8, scale: 1.30, ptSize: 0.058, rotSpeedY: 0.115, rotZ: 0              },  // network
+    { posX: 1.2, scale: 1.30, ptSize: 0.026, rotSpeedY: 0.055, rotZ: Math.PI / 4   },  // DNA helix
   ];
 
   var targetPosX   = STEP_CFG[0].posX;
@@ -89,26 +89,58 @@
     return arr;
   }
 
-  /* (3,5) torus knot — winds 3× around the z-axis, 5× through the tube.
-     Jitter kept tight (0.07) so crossings read as deliberate structure. */
-  function buildKnot() {
+  /* True double helix with rungs.
+     Strand 1 and Strand 2 spiral in opposite phase (offset by PI).
+     Rung particles bridge the two strands horizontally at random heights. */
+  function buildDNA() {
     var arr = new Float32Array(N * 3);
-    var p = 3, q = 5;
-    var R = 1.50, r = 0.52;
-    for (var i = 0; i < N; i++) {
-      var t   = (i / N) * Math.PI * 2;
-      var jit = (Math.random() - 0.5) * 0.07;
-      var x = (R + r * Math.cos(q * t)) * Math.cos(p * t);
-      var y = (R + r * Math.cos(q * t)) * Math.sin(p * t);
-      var z = r * Math.sin(q * t) * 3.0;
-      arr[i * 3]     = x * 0.82 + jit;
-      arr[i * 3 + 1] = y * 0.82 + jit;
-      arr[i * 3 + 2] = z        + jit;
+    var numTurns   = 6;
+    var radius     = 1.15;
+    var totalH     = 5.2;
+    var jit        = 0.04;
+    var s1Count    = Math.floor(N * 0.42);
+    var s2Count    = Math.floor(N * 0.42);
+    var rungCount  = N - s1Count - s2Count;
+    var TWO_PI     = Math.PI * 2;
+
+    // Strand 1
+    for (var i = 0; i < s1Count; i++) {
+      var t  = (i / s1Count) * numTurns * TWO_PI;
+      var yf = (i / s1Count) - 0.5;
+      arr[i * 3]     = Math.cos(t) * radius + (Math.random() - 0.5) * jit;
+      arr[i * 3 + 1] = yf * totalH          + (Math.random() - 0.5) * jit;
+      arr[i * 3 + 2] = Math.sin(t) * radius + (Math.random() - 0.5) * jit;
     }
+
+    // Strand 2 (offset PI)
+    for (var i2 = 0; i2 < s2Count; i2++) {
+      var t2  = (i2 / s2Count) * numTurns * TWO_PI;
+      var yf2 = (i2 / s2Count) - 0.5;
+      var b   = (s1Count + i2) * 3;
+      arr[b]     = Math.cos(t2 + Math.PI) * radius + (Math.random() - 0.5) * jit;
+      arr[b + 1] = yf2 * totalH                    + (Math.random() - 0.5) * jit;
+      arr[b + 2] = Math.sin(t2 + Math.PI) * radius + (Math.random() - 0.5) * jit;
+    }
+
+    // Rungs — horizontal bridges between the two strands
+    for (var i3 = 0; i3 < rungCount; i3++) {
+      var t3   = Math.random() * numTurns * TWO_PI;
+      var frac = t3 / (numTurns * TWO_PI);
+      var lf   = Math.random(); // lerp factor along rung
+      var x1   = Math.cos(t3) * radius;
+      var z1   = Math.sin(t3) * radius;
+      var x2   = Math.cos(t3 + Math.PI) * radius;
+      var z2   = Math.sin(t3 + Math.PI) * radius;
+      var b3   = (s1Count + s2Count + i3) * 3;
+      arr[b3]     = x1 + (x2 - x1) * lf + (Math.random() - 0.5) * jit;
+      arr[b3 + 1] = (frac - 0.5) * totalH + (Math.random() - 0.5) * jit;
+      arr[b3 + 2] = z1 + (z2 - z1) * lf + (Math.random() - 0.5) * jit;
+    }
+
     return arr;
   }
 
-  var targets = [buildCloud(), buildNetwork(), buildKnot()];
+  var targets = [buildCloud(), buildNetwork(), buildDNA()];
 
   /* ── particle geometry ──────────────────────────────────────────── */
   var ptGeo = new THREE.BufferGeometry();

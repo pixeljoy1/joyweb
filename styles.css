@@ -217,14 +217,17 @@ img { display: block; max-width: 100%; }
    NAV
    ============================================================ */
 .nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
   height: 76px; padding: 0 var(--pad);
   display: flex; align-items: center; justify-content: space-between;
   mix-blend-mode: normal;
-  transition: transform .5s var(--ease), background .4s ease;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
-.nav.hidden { transform: translateY(-100%); }
-.nav.solid { background: color-mix(in srgb, var(--paper) 80%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.nav.is-scrolled {
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
 .nav__logo { font-family: var(--serif); font-size: 26px; letter-spacing: -0.03em; }
 .nav__logo span { color: var(--sienna); }
 .nav__links { display: flex; gap: 30px; }
@@ -331,7 +334,7 @@ img { display: block; max-width: 100%; }
 .megamenu.open .megamenu__trigger .caret { transform: rotate(-135deg); margin-top: 2px; }
 
 .megamenu__panel {
-  position: fixed; left: 0; right: 0; top: 76px; z-index: 190;
+  position: fixed; left: 0; right: 0; top: 76px; z-index: 10000;
   background: var(--paper);
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
   box-shadow: 0 40px 70px -40px rgba(22, 19, 15, .35);

@@ -309,11 +309,9 @@
     // progress bar
     if (fill) fill.style.width = clamp(y / max, 0, 1) * 100 + "%";
 
-    // nav hide/show + solid
+    // nav frosted glass on scroll
     if (nav) {
-      nav.classList.toggle("solid", y > 40);
-      if (y > lastY && y > 300) nav.classList.add("hidden");
-      else nav.classList.remove("hidden");
+      nav.classList.toggle("is-scrolled", y > 50);
     }
     lastY = y;
 
