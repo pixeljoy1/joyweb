@@ -1105,21 +1105,26 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   }
   .story-step::before { display: none; }
 
-  /* Navigator: show on mobile with generous tap targets */
+  /* Navigator: compact dots on mobile */
   #step-nav {
     display: flex !important;
     bottom: 1.5rem;
-    gap: 8px;
+    gap: 10px;
   }
   .step-nav__node {
-    width: 44px;
-    height: 12px;
-    border-radius: 6px;
-    min-height: 44px;             /* invisible tap-area extension */
-    background-clip: content-box;
-    padding: 16px 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ink) 22%, transparent);
+    padding: 0;
+    min-height: 0;
+    background-clip: border-box;
   }
-  .step-nav__node.is-active { background-color: var(--sienna); }
+  .step-nav__node.is-active {
+    background-color: var(--sienna);
+    width: 28px;
+    border-radius: 4px;
+  }
 
   /* ── 02 · Arc: hide horizontal, show vertical ──────────────── */
   .arc__line { display: none !important; }
@@ -1147,6 +1152,24 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   /* ── Hide desktop-only hover aids ──────────────────────────── */
   #context-label-dot,
   #context-tooltip { display: none; }
+}
+
+/* ============================================================
+   MOBILE  ≤ 640px  — nav + hero polish
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* Hide LinkedIn from nav — keeps bar: logo · EXPLORE · RÉSUMÉ · ≡ */
+  .nav__cta--linkedin { display: none; }
+
+  /* Tighten remaining nav items */
+  .nav__center { gap: 14px; }
+  .nav__cta { padding: 7px 12px; font-size: 11px; }
+
+  /* Hero top bar — drop the live clock on very narrow screens */
+  .hero { padding-top: 96px; }
+  .hero__top { gap: 10px; }
+  .tag--clock { display: none; }
 }
 
 /* ============================================================

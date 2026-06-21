@@ -104,6 +104,10 @@ section { position: relative; padding: 16vh 0; }
 
 /* ── Content blocks ──────────────────────────────────────────── */
 .case-block { padding: 9vh 0; border-top: 1px solid var(--rule); }
+.case-block.case-block--featured {
+  border-top: 2px solid var(--sienna);
+  background: var(--paper-deep);
+}
 .case-block .grid12 { align-items: start; }
 
 .case-block__num { grid-column: 1 / 4; }
