@@ -5,10 +5,12 @@
   if (!container || typeof THREE === 'undefined') return;
 
   /* ── constants ─────────────────────────────────────────────────── */
-  var N         = 800;
+  var N        = 1200;                  // total particles
+  var STRAND_N = Math.floor(N / 3);    // 400 per strand; remainder = rung particles
+
   var LERP_POS  = 0.055;
   var LERP_XFRM = 0.04;
-  var CONN_DIST = 0.38;
+  var CONN_DIST = 0.36;
   var CONN_MAX  = 1000;
 
   var COL_STATE1 = new THREE.Color(0x2D2926);
@@ -16,11 +18,11 @@
   var COL_STATE3 = new THREE.Color(0xC4410C);
   var COL_LINE   = new THREE.Color(0xC4410C);
 
-  /* ── per-step config: posX / scale / ptSize / rotSpeedY / rotZ ─── */
+  /* ── per-step config ────────────────────────────────────────────── */
   var STEP_CFG = [
-    { posX: 1.2, scale: 1.00, ptSize: 0.039, rotSpeedY: 0.100, rotZ: 0            },
-    { posX: 0.8, scale: 1.30, ptSize: 0.065, rotSpeedY: 0.115, rotZ: 0            },
-    { posX: 1.4, scale: 1.05, ptSize: 0.040, rotSpeedY: 0.090, rotZ: Math.PI / 5  },
+    { posX: 1.2, scale: 1.00, ptSize: 0.036, rotSpeedY: 0.100, rotZ: 0           },  // cloud
+    { posX: 0.8, scale: 1.30, ptSize: 0.058, rotSpeedY: 0.115, rotZ: 0           },  // network
+    { posX: 1.2, scale: 1.00, ptSize: 0.033, rotSpeedY: 0.070, rotZ: Math.PI / 5 },  // DNA helix
   ];
 
   var targetPosX   = STEP_CFG[0].posX;
@@ -32,7 +34,7 @@
   var accBaseY     = 0;
   var lastT        = 0;
 
-  /* ── label copy ─────────────────────────────────────────────────── */
+  /* ── context tooltip ────────────────────────────────────────────── */
   var STEP_LABELS = [
     'Navigating raw complexity of disjointed multi-cloud enterprise systems.',
     'AI as the connective tissue; leveraging visceral tools (pencil) and advanced models to bridge gaps.',
@@ -88,25 +90,65 @@
     return arr;
   }
 
-  /* DNA double helix — two intertwined spirals along Y, with jitter */
+  /* ─────────────────────────────────────────────────────────────────
+     DNA double helix — mathematically accurate:
+       • Strand 1 (indices 0…STRAND_N-1):   cos(t), heightScale*t, sin(t)
+       • Strand 2 (indices STRAND_N…2N/3-1): offset by π, antiparallel
+       • Base-pair rungs (indices 2N/3…N-1): interpolated bridges,
+         50 rungs × 8 particles each = 400 rung particles
+     Scale multiplier 1.3 makes the form 30 % larger than the previous
+     iteration's 1.2 radius / 0.18 heightScale.
+  ───────────────────────────────────────────────────────────────── */
   function buildHelix() {
-    var arr         = new Float32Array(N * 3);
-    var halfN       = Math.floor(N / 2);
-    var radius      = 1.2;
-    var turns       = 3.5;
-    var tMax        = turns * Math.PI * 2;
-    var heightScale = 0.18;
+    var SCALE        = 1.3;
+    var arr          = new Float32Array(N * 3);
+    var radius       = 1.4  * SCALE;           // 1.82
+    var turns        = 5;
+    var tMax         = turns * Math.PI * 2;
+    var heightScale  = 0.20 * SCALE;           // 0.26
+    var jitAmp       = 0.04 * SCALE;           // 0.052
 
-    for (var i = 0; i < N; i++) {
-      var strand = (i < halfN) ? 0 : 1;
-      var idx    = (i < halfN) ? i : (i - halfN);
-      var t      = (idx / (halfN - 1)) * tMax;
-      var phase  = strand * Math.PI;            /* strands are π apart */
-      var jit    = (Math.random() - 0.5) * 0.07;
-
-      arr[i * 3]     = radius * Math.cos(t + phase) + jit;
+    /* Strand 1 ─ indices 0 … STRAND_N-1 */
+    for (var i = 0; i < STRAND_N; i++) {
+      var t   = (i / (STRAND_N - 1)) * tMax;
+      var jit = (Math.random() - 0.5) * jitAmp;
+      arr[i * 3]     = Math.cos(t) * radius + jit;
       arr[i * 3 + 1] = (t - tMax * 0.5) * heightScale + jit;
-      arr[i * 3 + 2] = radius * Math.sin(t + phase) + jit;
+      arr[i * 3 + 2] = Math.sin(t) * radius + jit;
+    }
+
+    /* Strand 2 ─ indices STRAND_N … 2×STRAND_N-1, phase = π */
+    for (var i = 0; i < STRAND_N; i++) {
+      var b   = STRAND_N + i;
+      var t   = (i / (STRAND_N - 1)) * tMax;
+      var jit = (Math.random() - 0.5) * jitAmp;
+      arr[b * 3]     = Math.cos(t + Math.PI) * radius + jit;
+      arr[b * 3 + 1] = (t - tMax * 0.5) * heightScale + jit;
+      arr[b * 3 + 2] = Math.sin(t + Math.PI) * radius + jit;
+    }
+
+    /* Base-pair rungs ─ indices 2×STRAND_N … N-1
+       50 rung positions × 8 interpolated particles each */
+    var RUNG_COUNT = 50;
+    var PER_RUNG   = Math.floor((N - 2 * STRAND_N) / RUNG_COUNT);  // 8
+    for (var ri = 0; ri < RUNG_COUNT; ri++) {
+      var sIdx   = Math.round((ri / (RUNG_COUNT - 1)) * (STRAND_N - 1));
+      var t      = (sIdx / (STRAND_N - 1)) * tMax;
+      var yLevel = (t - tMax * 0.5) * heightScale;
+      var x1 = Math.cos(t)            * radius;
+      var z1 = Math.sin(t)            * radius;
+      var x2 = Math.cos(t + Math.PI) * radius;
+      var z2 = Math.sin(t + Math.PI) * radius;
+
+      for (var rp = 0; rp < PER_RUNG; rp++) {
+        var pidx = 2 * STRAND_N + ri * PER_RUNG + rp;
+        if (pidx >= N) break;
+        var frac = (PER_RUNG > 1) ? rp / (PER_RUNG - 1) : 0.5;
+        var jit  = (Math.random() - 0.5) * 0.028;
+        arr[pidx * 3]     = x1 + (x2 - x1) * frac + jit;
+        arr[pidx * 3 + 1] = yLevel + jit * 0.4;
+        arr[pidx * 3 + 2] = z1 + (z2 - z1) * frac + jit;
+      }
     }
     return arr;
   }
@@ -128,7 +170,7 @@
 
   var points = new THREE.Points(ptGeo, ptMat);
 
-  /* ── connection lines (network topology) ───────────────────────── */
+  /* ── network connection lines ───────────────────────────────────── */
   function computeConnections(posArr) {
     var pairs = [];
     outer: for (var i = 0; i < N; i++) {
@@ -158,21 +200,23 @@
 
   var lines = new THREE.LineSegments(lineGeo, lineMat);
 
-  /* ── DNA rung lines (helix step only) ──────────────────────────── */
-  var halfN      = Math.floor(N / 2);
-  var RUNG_STEP  = 20;           /* one rung every 20 particles per strand */
-  var rungPairs  = [];
-  for (var ri = 0; ri < halfN; ri += RUNG_STEP) {
-    rungPairs.push(ri, ri + halfN);
+  /* ── DNA backbone rung lines (strand1↔strand2 connectors) ──────── */
+  var RUNG_STEP = 10;                      // visual rung every 10 strand particles
+  var rungPairs = [];
+  for (var ri = 0; ri < STRAND_N; ri += RUNG_STEP) {
+    rungPairs.push(ri, STRAND_N + ri);     // strand1[i] ↔ strand2[i]
   }
-  var rungCount  = rungPairs.length / 2;
-  var rungPos    = new Float32Array(rungCount * 6);
-  var rungGeo    = new THREE.BufferGeometry();
+  var rungCount = rungPairs.length / 2;   // 40 rung lines
+  var rungPos   = new Float32Array(rungCount * 6);
+
+  var rungGeo = new THREE.BufferGeometry();
   rungGeo.setAttribute('position', new THREE.BufferAttribute(rungPos, 3));
-  var rungMat    = new THREE.LineBasicMaterial({
+
+  var rungMat = new THREE.LineBasicMaterial({
     color: COL_LINE, transparent: true, opacity: 0, depthWrite: false
   });
-  var rungLines  = new THREE.LineSegments(rungGeo, rungMat);
+
+  var rungLines = new THREE.LineSegments(rungGeo, rungMat);
 
   /* ── scene group ────────────────────────────────────────────────── */
   var sceneGroup = new THREE.Group();
@@ -182,7 +226,7 @@
   sceneGroup.position.x = STEP_CFG[0].posX;
   scene.add(sceneGroup);
 
-  /* ── state ──────────────────────────────────────────────────────── */
+  /* ── step state ─────────────────────────────────────────────────── */
   var currentTargetIndex = 0;
   var targetOpacityLine  = 0;
   var targetOpacityRung  = 0;
@@ -215,7 +259,7 @@
     } else {
       targetColor.copy(COL_STATE3);
       targetOpacityLine = 0;
-      targetOpacityRung = 0.38;
+      targetOpacityRung = 0.42;
     }
   }
 
@@ -248,7 +292,6 @@
     var rect = renderer.domElement.getBoundingClientRect();
     mouseNDC.x =  ((e.clientX - rect.left) / rect.width)  * 2 - 1;
     mouseNDC.y = -((e.clientY - rect.top)  / rect.height) * 2 + 1;
-
     if (dotEl)     { dotEl.style.left     = (e.clientX + 18) + 'px';
                      dotEl.style.top      = (e.clientY - 18) + 'px'; }
     if (tooltipEl) { tooltipEl.style.left = (e.clientX + 24) + 'px';
@@ -301,9 +344,7 @@
   navEl.setAttribute('aria-label', 'Approach section navigator');
   navEl.innerHTML =
     '<button class="step-nav__node is-active" data-nav-step="1" aria-label="Step 1: Cloud"></button>' +
-    '<div class="step-nav__track"></div>' +
     '<button class="step-nav__node" data-nav-step="2" aria-label="Step 2: Network"></button>' +
-    '<div class="step-nav__track"></div>' +
     '<button class="step-nav__node" data-nav-step="3" aria-label="Step 3: DNA Helix"></button>';
   document.body.appendChild(navEl);
 
@@ -323,12 +364,11 @@
     });
   });
 
-  /* ── navigator visibility: step-1 entry → show; step-3 exit → hide */
+  /* ── navigator visibility observers ────────────────────────────── */
   var step1El = storySteps[0];
   var step3El = storySteps[2];
 
   if (step1El) {
-    /* Show when step 1 is well-centred in viewport (threshold 0.65) */
     new IntersectionObserver(function (entries) {
       if (entries[0].isIntersecting) {
         navEl.classList.remove('is-fading');
@@ -338,7 +378,6 @@
   }
 
   if (step3El) {
-    /* Hide when step 3 exits the viewport from the top (scrolled past) */
     new IntersectionObserver(function (entries) {
       var entry = entries[0];
       if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
@@ -373,12 +412,17 @@
   };
 
   /* ── resize ─────────────────────────────────────────────────────── */
+  var resizeTO = null;
   function onResize() {
-    W = container.clientWidth;
-    H = window.innerHeight;
-    camera.aspect = W / H;
-    camera.updateProjectionMatrix();
-    renderer.setSize(W, H);
+    clearTimeout(resizeTO);
+    resizeTO = setTimeout(function () {
+      W = container.clientWidth;
+      H = window.innerHeight;
+      if (W < 1 || H < 1) return;
+      camera.aspect = W / H;
+      camera.updateProjectionMatrix();
+      renderer.setSize(W, H);
+    }, 60);
   }
   window.addEventListener('resize', onResize);
 
@@ -392,7 +436,7 @@
     var dt = t - lastT;
     lastT  = t;
 
-    /* scroll state */
+    /* active step from scrollytelling */
     var raw  = container.getAttribute('data-active-step');
     var step = parseInt(raw, 10) || 1;
     setStep(step);
@@ -408,7 +452,7 @@
     }
     posAttr.needsUpdate = true;
 
-    /* update network line endpoints */
+    /* update network edge endpoints from live positions */
     var lineAttr = lineGeo.attributes.position;
     for (var k = 0; k < lineCount; k++) {
       var ia = connPairs[k * 2];
@@ -423,7 +467,7 @@
     }
     lineAttr.needsUpdate = true;
 
-    /* update DNA rung endpoints */
+    /* update DNA backbone rung endpoints */
     var rungAttr = rungGeo.attributes.position;
     for (var r = 0; r < rungCount; r++) {
       var ra = rungPairs[r * 2];

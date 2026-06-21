@@ -320,10 +320,9 @@
       track.style.transform = "translateX(" + (-workExtra * eased) + "px)";
     }
 
-    // arc fill + node lighting + logo reveal
-    if (arcSec && arcFill) {
+    // arc fill + node lighting + logo/meta reveal (desktop only; mobile uses IO)
+    if (arcSec && arcFill && innerWidth > 768) {
       var r = arcSec.getBoundingClientRect();
-      // Start as soon as section enters viewport; complete over 50% of section height
       var ap = clamp((innerHeight - r.top) / (r.height * 0.5), 0, 1);
       arcFill.style.width = ap * 100 + "%";
       arcNodes.forEach(function (n) {
@@ -332,6 +331,8 @@
         n.classList.toggle("lit", passed);
         var logo = n.querySelector(".timeline-logo");
         if (logo) logo.classList.toggle("is-revealed", passed);
+        var meta = n.querySelector(".timeline-meta");
+        if (meta) meta.classList.toggle("is-revealed", passed);
       });
     }
   }
@@ -344,6 +345,23 @@
   window.addEventListener("load", function () { sizeWork(); requestScroll(); });
   sizeWork();
   onScroll();
+
+  /* ============================================================
+     MOBILE ARC CARDS  — IntersectionObserver reveal (≤ 768px)
+     ============================================================ */
+  (function arcMobile() {
+    var cards = $$(".arc__card");
+    if (!cards.length || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add("is-revealed");
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.25, rootMargin: "0px 0px -5% 0px" });
+    cards.forEach(function (c) { io.observe(c); });
+  })();
 
   /* ============================================================
      HOME MEGAMENU  — hover-intent open, tiles smooth-scroll to section
