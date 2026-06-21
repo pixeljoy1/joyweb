@@ -322,8 +322,12 @@
 
     // arc fill + node lighting + logo/meta reveal (desktop only; mobile uses IO)
     if (arcSec && arcFill && innerWidth > 768) {
-      var r = arcSec.getBoundingClientRect();
-      var ap = clamp((innerHeight - r.top) / (r.height * 0.5), 0, 1);
+      var arcLine = arcFill.parentNode;
+      var lr = arcLine.getBoundingClientRect();
+      // Begin filling when the arc line enters the lower 20% of the viewport;
+      // complete when it reaches 15% from the top — gives ~65% of viewport height
+      // worth of scroll travel for the reveal interaction.
+      var ap = clamp((innerHeight * 0.82 - lr.top) / (innerHeight * 0.65), 0, 1);
       arcFill.style.width = ap * 100 + "%";
       arcNodes.forEach(function (n) {
         var at = (parseFloat(n.style.getPropertyValue("--at")) || 0) / 100;
