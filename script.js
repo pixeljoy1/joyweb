@@ -294,8 +294,13 @@
   var fill = $("#scrollbarFill");
   var arcSec = $(".arc");
   var arcFill = $("#arcFill");
+  var arcLine = arcFill ? arcFill.parentNode : null;
+  var arcLineDocTop = 0;
   var arcNodes = $$(".arc__node");
   var lastY = 0;
+  function cacheArcLine() {
+    if (arcLine) arcLineDocTop = arcLine.getBoundingClientRect().top + (window.scrollY || document.documentElement.scrollTop);
+  }
 
   function onScroll() {
     var y = window.scrollY || document.documentElement.scrollTop;
@@ -322,12 +327,8 @@
 
     // arc fill + node lighting + logo/meta reveal (desktop only; mobile uses IO)
     if (arcSec && arcFill && innerWidth > 768) {
-      var arcLine = arcFill.parentNode;
-      var lr = arcLine.getBoundingClientRect();
-      // Begin filling when the arc line enters the lower 20% of the viewport;
-      // complete when it reaches 15% from the top — gives ~65% of viewport height
-      // worth of scroll travel for the reveal interaction.
-      var ap = clamp((innerHeight * 0.82 - lr.top) / (innerHeight * 0.65), 0, 1);
+      var lrTop = arcLineDocTop - y;
+      var ap = clamp((innerHeight * 0.82 - lrTop) / (innerHeight * 0.65), 0, 1);
       arcFill.style.width = ap * 100 + "%";
       arcNodes.forEach(function (n) {
         var at = (parseFloat(n.style.getPropertyValue("--at")) || 0) / 100;
@@ -345,9 +346,10 @@
   function requestScroll() { if (!ticking) { ticking = true; requestAnimationFrame(function () { onScroll(); ticking = false; }); } }
   window.addEventListener("scroll", requestScroll, { passive: true });
   if (lenis) lenis.on("scroll", requestScroll);
-  window.addEventListener("resize", function () { sizeWork(); requestScroll(); });
-  window.addEventListener("load", function () { sizeWork(); requestScroll(); });
+  window.addEventListener("resize", function () { sizeWork(); cacheArcLine(); requestScroll(); });
+  window.addEventListener("load", function () { sizeWork(); cacheArcLine(); requestScroll(); });
   sizeWork();
+  cacheArcLine();
   onScroll();
 
   /* ============================================================

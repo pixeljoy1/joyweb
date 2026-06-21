@@ -773,8 +773,19 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .arc { display: grid; gap: clamp(60px, 10vh, 130px); }
 .arc__head { display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
 .arc__head .sec-head { font-size: clamp(40px, 7vw, 110px); }
-.arc__line { position: relative; height: 4px; background: var(--rule); margin: clamp(40px, 8vh, 90px) 0; }
-.arc__fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: var(--sienna); }
+.arc__line { position: relative; height: 4px; background: var(--rule); margin: clamp(40px, 8vh, 90px) 0; overflow: visible; }
+.arc__fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: var(--sienna); will-change: width; overflow: visible; }
+.arc__fill::after {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  transform: translate(50%, -50%);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--sienna);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--sienna) 22%, transparent);
+  transition: box-shadow 0.3s ease;
+}
 .arc__node {
   position: absolute; top: 50%; left: var(--at); transform: translate(-50%, -50%);
   width: 14px; height: 14px; border-radius: 50%; background: var(--paper);
@@ -821,14 +832,19 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   filter: grayscale(100%);
   transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
               filter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
-              transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+              transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+              background 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: none;
   user-select: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: transparent;
 }
 .timeline-logo.is-revealed {
   opacity: 1;
   filter: grayscale(0%);
   transform: translateX(-50%) translateY(0);
+  background: var(--sienna);
 }
 
 /* Timeline meta (company + years) — staggered 0.1 s after logo */
@@ -909,9 +925,12 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .arc__card__logo {
   max-width: 40px; height: auto; object-fit: contain;
   flex-shrink: 0; margin-top: 2px;
-  opacity: 0; transition: opacity 0.5s ease 0.15s;
+  opacity: 0; transition: opacity 0.5s ease 0.15s, background 0.5s ease 0.15s;
+  padding: 3px 6px;
+  border-radius: 3px;
+  background: transparent;
 }
-.arc__card.is-revealed .arc__card__logo { opacity: 1; }
+.arc__card.is-revealed .arc__card__logo { opacity: 1; background: var(--sienna); }
 .arc__card__text { display: flex; flex-direction: column; gap: 3px; }
 .arc__card__co {
   font-family: var(--serif);
