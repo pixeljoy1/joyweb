@@ -806,6 +806,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .arc__node:hover { transform: translate(-50%, -50%) scale(1.5); border-color: var(--sienna); background: var(--sienna); }
 .arc__node:hover::after, .arc__node:hover::before { opacity: 1; transform: translateX(-50%) translateY(0); }
 .arc__node.lit { border-color: var(--sienna); }
+.arc__node--ghost.lit { background: color-mix(in srgb, var(--sienna) 55%, var(--muted)); }
 .arc__node--ghost {
   width: 3px; height: 20px; border-radius: 2px;
   background: color-mix(in srgb, var(--muted) 40%, transparent); border: none;
