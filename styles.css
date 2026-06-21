@@ -1158,6 +1158,13 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
    ============================================================ */
 @media (max-width: 640px) {
 
+  /* 04 — Capabilities: more breathing room from left edge + deeper top indent */
+  section.caps {
+    padding-left: clamp(32px, 8vw, 56px);
+    padding-right: clamp(32px, 8vw, 56px);
+    padding-top: clamp(100px, 18vh, 160px);
+  }
+
   /* Hide LinkedIn from nav — keeps bar: logo · EXPLORE · RÉSUMÉ · ≡ */
   .nav__cta--linkedin { display: none; }
 
