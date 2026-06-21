@@ -429,7 +429,7 @@
     var frame    = $("#pdfFrame");
     if (!modal || !frame) return;
 
-    var PDF_SRC = "resume/JoydeepMitra_resume_2026_v2.1_.pdf";
+    var PDF_SRC = "resume/JoydeepMitra_resume_2026_v2.2_.pdf";
     var loaded  = false;
 
     function open() {
