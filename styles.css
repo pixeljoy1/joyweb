@@ -648,7 +648,14 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   .story-step p { font-size: clamp(1.5rem, 5vw, 2.2rem); }
   .story-step::before { display: none; }
   #context-label-dot, #context-tooltip { display: none; }
-  #step-nav { display: none; }
+  /* Compact dot nav for tablet/mobile — replaces desktop 60px pills */
+  #step-nav { gap: 8px; bottom: 1.2rem; }
+  .step-nav__node {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: color-mix(in srgb, var(--ink) 20%, transparent);
+    padding: 0; min-height: 0; min-width: 0;
+  }
+  .step-nav__node.is-active { background: var(--sienna); width: 20px; border-radius: 3px; }
 }
 
 .qualities-kw { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--sienna); text-transform: uppercase; margin: 0 0 4px; padding-top: 18px; }
@@ -815,6 +822,12 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   background: color-mix(in srgb, var(--muted) 40%, transparent); border: none;
 }
 .arc__node--ghost:hover { transform: translate(-50%, -50%); background: var(--sienna); border: none; }
+/* Origin node: no visible tick, but logo/meta children still show */
+.arc__node--origin {
+  width: 0 !important; height: 0 !important;
+  background: transparent !important; border: none !important;
+  overflow: visible;
+}
 .arc__node--last { width: 18px; height: 18px; background: var(--sienna); border-color: var(--sienna); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sienna) 18%, transparent); }
 .arc__node--current {
   width: 20px; height: 20px; background: var(--sienna); border-color: var(--sienna);
@@ -1109,26 +1122,8 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   }
   .story-step::before { display: none; }
 
-  /* Navigator: compact dots on mobile */
-  #step-nav {
-    display: flex !important;
-    bottom: 1.5rem;
-    gap: 10px;
-  }
-  .step-nav__node {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--ink) 22%, transparent);
-    padding: 0;
-    min-height: 0;
-    background-clip: border-box;
-  }
-  .step-nav__node.is-active {
-    background-color: var(--sienna);
-    width: 28px;
-    border-radius: 4px;
-  }
+  /* Navigator: ensure dots show on ≤768px */
+  #step-nav { display: flex !important; }
 
   /* ── 02 · Arc: hide horizontal, show vertical ──────────────── */
   .arc__line { display: none !important; }
