@@ -10,67 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="case.css" />
 <style>
-/* ── VR Banking page extras ──────────────────────────────────── */
+/* ── VR Banking extras ───────────────────────────────────────── */
 
-/* Image placeholder blocks */
-.img-ph {
-  position: relative;
-  background: var(--rule);
-  border: 1.5px dashed color-mix(in srgb, var(--muted) 55%, transparent);
-  border-radius: 4px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 2rem;
-  text-align: center;
-  min-height: 240px;
-}
-.img-ph::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 6px,
-    color-mix(in srgb, var(--rule) 50%, transparent) 6px,
-    color-mix(in srgb, var(--rule) 50%, transparent) 7px
-  );
-  pointer-events: none;
-}
-.img-ph__caption {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  position: relative;
-  z-index: 1;
-}
-.img-ph__path {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: color-mix(in srgb, var(--sienna) 70%, transparent);
-  position: relative;
-  z-index: 1;
-}
-
-/* Placeholder grid — mirrors .csr-gallery */
-.ph-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-top: clamp(28px, 4vh, 44px);
-}
-.ph-grid .img-ph { aspect-ratio: 4/3; min-height: unset; }
-.ph-grid--wide .img-ph { aspect-ratio: 16/9; }
-.ph-grid--tall .img-ph { aspect-ratio: 3/4; }
-.ph-grid--solo .img-ph { aspect-ratio: 16/7; }
-
-/* Process thread — horizontal stage marker */
+/* Process thread */
 .process-thread {
   grid-column: 1 / 13;
   margin-top: clamp(40px, 5vh, 60px);
@@ -94,15 +36,10 @@
   opacity: 0.55;
   margin-bottom: 6px;
 }
-.pt-node.is-featured .pt-node__num { opacity: 0.75; color: var(--paper); }
-.pt-node__label {
-  font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.3;
-}
+.pt-node.is-featured .pt-node__num { opacity: 0.75; }
+.pt-node__label { font-family: var(--sans); font-size: 13px; font-weight: 400; line-height: 1.3; }
 
-/* Pull-quote style insight */
+/* Pull-quote insight */
 .insight {
   grid-column: 1 / 13;
   border-left: 3px solid var(--sienna);
@@ -121,40 +58,18 @@
 }
 .insight p em { color: var(--sienna); font-style: italic; }
 
-/* Flow diagram — numbered steps */
+/* Flow steps */
 .flow-steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 2px;
-  margin-top: clamp(24px, 3vh, 36px);
+  margin-top: clamp(20px, 3vh, 32px);
 }
-.flow-step {
-  padding: 20px;
-  background: var(--paper-deep);
-  border-top: 3px solid var(--rule);
-}
+.flow-step { padding: 18px 16px; background: var(--paper-deep); border-top: 3px solid var(--rule); }
 .flow-step.is-auth { border-top-color: var(--sienna); }
-.flow-step__ix {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--sienna);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.flow-step__label {
-  font-family: var(--sans);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.35;
-}
-.flow-step__note {
-  font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 8px;
-  letter-spacing: 0.04em;
-}
+.flow-step__ix { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--sienna); text-transform: uppercase; margin-bottom: 7px; }
+.flow-step__label { font-family: var(--sans); font-size: 13px; font-weight: 400; line-height: 1.35; }
+.flow-step__note { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 6px; letter-spacing: 0.04em; }
 
 /* Finding cards */
 .findings-grid {
@@ -163,45 +78,36 @@
   gap: 1.5rem;
   margin-top: clamp(28px, 4vh, 44px);
 }
-.finding-card {
-  padding: 24px;
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  background: var(--paper);
-}
-.finding-card__tag {
+.finding-card { padding: 24px; border: 1px solid var(--rule); border-radius: 4px; }
+.finding-card__tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sienna); margin-bottom: 12px; }
+.finding-card h4 { font-family: var(--serif); font-weight: 400; font-size: 20px; margin: 0 0 10px; }
+.finding-card p { font-weight: 300 !important; font-size: 14px !important; line-height: 1.65 !important; color: var(--muted) !important; margin: 0 !important; }
+
+/* Gallery folder label — sits below each gallery, temp test aid */
+.gallery-folder {
   font-family: var(--mono);
   font-size: 10px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--sienna);
-  margin-bottom: 12px;
-}
-.finding-card h4 {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: 20px;
-  margin: 0 0 10px;
-}
-.finding-card p {
-  font-weight: 300 !important;
-  font-size: 14px !important;
-  line-height: 1.6 !important;
-  color: var(--muted) !important;
-  margin: 0 !important;
+  color: color-mix(in srgb, var(--sienna) 60%, transparent);
+  margin-top: 10px;
+  padding-left: 2px;
 }
 
-/* Responsive */
+/* Section h3 for flow sub-heads */
+.flow-head {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  margin: clamp(36px, 5vh, 56px) 0 12px;
+  letter-spacing: -0.01em;
+}
+
 @media (max-width: 1080px) {
   .process-thread { grid-template-columns: repeat(3, 1fr); }
-  .pt-node:nth-child(3) { border-radius: 0 4px 4px 0; }
-  .pt-node:nth-child(4) { border-radius: 4px 0 0 4px; }
-  .pt-node:last-child   { border-radius: 0 4px 4px 0; }
-  .pt-node:first-child  { border-radius: 4px 0 0 4px; }
 }
 @media (max-width: 720px) {
   .process-thread { grid-template-columns: repeat(2, 1fr); }
-  .ph-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -231,7 +137,6 @@
       <div class="metric"><div class="n">0</div><div class="k">prior VR experience among user test participants — all first-time headset users</div></div>
     </div>
 
-    <!-- Process thread — top-level read of the journey -->
     <div class="process-thread">
       <div class="pt-node">
         <div class="pt-node__num">01</div>
@@ -280,16 +185,15 @@
         <li><span class="ix">→</span>A reusable spatial UX methodology — not a one-off prototype</li>
       </ul>
 
-      <div class="ph-grid ph-grid--wide">
-        <div class="img-ph">
-          <span class="img-ph__caption">Brief &amp; context — client whiteboard session</span>
-          <span class="img-ph__path">images/vr-banking/01-requirements/</span>
+      <div class="csr-gallery">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/CSR/image%2010-1.jpg" alt="Brief — client whiteboard session" data-preview data-preview-alt="Brief · Client context &amp; scope — replace with: images/vr-banking/01-requirements/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Scope definition — requirements mapping</span>
-          <span class="img-ph__path">images/vr-banking/01-requirements/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/CSR/image%2010-2.jpg" alt="Scope definition — requirements mapping" data-preview data-preview-alt="Scope definition · Requirements mapping — replace with: images/vr-banking/01-requirements/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/01-requirements/</div>
     </div>
   </div>
 </section>
@@ -317,20 +221,18 @@
         <p>The single largest finding from discovery: <em>banking is a trust transaction, not just a task transaction.</em> Any VR experience that prioritised interaction efficiency over perceived safety would fail at the compliance and user confidence level simultaneously.</p>
       </div>
 
-      <div class="ph-grid">
-        <div class="img-ph">
-          <span class="img-ph__caption">Stakeholder interview notes &amp; affinity mapping</span>
-          <span class="img-ph__path">images/vr-banking/01-requirements/</span>
+      <div class="csr-gallery">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/CSR/image%2010-3.jpg" alt="Stakeholder interview notes" data-preview data-preview-alt="Discovery · Stakeholder interviews &amp; affinity mapping — replace with: images/vr-banking/01-requirements/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Branch task flow decomposition</span>
-          <span class="img-ph__path">images/vr-banking/01-requirements/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/CSR/image%2011-1.jpg" alt="Branch task flow decomposition" data-preview data-preview-alt="Discovery · Branch task flow decomposition — replace with: images/vr-banking/01-requirements/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Persona set — 3 user profiles</span>
-          <span class="img-ph__path">images/vr-banking/01-requirements/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%202.jpg" alt="Persona set — 3 user profiles" data-preview data-preview-alt="Discovery · Persona set (3 profiles) — replace with: images/vr-banking/01-requirements/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/01-requirements/</div>
     </div>
   </div>
 </section>
@@ -354,35 +256,29 @@
         <li><span class="ix">05</span>100% of all banking flows prototyped in Figma before a single line of device code was written</li>
       </ul>
 
-      <div class="ph-grid ph-grid--wide">
-        <div class="img-ph">
-          <span class="img-ph__caption">Figma — environment architecture wireframes</span>
-          <span class="img-ph__path">images/vr-banking/02-figma/</span>
+      <div class="csr-gallery">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%206.jpg" alt="Figma — environment architecture wireframes" data-preview data-preview-alt="Figma · Environment architecture wireframes — replace with: images/vr-banking/02-figma/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Figma — VR component library</span>
-          <span class="img-ph__path">images/vr-banking/02-figma/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%207.jpg" alt="Figma — VR component library" data-preview data-preview-alt="Figma · VR component library — replace with: images/vr-banking/02-figma/" loading="lazy" />
         </div>
-      </div>
-      <div class="ph-grid">
-        <div class="img-ph">
-          <span class="img-ph__caption">Figma — balance check flow (full prototype)</span>
-          <span class="img-ph__path">images/vr-banking/02-figma/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%208.jpg" alt="Figma — balance check flow" data-preview data-preview-alt="Figma · Balance check prototype flow — replace with: images/vr-banking/02-figma/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Figma — FD creation flow</span>
-          <span class="img-ph__path">images/vr-banking/02-figma/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%208-1.jpg" alt="Figma — FD creation flow" data-preview data-preview-alt="Figma · FD creation flow — replace with: images/vr-banking/02-figma/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Figma — panel system composition</span>
-          <span class="img-ph__path">images/vr-banking/02-figma/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%208-2.jpg" alt="Figma — panel system composition" data-preview data-preview-alt="Figma · Panel system composition — replace with: images/vr-banking/02-figma/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/02-figma/</div>
     </div>
   </div>
 </section>
 
-<!-- ── 04 · Authentication — the hardest problem ──────────────── -->
+<!-- ── 04 · Authentication ────────────────────────────────────── -->
 <section class="case-block case-block--featured">
   <div class="wrap grid12">
     <div class="case-block__num">
@@ -392,10 +288,10 @@
     </div>
     <div class="case-block__body">
       <p>Authentication in a VR headset is the hardest unsolved problem in spatial banking UX. The user cannot see their phone clearly while wearing the headset. Fingerprint readers don't exist inside the virtual environment. OTP fields require typed input in a medium where typing is non-trivially difficult for first-time users.</p>
-      <p>The authentication architecture required a new approach: a <strong>two-stage pass-through model</strong>. Stage one uses Aadhaar-based biometric verification at entry — the user's Aadhaar-linked mobile OTP is entered via a large-format VR numpad designed for minimal errors, with immediate haptic feedback on every input. Stage two is a secondary PIN or face-match confirmation gate before each transaction. Both stages are fully compliant with RBI's digital KYC mandates for high-value transactions.</p>
+      <p>The authentication architecture required a new approach: a <strong>two-stage pass-through model</strong>. Stage one uses Aadhaar-based biometric verification at entry — the user's Aadhaar-linked mobile OTP is entered via a large-format VR numpad designed for minimal errors, with immediate haptic feedback on every input. Stage two is a secondary PIN confirmation gate before each transaction, fully compliant with RBI's digital KYC mandates.</p>
 
       <div class="insight">
-        <p>The key insight: <em>trust is designed, not assumed.</em> Every authentication step needed visual confirmation language that explicitly told the user what had just happened and what comes next — a pattern that 2D banking apps routinely skip because the screen metaphor carries implied trust.</p>
+        <p>The key insight: <em>trust is designed, not assumed.</em> Every authentication step needed visual confirmation language that explicitly told the user what had just happened and what comes next.</p>
       </div>
 
       <ul>
@@ -406,8 +302,7 @@
         <li><span class="ix">→</span>RBI-compliant audit trail embedded at the UX level — every step surfaced, not buried in logs</li>
       </ul>
 
-      <!-- Auth flow steps -->
-      <div class="flow-steps" style="margin-top: clamp(28px,4vh,44px);">
+      <div class="flow-steps" style="margin-top:clamp(28px,4vh,44px);">
         <div class="flow-step">
           <div class="flow-step__ix">Step 01</div>
           <div class="flow-step__label">Headset on —<br />Welcome &amp; orientation</div>
@@ -440,24 +335,21 @@
         </div>
       </div>
 
-      <div class="ph-grid" style="margin-top:clamp(28px,4vh,44px);">
-        <div class="img-ph">
-          <span class="img-ph__caption">Aadhaar OTP numpad — VR layout</span>
-          <span class="img-ph__path">images/vr-banking/03-auth/</span>
+      <div class="csr-gallery" style="margin-top:clamp(28px,4vh,44px);">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%209.jpg" alt="Aadhaar OTP numpad — VR layout" data-preview data-preview-alt="Auth · Aadhaar OTP numpad in VR — replace with: images/vr-banking/03-auth/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Auth verification panel — in headset</span>
-          <span class="img-ph__path">images/vr-banking/03-auth/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%2010.jpg" alt="Auth verification panel — in headset" data-preview data-preview-alt="Auth · Aadhaar verification panel — replace with: images/vr-banking/03-auth/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Transaction PIN gate — spatial UI</span>
-          <span class="img-ph__path">images/vr-banking/03-auth/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%2011.jpg" alt="Transaction PIN gate — spatial UI" data-preview data-preview-alt="Auth · Transaction PIN gate — replace with: images/vr-banking/03-auth/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Full-screen confirmation panel</span>
-          <span class="img-ph__path">images/vr-banking/03-auth/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/photo/image%2010-4.jpg" alt="Full-screen confirmation panel" data-preview data-preview-alt="Auth · Full-screen confirmation panel — replace with: images/vr-banking/03-auth/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/03-auth/</div>
     </div>
   </div>
 </section>
@@ -481,30 +373,24 @@
         <li><span class="ix">05</span>Accessibility settings — comfort mode for locomotion-sensitive users, font scale controls</li>
       </ul>
 
-      <div class="ph-grid ph-grid--wide">
-        <div class="img-ph">
-          <span class="img-ph__caption">Meta Quest 3 — device in use, testing session</span>
-          <span class="img-ph__path">images/vr-banking/04-headset/</span>
+      <div class="csr-gallery">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/print/image%208.jpg" alt="Meta Quest 3 — device in use" data-preview data-preview-alt="Device · Meta Quest 3 in use, testing session — replace with: images/vr-banking/04-headset/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Virtual branch lobby — in-headset capture</span>
-          <span class="img-ph__path">images/vr-banking/04-headset/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/print/image%2010.jpg" alt="Virtual branch lobby — in-headset capture" data-preview data-preview-alt="Device · Virtual branch lobby, in-headset — replace with: images/vr-banking/04-headset/" loading="lazy" />
         </div>
-      </div>
-      <div class="ph-grid">
-        <div class="img-ph">
-          <span class="img-ph__caption">Service counter environment — spatial layout</span>
-          <span class="img-ph__path">images/vr-banking/04-headset/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/print/image%2010-1.jpg" alt="Service counter environment" data-preview data-preview-alt="Device · Service counter spatial layout — replace with: images/vr-banking/04-headset/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Transaction confirmation chamber</span>
-          <span class="img-ph__path">images/vr-banking/04-headset/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/print/image%2011.jpg" alt="Transaction confirmation chamber" data-preview data-preview-alt="Device · Transaction confirmation chamber — replace with: images/vr-banking/04-headset/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Mixed reality mode — virtual branch in physical space</span>
-          <span class="img-ph__path">images/vr-banking/04-headset/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/print/image%2011-1.jpg" alt="Mixed reality mode" data-preview data-preview-alt="Device · Mixed reality mode — replace with: images/vr-banking/04-headset/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/04-headset/</div>
     </div>
   </div>
 </section>
@@ -519,7 +405,7 @@
     </div>
     <div class="case-block__body">
       <p>The test population was deliberately chosen for maximum naivety with respect to VR: participants ranged from 24 to 58 years of age, with no prior VR headset experience. Several had limited digital banking experience. This was not convenience sampling — it was an explicit design decision to validate that the product worked at the edge of the intended audience, not the comfortable middle.</p>
-      <p>Testing was moderated, with think-aloud protocol, and each session was observed by two researchers. Participants completed all five banking flows in a single session without any task-specific coaching after the initial orientation. The orientation itself was measured and scripted — a deliberate constraint to keep it deployable in an unmanned kiosk context.</p>
+      <p>Testing was moderated, with think-aloud protocol, and each session was observed by two researchers. Participants completed all five banking flows in a single session without any task-specific coaching after the initial orientation — a constraint to keep it deployable in an unmanned kiosk context.</p>
       <ul>
         <li><span class="ix">→</span>Participant profiles: first-time VR users across three age bands and two digital literacy levels</li>
         <li><span class="ix">→</span>Moderated think-aloud sessions — all five flows completed in a single unbroken session</li>
@@ -533,24 +419,21 @@
         <p>The most important usability finding: <em>spatial orientation, not interaction complexity, was the primary source of user anxiety.</em> Users who understood where they were in the virtual space completed transactions with confidence. Users who felt spatially lost abandoned tasks even when they understood the UI perfectly.</p>
       </div>
 
-      <div class="ph-grid">
-        <div class="img-ph">
-          <span class="img-ph__caption">User testing session — participant in headset</span>
-          <span class="img-ph__path">images/vr-banking/05-testing/</span>
+      <div class="csr-gallery">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/print/image%2011-2.jpg" alt="User testing session — participant in headset" data-preview data-preview-alt="Testing · Participant in headset — replace with: images/vr-banking/05-testing/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Moderated session — observation setup</span>
-          <span class="img-ph__path">images/vr-banking/05-testing/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/comic/image%2010-5.jpg" alt="Moderated session — observation setup" data-preview data-preview-alt="Testing · Moderated session, observation setup — replace with: images/vr-banking/05-testing/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Think-aloud notes &amp; annotation</span>
-          <span class="img-ph__path">images/vr-banking/05-testing/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/comic/image%2011-3.jpg" alt="Think-aloud notes and annotation" data-preview data-preview-alt="Testing · Think-aloud notes &amp; annotation — replace with: images/vr-banking/05-testing/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Screen capture — in-headset UI during testing</span>
-          <span class="img-ph__path">images/vr-banking/05-testing/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/comic/image%2013.jpg" alt="Screen capture — in-headset UI during testing" data-preview data-preview-alt="Testing · In-headset screen capture — replace with: images/vr-banking/05-testing/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/05-testing/</div>
     </div>
   </div>
 </section>
@@ -566,9 +449,8 @@
     <div class="case-block__body">
       <p>Each of the five flows was designed to be completable end-to-end — not a demo stub, not a happy-path only, but a production-grade interaction sequence including error states, loading states, confirmation flows, and graceful recovery from authentication failure.</p>
 
-      <!-- Balance Check -->
-      <h3 style="font-family:var(--serif);font-weight:400;font-size:24px;margin:clamp(32px,4vh,48px) 0 12px;letter-spacing:-0.01em;">Flow 01 — Balance Check</h3>
-      <p>The simplest flow, and the first one every test participant completed. Balance check established the spatial mental model: counter navigation → service selection → authentication gate → information panel → return to lobby. This sequence repeated (with variation) across all subsequent flows.</p>
+      <h3 class="flow-head">Flow 01 — Balance Check</h3>
+      <p>The simplest flow, and the first one every test participant completed. Balance check established the spatial mental model: counter navigation → service selection → authentication gate → information panel → return to lobby.</p>
       <div class="flow-steps">
         <div class="flow-step"><div class="flow-step__ix">1</div><div class="flow-step__label">Lobby → Savings counter</div></div>
         <div class="flow-step is-auth"><div class="flow-step__ix">2</div><div class="flow-step__label">Transaction PIN</div></div>
@@ -577,9 +459,8 @@
         <div class="flow-step"><div class="flow-step__ix">5</div><div class="flow-step__label">Return to lobby</div></div>
       </div>
 
-      <!-- FD Creation -->
-      <h3 style="font-family:var(--serif);font-weight:400;font-size:24px;margin:clamp(32px,4vh,48px) 0 12px;letter-spacing:-0.01em;">Flow 02 — Fixed Deposit Creation</h3>
-      <p>The most cognitively demanding flow. FD creation requires the user to input an amount, select a tenure, review interest rate projections, and confirm a multi-step commitment — all inside a spatial environment where information hierarchy is the primary design challenge. FD data panels were the most iterated element across all three prototype cycles.</p>
+      <h3 class="flow-head">Flow 02 — Fixed Deposit Creation</h3>
+      <p>The most cognitively demanding flow. FD creation requires the user to input an amount, select a tenure, review interest rate projections, and confirm a multi-step commitment inside a spatial environment where information hierarchy is the primary design challenge.</p>
       <div class="flow-steps">
         <div class="flow-step"><div class="flow-step__ix">1</div><div class="flow-step__label">Deposits counter</div></div>
         <div class="flow-step is-auth"><div class="flow-step__ix">2</div><div class="flow-step__label">Aadhaar + PIN</div></div>
@@ -589,20 +470,18 @@
         <div class="flow-step"><div class="flow-step__ix">6</div><div class="flow-step__label">Confirmation chamber</div></div>
       </div>
 
-      <!-- FD Renewal -->
-      <h3 style="font-family:var(--serif);font-weight:400;font-size:24px;margin:clamp(32px,4vh,48px) 0 12px;letter-spacing:-0.01em;">Flow 03 — Fixed Deposit Renewal</h3>
-      <p>FD renewal surfaces an existing FD record, presents maturity information in a spatially distinct panel, and guides the user through renewal options (same tenure, new tenure, partial withdrawal). The interaction model here differs from creation: data arrives first, user decides second — a reversal of the creation flow's input-then-confirm sequence.</p>
+      <h3 class="flow-head">Flow 03 — Fixed Deposit Renewal</h3>
+      <p>FD renewal surfaces an existing FD record, presents maturity information in a spatially distinct panel, and guides the user through renewal options. The interaction model here differs from creation: data arrives first, user decides second.</p>
       <div class="flow-steps">
         <div class="flow-step"><div class="flow-step__ix">1</div><div class="flow-step__label">Deposits counter</div></div>
         <div class="flow-step is-auth"><div class="flow-step__ix">2</div><div class="flow-step__label">Transaction PIN</div></div>
-        <div class="flow-step"><div class="flow-step__ix">3</div><div class="flow-step__label">Existing FD record panel</div></div>
+        <div class="flow-step"><div class="flow-step__ix">3</div><div class="flow-step__label">Existing FD record</div></div>
         <div class="flow-step"><div class="flow-step__ix">4</div><div class="flow-step__label">Renewal options</div></div>
         <div class="flow-step"><div class="flow-step__ix">5</div><div class="flow-step__label">Confirmation chamber</div></div>
       </div>
 
-      <!-- RD Creation -->
-      <h3 style="font-family:var(--serif);font-weight:400;font-size:24px;margin:clamp(32px,4vh,48px) 0 12px;letter-spacing:-0.01em;">Flow 04 — Recurring Deposit Creation</h3>
-      <p>RD creation introduces periodic commitment — the user is not making a single transaction, but enrolling in a repeating one. The key design challenge: communicating monthly debit schedule and tenure in a spatial context without overwhelming the panel with tabular data. A spatial timeline metaphor replaced a conventional table entirely.</p>
+      <h3 class="flow-head">Flow 04 — Recurring Deposit Creation</h3>
+      <p>RD creation introduces periodic commitment. A spatial timeline metaphor replaced a conventional table entirely to communicate monthly debit schedule and tenure without overwhelming the panel with tabular data.</p>
       <div class="flow-steps">
         <div class="flow-step"><div class="flow-step__ix">1</div><div class="flow-step__label">Deposits counter</div></div>
         <div class="flow-step is-auth"><div class="flow-step__ix">2</div><div class="flow-step__label">Aadhaar + PIN</div></div>
@@ -612,9 +491,8 @@
         <div class="flow-step"><div class="flow-step__ix">6</div><div class="flow-step__label">Confirmation chamber</div></div>
       </div>
 
-      <!-- RD Renewal -->
-      <h3 style="font-family:var(--serif);font-weight:400;font-size:24px;margin:clamp(32px,4vh,48px) 0 12px;letter-spacing:-0.01em;">Flow 05 — Recurring Deposit Renewal</h3>
-      <p>The most nuanced of the five flows: RD renewal requires the user to review past performance, decide on continuation or modification, and recommit — with an option to change the monthly amount. Users who struggled with the FD renewal flow universally succeeded with RD renewal because by this point, they had internalised the spatial model of the virtual branch.</p>
+      <h3 class="flow-head">Flow 05 — Recurring Deposit Renewal</h3>
+      <p>Users who struggled with FD renewal universally succeeded with RD renewal — by this point, they had internalised the spatial model of the virtual branch. The most nuanced flow became the clearest measure of learning.</p>
       <div class="flow-steps">
         <div class="flow-step"><div class="flow-step__ix">1</div><div class="flow-step__label">Deposits counter</div></div>
         <div class="flow-step is-auth"><div class="flow-step__ix">2</div><div class="flow-step__label">Transaction PIN</div></div>
@@ -623,32 +501,27 @@
         <div class="flow-step"><div class="flow-step__ix">5</div><div class="flow-step__label">Confirmation chamber</div></div>
       </div>
 
-      <div class="ph-grid" style="margin-top:clamp(32px,5vh,56px);">
-        <div class="img-ph">
-          <span class="img-ph__caption">Balance check — spatial account summary panel</span>
-          <span class="img-ph__path">images/vr-banking/06-flows/</span>
+      <div class="csr-gallery" style="margin-top:clamp(36px,5vh,56px);">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/comic/image%2014.jpg" alt="Balance check — account summary panel" data-preview data-preview-alt="Flow 01 · Balance check, spatial account summary — replace with: images/vr-banking/06-flows/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">FD creation — tenure selector in VR</span>
-          <span class="img-ph__path">images/vr-banking/06-flows/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/photo/image%2012.jpg" alt="FD creation — tenure selector in VR" data-preview data-preview-alt="Flow 02 · FD creation, tenure selector — replace with: images/vr-banking/06-flows/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">RD creation — spatial timeline metaphor</span>
-          <span class="img-ph__path">images/vr-banking/06-flows/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/teachingIXD/image%2010.jpg" alt="RD creation — spatial timeline metaphor" data-preview data-preview-alt="Flow 04 · RD creation, spatial timeline — replace with: images/vr-banking/06-flows/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">Confirmation chamber — FD completion</span>
-          <span class="img-ph__path">images/vr-banking/06-flows/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/CSR/image%2010-1.jpg" alt="Confirmation chamber — FD completion" data-preview data-preview-alt="Flow 02 · Confirmation chamber, FD complete — replace with: images/vr-banking/06-flows/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">FD renewal — maturity panel</span>
-          <span class="img-ph__path">images/vr-banking/06-flows/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/CSR/image%2010-2.jpg" alt="FD renewal — maturity panel" data-preview data-preview-alt="Flow 03 · FD renewal, maturity panel — replace with: images/vr-banking/06-flows/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">RD renewal — history + recommitment</span>
-          <span class="img-ph__path">images/vr-banking/06-flows/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/CSR/image%2010-3.jpg" alt="RD renewal — history and recommitment" data-preview data-preview-alt="Flow 05 · RD renewal, history + recommitment — replace with: images/vr-banking/06-flows/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/06-flows/</div>
     </div>
   </div>
 </section>
@@ -668,45 +541,44 @@
         <div class="finding-card">
           <div class="finding-card__tag">Finding 01 — Validated</div>
           <h4>All five flows completable</h4>
-          <p>Every participant, without exception, completed all five banking transactions in a single session. Completion time decreased sharply after the first flow — by FD creation, all participants were significantly faster than their balance-check baseline.</p>
+          <p>Every participant completed all five banking transactions in a single session. Completion time decreased sharply after the first flow — by FD creation, all participants were significantly faster than their balance-check baseline.</p>
         </div>
         <div class="finding-card">
           <div class="finding-card__tag">Finding 02 — Spatial</div>
           <h4>Location = confidence</h4>
-          <p>Participants who could identify their spatial position within the virtual branch (lobby vs. counter vs. confirmation zone) expressed significantly higher confidence in transaction accuracy, regardless of whether they were correct about what the UI was doing.</p>
+          <p>Participants who could identify their spatial position within the virtual branch expressed significantly higher confidence in transaction accuracy, regardless of whether they were correct about what the UI was doing.</p>
         </div>
         <div class="finding-card">
           <div class="finding-card__tag">Finding 03 — Auth</div>
           <h4>OTP was the most stressful moment</h4>
-          <p>Aadhaar OTP entry — despite the large-format numpad — was the highest-anxiety moment in every session. Not because the UI was difficult, but because participants were aware a real financial credential was being entered. This is a trust signal, not a usability failure.</p>
+          <p>Aadhaar OTP entry was the highest-anxiety moment in every session — not because the UI was difficult, but because participants were aware a real financial credential was being entered. This is a trust signal, not a usability failure.</p>
         </div>
         <div class="finding-card">
           <div class="finding-card__tag">Finding 04 — Design</div>
           <h4>Confirmation chamber was the hit</h4>
-          <p>The spatially distinct transaction completion zone — the "confirmation chamber" — was spontaneously mentioned by 4 of 5 participants as making them feel the transaction was "real and done." The spatial metaphor of entering a different room for completion worked.</p>
+          <p>The spatially distinct completion zone was spontaneously mentioned by 4 of 5 participants as making them feel the transaction was "real and done." The spatial metaphor of entering a different room for completion worked.</p>
         </div>
         <div class="finding-card">
           <div class="finding-card__tag">Finding 05 — Iteration</div>
           <h4>Text legibility at depth</h4>
-          <p>FD rate projection panels, designed at 18pt at 1m depth, were on the edge of legibility for participants over 45. A post-test design fix scaled these to 22pt minimum. This was a prototyping constraint that did not exist in the Figma simulation.</p>
+          <p>FD rate projection panels at 18pt at 1m depth were on the edge of legibility for participants over 45. A post-test fix scaled these to 22pt minimum — a constraint that did not exist in the Figma simulation.</p>
         </div>
         <div class="finding-card">
           <div class="finding-card__tag">Finding 06 — Methodology</div>
           <h4>Figma-first worked</h4>
-          <p>Every Figma prototype flow predicted the real-device interaction sequence within one decision-branch. Zero flows required structural redesign after device testing. The spatial storyboarding approach in Figma proved valid as a VR prototyping methodology.</p>
+          <p>Every Figma prototype flow predicted the real-device interaction sequence within one decision-branch. Zero flows required structural redesign after device testing. The spatial storyboarding approach in Figma proved valid.</p>
         </div>
       </div>
 
-      <div class="ph-grid ph-grid--wide" style="margin-top:clamp(28px,4vh,44px);">
-        <div class="img-ph">
-          <span class="img-ph__caption">Research synthesis — findings map</span>
-          <span class="img-ph__path">images/vr-banking/05-testing/</span>
+      <div class="csr-gallery" style="margin-top:clamp(28px,4vh,44px);">
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%209.jpg" alt="Research synthesis — findings map" data-preview data-preview-alt="Findings · Research synthesis map — replace with: images/vr-banking/05-testing/" loading="lazy" />
         </div>
-        <div class="img-ph">
-          <span class="img-ph__caption">SUS scores &amp; exit interview summary</span>
-          <span class="img-ph__path">images/vr-banking/05-testing/</span>
+        <div class="csr-gallery__item">
+          <img src="../images/mitra/designbiz_BLR/image%2010.jpg" alt="SUS scores and exit interview summary" data-preview data-preview-alt="Findings · SUS scores &amp; exit interview — replace with: images/vr-banking/05-testing/" loading="lazy" />
         </div>
       </div>
+      <div class="gallery-folder">&#x25B6; replace with: images/vr-banking/05-testing/</div>
     </div>
   </div>
 </section>
@@ -720,7 +592,7 @@
       <span class="tag">Impact · Methodology</span>
     </div>
     <div class="case-block__body">
-      <p>The VR branch banking project produced three distinct outputs: a working prototype, a validated user testing dataset, and a reusable spatial UX methodology. The methodology is arguably the most durable — it is a documented process for designing banking-grade spatial experiences that can be applied to future headset generations and adjacent domains.</p>
+      <p>The VR branch banking project produced three distinct outputs: a working prototype, a validated user testing dataset, and a reusable spatial UX methodology that is applicable to future headset generations and adjacent domains.</p>
       <ul>
         <li><span class="ix">→</span>First fully user-tested VR banking prototype with Aadhaar-compliant authentication in the Indian market</li>
         <li><span class="ix">→</span>All five production banking flows validated with first-time VR users — no prior headset experience required</li>
