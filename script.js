@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.17";
+  var BUILD_VERSION = "2.3.18";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -569,6 +569,111 @@
 
     panel.querySelectorAll("[data-set-color]").forEach(function (b) {
       b.addEventListener("click", function () { applyColor(b.getAttribute("data-set-color")); closePanel(); });
+    });
+  })();
+
+  /* ============================================================
+     MARQUEE — JS-driven rAF loop
+     tap  → pause / resume
+     drag (touch or mouse) → scrub position
+     release after drag → auto-resume after 1.4 s
+     ============================================================ */
+  (function initMarquee() {
+    var el = $(".marquee--hero");
+    if (!el || reduce) return;
+    var track = el.querySelector(".marquee__track");
+    if (!track) return;
+
+    var halfW      = 0;
+    var x          = 0;
+    var speed      = 0.55;   /* px per frame ≈ 33 px/s at 60 fps */
+    var isPaused   = false;
+    var isDragging = false;
+    var hasMoved   = false;
+    var dragStartX = 0;
+    var dragAtX    = 0;
+    var resumeTO   = null;
+
+    function getHalf() { return track.scrollWidth / 2; }
+
+    function wrap(v) {
+      if (!halfW) halfW = getHalf();
+      if (halfW <= 0) return v;
+      /* keep x in (-halfW, 0] */
+      v = v % halfW;
+      if (v > 0)  v -= halfW;
+      return v;
+    }
+
+    (function tick() {
+      if (!isDragging && !isPaused) {
+        if (!halfW) halfW = getHalf();
+        x = wrap(x - speed);
+      }
+      track.style.transform = "translateX(" + x + "px)";
+      requestAnimationFrame(tick);
+    })();
+
+    function pause()  { isPaused = true;  el.classList.add("is-paused"); }
+    function resume() { isPaused = false; el.classList.remove("is-paused"); }
+
+    function scheduleResume() {
+      clearTimeout(resumeTO);
+      resumeTO = setTimeout(resume, 1400);
+    }
+
+    /* ── Touch ──────────────────────────────────────────── */
+    el.addEventListener("touchstart", function (e) {
+      clearTimeout(resumeTO);
+      isDragging = true;
+      hasMoved   = false;
+      dragStartX = e.touches[0].clientX;
+      dragAtX    = x;
+    }, { passive: true });
+
+    el.addEventListener("touchmove", function (e) {
+      if (!isDragging) return;
+      var dx = e.touches[0].clientX - dragStartX;
+      if (Math.abs(dx) > 4) hasMoved = true;
+      x = wrap(dragAtX + dx);
+    }, { passive: true });
+
+    el.addEventListener("touchend", function () {
+      isDragging = false;
+      if (!hasMoved) {
+        isPaused ? resume() : pause();
+      } else {
+        scheduleResume();
+      }
+    });
+
+    /* ── Mouse ──────────────────────────────────────────── */
+    el.addEventListener("mousedown", function (e) {
+      clearTimeout(resumeTO);
+      isDragging = true;
+      hasMoved   = false;
+      dragStartX = e.clientX;
+      dragAtX    = x;
+      el.classList.add("is-dragging");
+      e.preventDefault();
+    });
+
+    window.addEventListener("mousemove", function (e) {
+      if (!isDragging) return;
+      var dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 4) hasMoved = true;
+      x = wrap(dragAtX + dx);
+    });
+
+    window.addEventListener("mouseup", function () {
+      if (!isDragging) return;
+      isDragging = false;
+      el.classList.remove("is-dragging");
+      if (!hasMoved) {
+        isPaused ? resume() : pause();
+      } else {
+        scheduleResume();
+      }
     });
   })();
 

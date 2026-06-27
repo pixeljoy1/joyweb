@@ -452,10 +452,13 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 
 /* marquee */
 .marquee { width: 100vw; margin-left: calc(var(--pad) * -1); overflow: hidden; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 16px 0; margin-top: clamp(32px, 6vh, 70px); }
-.marquee__track { display: inline-flex; align-items: center; gap: 34px; white-space: nowrap; animation: marquee 28s linear infinite; will-change: transform; }
+.marquee--hero { cursor: grab; user-select: none; -webkit-user-select: none; }
+.marquee--hero.is-dragging { cursor: grabbing; }
+.marquee--hero.is-paused .marquee__track { opacity: 0.45; transition: opacity .3s ease; }
+.marquee--hero .marquee__track { transition: opacity .3s ease; }
+.marquee__track { display: inline-flex; align-items: center; gap: 34px; white-space: nowrap; will-change: transform; }
 .marquee__track span { font-family: var(--serif); font-size: clamp(20px, 2.4vw, 34px); color: var(--ink); letter-spacing: -0.01em; }
 .marquee__track .sep { color: var(--sienna); font-size: 14px; }
-@keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ============================================================
    01 · APPROACH — immersive overlay scrollytelling
@@ -1187,7 +1190,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
   .reveal, .line-clip > span { transition: opacity .4s ease; transform: none !important; opacity: 1; }
-  .marquee__track, .scrollcue i::after { animation: none; }
+  .scrollcue i::after { animation: none; }
   .contact__line .word { opacity: 1; }
   .story-step { opacity: 1; transform: none; }
   .story-step::before { height: clamp(32px, 5vh, 56px); }
