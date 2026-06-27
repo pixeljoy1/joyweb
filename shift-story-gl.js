@@ -232,8 +232,8 @@
   var prevMouse  = { x: 0, y: 0 };
   var dragVel    = { x: 0, y: 0 };
   var dragRot    = { x: 0, y: 0 };
-  var DRAG_SENS  = 0.004;
-  var DRAG_DECAY = 0.95;
+  var DRAG_SENS  = 0.0018;
+  var DRAG_DECAY = 0.93;
 
   renderer.domElement.addEventListener('mousedown', function (e) {
     isDragging  = true;

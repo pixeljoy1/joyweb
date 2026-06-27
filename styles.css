@@ -129,7 +129,7 @@ img { display: block; max-width: 100%; }
 .q-dot__track { stroke: color-mix(in srgb, var(--ink) 20%, transparent); stroke-width: 1; }
 .q-dot__arc  { stroke: var(--sienna); stroke-linecap: round; stroke-width: 1; }
 @keyframes q-drain { to { stroke-dashoffset: 62.83; } }
-.q-dot.go .q-dot__arc { animation: q-drain 5s linear forwards; }
+.q-dot.go .q-dot__arc { animation: q-drain 12s linear forwards; }
 .q-dot__pip {
   width: 10px; height: 10px; border-radius: 50%;
   background: var(--sienna); position: relative; z-index: 1; flex-shrink: 0;
@@ -461,10 +461,31 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .marquee__track .sep { color: var(--sienna); font-size: 14px; }
 
 /* ============================================================
+   IDENTITY BRIDGE — between hero quote and scrollytelling
+   ============================================================ */
+.hero__bridge {
+  margin-top: clamp(24px, 4vh, 48px);
+  padding-top: clamp(20px, 3vh, 36px);
+  border-top: 1px solid var(--rule);
+}
+.hero__bridge p {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.6vw, 42px);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  max-width: 28ch;
+  text-wrap: pretty;
+  margin: 0;
+}
+.hero__bridge p em { font-style: italic; color: var(--sienna); }
+
+/* ============================================================
    01 · APPROACH — immersive overlay scrollytelling
    ============================================================ */
-.shift-story { padding-bottom: 0; }
-.shift-story > .sec-num { display: block; margin-bottom: clamp(32px, 5vh, 56px); }
+.shift-story { padding-top: clamp(40px, 5vh, 72px); padding-bottom: 0; }
+.shift-story > .sec-num { display: block; margin-bottom: clamp(20px, 3vh, 36px); }
 
 /* Stage: full-bleed, relative context for absolute canvas */
 .shift-story__stage {
@@ -502,7 +523,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   position: relative;
   z-index: 10;
   width: 50%;
-  padding: 14vh 0 20vh var(--pad);
+  padding: 6vh 0 16vh var(--pad);
   pointer-events: none;
 }
 
