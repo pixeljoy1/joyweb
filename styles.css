@@ -101,17 +101,16 @@ img { display: block; max-width: 100%; }
 .reveal { opacity: 0; transform: translateY(34px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
 .reveal.is-in { opacity: 1; transform: none; }
 
-/* sienna underline draw */
+/* sienna wavy underline reveal */
 .underline {
   font-style: italic;
-  background-image: linear-gradient(var(--sienna), var(--sienna));
-  background-repeat: no-repeat;
-  background-position: 0 92%;
-  background-size: 0% 4px;
-  transition: background-size .9s var(--ease) .3s;
-  padding-bottom: 4px;
+  text-decoration: underline wavy;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 6px;
+  transition: text-decoration-color .9s var(--ease) .3s;
 }
-.is-in .underline { background-size: 100% 4px; }
+.is-in .underline { text-decoration-color: var(--sienna); }
 
 /* ============================================================
    QUOTE TIMER DOT  — replaces the trailing period in hero quote
@@ -126,8 +125,8 @@ img { display: block; max-width: 100%; }
   transform: translate(-50%, -50%) rotate(-90deg);
   width: 46px; height: 46px; overflow: visible;
 }
-.q-dot__track { stroke: color-mix(in srgb, var(--ink) 20%, transparent); stroke-width: 1; }
-.q-dot__arc  { stroke: var(--sienna); stroke-linecap: round; stroke-width: 1; }
+.q-dot__track { stroke: color-mix(in srgb, var(--ink) 20%, transparent); stroke-width: 0.6; }
+.q-dot__arc  { stroke: var(--sienna); stroke-linecap: round; stroke-width: 0.6; }
 @keyframes q-drain { to { stroke-dashoffset: 62.83; } }
 .q-dot.go .q-dot__arc { animation: q-drain 12s linear forwards; }
 .q-dot__pip {
