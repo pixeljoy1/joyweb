@@ -39,8 +39,6 @@
 
 /* B&W: accent = text colour (auto-flips in dark mode) */
 [data-color="bw"]              { --sienna: var(--ink); --sienna2: var(--ink); }
-/* Cyan accent */
-[data-color="cyan"]            { --sienna: #00E5FF; --sienna2: #00BFFF; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
