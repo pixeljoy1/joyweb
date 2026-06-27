@@ -426,8 +426,13 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   font-family: var(--serif); font-weight: 400;
   font-size: clamp(44px, 8.4vw, 150px);
   line-height: .96; letter-spacing: -0.035em; text-wrap: balance;
+  -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 38px), transparent 100%);
+  mask-image: linear-gradient(to bottom, black calc(100% - 38px), transparent 100%);
 }
 .hero__head em { font-style: italic; }
+/* Give the last line enough room for the 46px timer-circle SVG
+   so .line-clip's overflow:hidden doesn't hard-clip it */
+.hero__head .line-clip:last-child { padding-bottom: 34px; }
 .hero__foot {
   display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
   margin-top: clamp(28px, 5vh, 64px); flex-wrap: wrap;
