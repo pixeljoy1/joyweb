@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.30";
+  var BUILD_VERSION = "2.3.31";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
