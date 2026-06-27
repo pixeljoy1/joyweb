@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.29";
+  var BUILD_VERSION = "2.3.30";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -456,41 +456,47 @@
   })();
 
   /* ============================================================
-     SHIFT STORY — scrollytelling IntersectionObserver
+     SHIFT STORY — continuous scroll-tracked opacity
      ============================================================ */
   (function shiftStory() {
-    var section = $("#approach");
     var canvas  = $("#visualCanvas");
     var steps   = document.querySelectorAll(".story-step");
     if (!canvas || !steps.length) return;
 
+    var activeStep = -1;
+
     function activate(n) {
+      if (activeStep === n) return;
+      activeStep = n;
       steps.forEach(function (s) {
         s.classList.toggle("is-active", parseInt(s.getAttribute("data-step"), 10) === n);
       });
       canvas.setAttribute("data-active-step", String(n));
     }
 
-    /* Per-step observer — triggers in a 25%-to-45% viewport band */
-    var stepObs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          activate(parseInt(e.target.getAttribute("data-step"), 10));
-        }
+    function update() {
+      var vpH   = window.innerHeight;
+      var focus = vpH * 0.40;
+      var best  = 1, bestDist = Infinity;
+
+      steps.forEach(function (s) {
+        var rect = s.getBoundingClientRect();
+        var mid  = rect.top + rect.height / 2;
+        var dist = Math.abs(mid - focus);
+        var maxD = vpH * 0.75;
+        var t    = Math.max(0, 1 - dist / maxD);
+        /* smooth-step easing: 3t² − 2t³ */
+        var ease = t * t * (3 - 2 * t);
+        s.style.opacity = (0.12 + ease * 0.88).toFixed(3);
+        if (dist < bestDist) { bestDist = dist; best = parseInt(s.getAttribute("data-step"), 10); }
       });
-    }, { rootMargin: "-25% 0px -50% 0px", threshold: 0 });
 
-    /* Section entry observer — fires state 1 when section first arrives,
-       then hands off to per-step observer */
-    var sectionObs = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        activate(1);
-        sectionObs.disconnect();
-        steps.forEach(function (s) { stepObs.observe(s); });
-      }
-    }, { rootMargin: "0px 0px -45% 0px", threshold: 0 });
+      activate(best);
+    }
 
-    if (section) sectionObs.observe(section);
+    window.addEventListener("scroll", update, { passive: true });
+    if (lenis) lenis.on("scroll", update);
+    update();
   })();
 
   /* ============================================================

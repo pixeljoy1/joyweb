@@ -5,7 +5,7 @@
   if (!container || typeof THREE === 'undefined') return;
 
   /* ── constants ─────────────────────────────────────────────────── */
-  var N        = 2000;
+  var N        = 2800;
 
   var LERP_POS  = 0.055;
   var LERP_XFRM = 0.04;
@@ -19,9 +19,9 @@
 
   /* ── per-step config ────────────────────────────────────────────── */
   var STEP_CFG = [
-    { posX: 1.2, scale: 1.00, ptSize: 0.036, rotSpeedY: 0.100, rotZ: 0              },  // cloud
-    { posX: 0.8, scale: 1.30, ptSize: 0.058, rotSpeedY: 0.115, rotZ: 0              },  // network
-    { posX: 1.2, scale: 1.30, ptSize: 0.026, rotSpeedY: 0.055, rotZ: Math.PI / 4   },  // DNA helix
+    { posX: 1.2, scale: 1.00, ptSize: 0.062, rotSpeedY: 0.100, rotZ: 0              },  // cloud
+    { posX: 0.8, scale: 1.30, ptSize: 0.092, rotSpeedY: 0.115, rotZ: 0              },  // network
+    { posX: 1.2, scale: 1.30, ptSize: 0.055, rotSpeedY: 0.055, rotZ: Math.PI / 4   },  // DNA helix
   ];
 
   var targetPosX   = STEP_CFG[0].posX;

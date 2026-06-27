@@ -531,10 +531,8 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   display: flex;
   align-items: center;
   opacity: 0.12;
-  transition: opacity 0.7s ease;
   pointer-events: auto;
 }
-.story-step.is-active { opacity: 1; }
 
 .story-step p {
   font-family: var(--serif);
