@@ -766,8 +766,10 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .cap:hover .cap__plus { color: var(--paper); transform: rotate(90deg); }
 @media (max-width: 640px) {
   .cap { grid-template-columns: 1fr auto; }
-  .cap__num { grid-column: 1; }
-  .cap__proof { grid-column: 1 / -1; }
+  .cap__num  { grid-column: 1; grid-row: 1; }
+  .cap__plus { grid-column: 2; grid-row: 1; }
+  .cap__title { grid-column: 1 / -1; grid-row: 2; }
+  .cap__proof { grid-column: 1 / -1; grid-row: 3; }
 }
 
 /* ============================================================
