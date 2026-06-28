@@ -37,9 +37,17 @@
   --gl-s2:  #5E5752;
 }
 
-/* Contrasty: desaturate entire page, accent collapses to ink */
+/* Contrasty: desaturate entire page via blend overlay — preserves fixed positioning */
 [data-color="bw"]              { --sienna: var(--ink); --sienna2: var(--ink); }
-[data-color="bw"] body         { filter: grayscale(100%) contrast(1.1); }
+[data-color="bw"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  mix-blend-mode: saturation;
+  z-index: 99999;
+  pointer-events: none;
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -495,14 +503,12 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 
 .preintro__header {
   display: block;
-  padding: 0 var(--pad);
-  max-width: var(--maxw);
-  margin: 0 auto;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.09em;
   text-transform: lowercase;
   color: var(--muted);
+  margin-bottom: clamp(12px, 2vh, 20px);
 }
 
 /* Circle photo */
