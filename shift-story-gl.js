@@ -349,14 +349,25 @@
   });
 
   /* ── touch swipe → step navigation (mobile) ──────────────────────── */
-  var _swX = 0, _swY = 0;
+  /* Only fires when touch STARTED inside the approach section bounds */
+  var _swX = 0, _swY = 0, _swValid = false;
+  var _approachEl = document.getElementById('approach');
+
   document.addEventListener('touchstart', function (e) {
-    _swX = e.changedTouches[0].clientX;
-    _swY = e.changedTouches[0].clientY;
+    _swValid = false;
+    if (!_approachEl) return;
+    var r  = _approachEl.getBoundingClientRect();
+    var tx = e.changedTouches[0].clientX;
+    var ty = e.changedTouches[0].clientY;
+    if (tx >= r.left && tx <= r.right && ty >= r.top && ty <= r.bottom) {
+      _swX = tx;
+      _swY = ty;
+      _swValid = true;
+    }
   }, { passive: true });
 
   document.addEventListener('touchend', function (e) {
-    if (!storyNavActive()) return;
+    if (!storyNavActive() || !_swValid) return;
     var dx = e.changedTouches[0].clientX - _swX;
     var dy = e.changedTouches[0].clientY - _swY;
     /* require clear horizontal intent: ≥72px and horizontal > 1.5× vertical */
