@@ -852,6 +852,17 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .trow__tools { font-family: var(--serif); font-size: clamp(18px, 2.2vw, 32px); letter-spacing: -0.01em; }
 @media (max-width: 640px) { .trow { grid-template-columns: 1fr; gap: 8px; } }
 
+@keyframes nodeRing {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sienna) 55%, transparent); }
+  60%  { box-shadow: 0 0 0 8px color-mix(in srgb, var(--sienna) 12%, transparent); }
+  100% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--sienna) 0%, transparent); }
+}
+@keyframes dotPop {
+  0%   { transform: scale(0.1); }
+  60%  { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
 /* ============================================================
    07 · ARC
    ============================================================ */
@@ -890,8 +901,9 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 }
 .arc__node:hover { transform: translate(-50%, -50%) scale(1.5); border-color: var(--sienna); background: var(--sienna); }
 .arc__node:hover::after, .arc__node:hover::before { opacity: 1; transform: translateX(-50%) translateY(0); }
-.arc__node.lit { border-color: var(--sienna); }
-.arc__node--ghost.lit { background: color-mix(in srgb, var(--sienna) 55%, var(--muted)); }
+.arc__node.lit { border-color: var(--sienna); animation: nodeRing 0.65s var(--ease) forwards; }
+.arc__node--ghost.lit { background: color-mix(in srgb, var(--sienna) 55%, var(--muted)); animation: none; }
+.arc__node--last.lit, .arc__node--current.lit { animation: none; }
 .arc__node--ghost {
   width: 3px; height: 20px; border-radius: 2px;
   background: color-mix(in srgb, var(--muted) 40%, transparent); border: none;
@@ -1007,14 +1019,18 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .arc__card::before {
   content: "";
   position: absolute;
-  left: -27px; top: 4px;
+  left: -32px; top: 4px;
   width: 13px; height: 13px;
   border-radius: 50%;
   background: var(--paper);
   border: 2px solid var(--muted);
   transition: border-color 0.4s ease, background 0.4s ease;
 }
-.arc__card.is-revealed::before { border-color: var(--sienna); background: var(--sienna); }
+.arc__card.is-revealed::before {
+  border-color: var(--sienna);
+  background: var(--sienna);
+  animation: dotPop 0.55s var(--ease) both;
+}
 .arc__card__body { display: flex; align-items: flex-start; gap: 14px; }
 .arc__card__logo {
   max-width: 40px; height: auto; object-fit: contain;
