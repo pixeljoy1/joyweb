@@ -527,9 +527,10 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   transition: filter 1.6s var(--ease);
   display: block;
 }
-/* dark mode: high-contrast B&W */
+/* dark mode / Contrasty: high-contrast B&W, instant switch */
 [data-theme="dark"] .preintro__photo {
   filter: grayscale(100%) contrast(1.4) brightness(1.05);
+  transition: filter 0s;
 }
 .preintro:hover .preintro__photo { filter: none; }
 
