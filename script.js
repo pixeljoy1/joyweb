@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.57";
+  var BUILD_VERSION = "2.3.58";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -445,15 +445,18 @@
     if (!modal || !frame) return;
 
     var PDF_PATH = "resume/JoydeepMitra_resume_2026_v2.2_.pdf";
-    var pdfAbs   = new URL(PDF_PATH, window.location.href).href;
-    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    var loaded   = false;
 
+    function pdfSrc() {
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (mobile) {
+        var abs = new URL(PDF_PATH, window.location.href).href;
+        return "https://docs.google.com/viewer?embedded=true&url=" + encodeURIComponent(abs);
+      }
+      return PDF_PATH;
+    }
     function open() {
-      /* Mobile: native browser PDF viewer is more reliable than any iframe embed */
-      if (isMobile) { window.open(pdfAbs, "_blank", "noopener"); return; }
-      /* Desktop: embed directly — reset src each open so a failed load can be retried */
-      frame.setAttribute("src", "");
-      requestAnimationFrame(function () { frame.setAttribute("src", PDF_PATH); });
+      if (!loaded) { frame.setAttribute("src", pdfSrc()); loaded = true; }
       modal.classList.add("open");
       modal.removeAttribute("aria-hidden");
       document.body.style.overflow = "hidden";
@@ -462,7 +465,6 @@
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
-      frame.setAttribute("src", ""); /* clear so next open always fetches fresh */
     }
 
     ["#resumeBtn", "#navResumeBtn"].forEach(function (id) {
