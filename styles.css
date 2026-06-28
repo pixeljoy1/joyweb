@@ -228,6 +228,7 @@ img { display: block; max-width: 100%; }
   display: flex; align-items: center; justify-content: space-between;
   mix-blend-mode: normal;
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  will-change: transform; /* force own GPU compositor layer — prevents sticky/canvas elements painting above */
 }
 .nav.is-scrolled {
   background: color-mix(in srgb, var(--paper) 72%, transparent);
@@ -559,6 +560,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .visual-canvas > canvas {
   position: sticky !important;
   top: 0 !important;
+  z-index: 1;
   display: block !important;
   width: 100% !important;
   height: 100vh !important;
@@ -745,7 +747,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
    03 · WORK (horizontal pinned)
    ============================================================ */
 .work { padding: 0; background: var(--ink); color: var(--paper); }
-.work__pin { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
+.work__pin { position: sticky; top: 0; z-index: 1; height: 100svh; overflow: hidden; display: flex; flex-direction: column; }
 .work__head {
   display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap;
   padding: clamp(28px, 6vh, 70px) var(--pad) clamp(20px, 3vh, 36px);
@@ -1207,6 +1209,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   .visual-canvas > canvas {
     position: sticky !important;
     top: 0 !important;
+    z-index: 1;
     width: 100% !important;
     height: 100vh !important;
     pointer-events: auto !important;
