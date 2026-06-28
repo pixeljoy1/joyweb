@@ -472,6 +472,15 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   padding-top: clamp(20px, 3vh, 36px);
   border-top: 1px solid var(--rule);
 }
+.hero__bridge-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: lowercase;
+  color: var(--muted);
+  margin-bottom: clamp(10px, 1.5vh, 18px);
+}
 .hero__bridge p {
   font-family: var(--serif);
   font-size: clamp(22px, 2.6vw, 42px);
@@ -486,41 +495,25 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .hero__bridge p em { font-style: italic; color: var(--sienna); }
 
 /* ============================================================
-   PREINTRO — Joydeep Mitra identity grid
+   PREINTRO — profile photo block
    ============================================================ */
 .preintro {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: clamp(48px, 7vw, 110px);
-  padding: clamp(40px, 6vh, 80px) var(--pad) clamp(80px, 13vh, 160px);
+  padding: clamp(40px, 6vh, 72px) var(--pad) clamp(60px, 10vh, 120px);
   max-width: var(--maxw);
   margin: 0 auto;
-  align-items: center;
   opacity: 0;
-  transition: opacity 1.6s var(--ease);
+  transition: opacity 1.4s var(--ease);
 }
 .preintro.is-in { opacity: 1; }
 
-.preintro__header {
-  display: block;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.09em;
-  text-transform: lowercase;
-  color: var(--muted);
-  margin-bottom: clamp(12px, 2vh, 20px);
-}
-
-/* Circle photo */
 .preintro__photo-wrap {
-  width: clamp(180px, 24vw, 320px);
-  height: clamp(180px, 24vw, 320px);
+  width: clamp(160px, 22vw, 280px);
+  height: clamp(160px, 22vw, 280px);
   border-radius: 50%;
   overflow: hidden;
-  flex-shrink: 0;
   opacity: 0;
   transform: scale(0.94);
-  transition: opacity 1.2s var(--ease) .22s, transform 1.2s var(--ease) .22s;
+  transition: opacity 1.2s var(--ease) .18s, transform 1.2s var(--ease) .18s;
 }
 .preintro.is-in .preintro__photo-wrap { opacity: 1; transform: scale(1); }
 
@@ -529,49 +522,14 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   height: 100%;
   object-fit: cover;
   object-position: center 22%;
-  /* default: muted sienna tint, unsaturated like site palette */
   filter: sepia(0.55) saturate(1.15) hue-rotate(-14deg) brightness(0.97);
   transition: filter 1.6s var(--ease);
   display: block;
 }
-/* dark mode: high-contrast B&W on profile photo */
 [data-theme="dark"] .preintro__photo {
   filter: grayscale(100%) contrast(1.4) brightness(1.05);
 }
 .preintro:hover .preintro__photo { filter: none; }
-
-/* Text side */
-.preintro__body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.preintro__text {
-  font-size: clamp(16px, 1.7vw, 21px);
-  font-weight: 300;
-  line-height: 1.72;
-  color: var(--ink);
-  max-width: 42ch;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 1s var(--ease) .36s, transform 1s var(--ease) .36s;
-}
-.preintro.is-in .preintro__text { opacity: 1; transform: none; }
-
-@media (max-width: 680px) {
-  .preintro {
-    grid-template-columns: 1fr;
-    row-gap: 28px;
-    padding-top: clamp(56px, 9vh, 96px);
-  }
-  .preintro__photo-wrap {
-    grid-row: auto;
-    width: clamp(120px, 38vw, 200px);
-    height: clamp(120px, 38vw, 200px);
-  }
-  .preintro__body { grid-row: auto; }
-}
 
 /* ============================================================
    01 · APPROACH — immersive overlay scrollytelling
@@ -1195,13 +1153,28 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 }
 .pdf-modal__dl:hover { opacity: .7; }
 .pdf-modal__close {
-  font-family: var(--sans); font-size: 20px; line-height: 1;
+  font-family: var(--sans); font-size: 22px; line-height: 1;
   color: var(--ink); background: none; border: none; cursor: none;
-  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; opacity: .45; transition: opacity .2s, background .2s;
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; opacity: .55; transition: opacity .2s, background .2s; flex-shrink: 0;
 }
 .pdf-modal__close:hover { opacity: 1; background: color-mix(in srgb, var(--ink) 8%, transparent); }
 .pdf-modal__frame { flex: 1; width: 100%; border: none; background: #f5f5f5; }
+
+@media (max-width: 680px) {
+  .pdf-modal__panel {
+    width: 100vw; height: 92dvh;
+    border-radius: 16px 16px 0 0;
+    position: fixed; bottom: 0; left: 0; top: auto;
+    transform: translateY(100%);
+  }
+  .pdf-modal.open .pdf-modal__panel { transform: translateY(0); }
+  .pdf-modal { align-items: flex-end; }
+  .pdf-modal__bar { padding: 16px 16px 14px; }
+  .pdf-modal__close {
+    width: 44px; height: 44px; font-size: 26px; opacity: .7; cursor: pointer;
+  }
+}
 
 /* ============================================================
    MOBILE  ≤ 768px  — strict layout overrides

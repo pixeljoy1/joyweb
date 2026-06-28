@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.42";
+  var BUILD_VERSION = "2.3.43";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -444,11 +444,21 @@
     var frame    = $("#pdfFrame");
     if (!modal || !frame) return;
 
-    var PDF_SRC = "resume/JoydeepMitra_resume_2026_v2.2_.pdf";
-    var loaded  = false;
+    var PDF_PATH = "resume/JoydeepMitra_resume_2026_v2.2_.pdf";
+    var loaded   = false;
+
+    function pdfSrc() {
+      /* Mobile Safari cannot embed PDFs — use Google Docs viewer instead */
+      var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (mobile) {
+        return "https://docs.google.com/viewer?embedded=true&url=" +
+               encodeURIComponent(location.origin + "/" + PDF_PATH);
+      }
+      return PDF_PATH;
+    }
 
     function open() {
-      if (!loaded) { frame.setAttribute("src", PDF_SRC); loaded = true; }
+      if (!loaded) { frame.setAttribute("src", pdfSrc()); loaded = true; }
       modal.classList.add("open");
       modal.removeAttribute("aria-hidden");
       document.body.style.overflow = "hidden";
@@ -644,36 +654,15 @@
       resumeTO = setTimeout(resume, 1400);
     }
 
-    /* ── Touch ──────────────────────────────────────────── */
-    el.addEventListener("touchstart", function (e) {
+    /* ── Touch: press-to-pause only (no drag scrub — avoids page scroll conflict) ── */
+    el.addEventListener("touchstart", function () {
       clearTimeout(resumeTO);
-      isDragging = true;
-      hasMoved   = false;
-      dragStartX = e.touches[0].clientX;
-      dragStartY = e.touches[0].clientY;
-      dragAtX    = x;
+      pause();
     }, { passive: true });
 
-    el.addEventListener("touchmove", function (e) {
-      if (!isDragging) return;
-      var dx = e.touches[0].clientX - dragStartX;
-      var dy = e.touches[0].clientY - dragStartY;
-      /* only hijack horizontal gestures — let vertical scroll pass through */
-      if (Math.abs(dx) > Math.abs(dy)) {
-        e.preventDefault();
-        hasMoved = true;
-        x = wrap(dragAtX + dx);
-      }
-    }, { passive: false });
-
     el.addEventListener("touchend", function () {
-      isDragging = false;
-      if (!hasMoved) {
-        isPaused ? resume() : pause();
-      } else {
-        scheduleResume();
-      }
-    });
+      scheduleResume();
+    }, { passive: true });
 
     /* ── Mouse ──────────────────────────────────────────── */
     el.addEventListener("mousedown", function (e) {
