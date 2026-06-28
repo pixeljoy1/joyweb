@@ -909,14 +909,6 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   background: color-mix(in srgb, var(--muted) 40%, transparent); border: none;
 }
 .arc__node--ghost:hover { transform: translate(-50%, -50%); background: var(--sienna); border: none; }
-/* Origin node: no visible tick, no logo/meta — just a year anchor */
-.arc__node--origin {
-  width: 0 !important; height: 0 !important;
-  background: transparent !important; border: none !important;
-  overflow: visible;
-}
-.arc__node--origin .timeline-logo,
-.arc__node--origin .timeline-meta { display: none !important; }
 .arc__node--last { width: 18px; height: 18px; background: var(--sienna); border-color: var(--sienna); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sienna) 18%, transparent); }
 .arc__node--current {
   width: 20px; height: 20px; background: var(--sienna); border-color: var(--sienna);
@@ -1019,8 +1011,8 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .arc__card::before {
   content: "";
   position: absolute;
-  left: -32px; top: 4px;
-  width: 13px; height: 13px;
+  left: -32px; top: 5px;
+  width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--paper);
   border: 2px solid var(--muted);
@@ -1033,10 +1025,9 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 }
 .arc__card__body { display: flex; align-items: flex-start; gap: 14px; }
 .arc__card__logo {
-  max-width: 40px; height: auto; object-fit: contain;
+  max-width: 56px; height: auto; object-fit: contain;
   flex-shrink: 0; margin-top: 2px;
-  opacity: 0; transition: opacity 0.5s ease 0.15s, background 0.5s ease 0.15s;
-  padding: 3px 6px;
+  opacity: 0; transition: opacity 0.5s ease 0.15s;
   border-radius: 3px;
   background: transparent;
 }
@@ -1048,12 +1039,12 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   font-weight: 400; color: var(--ink); line-height: 1.1; margin: 0;
 }
 .arc__card__rl {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
-  text-transform: uppercase; color: var(--muted); line-height: 1.4;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--ink); opacity: 0.65; line-height: 1.4;
 }
 .arc__card__yr {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
-  text-transform: uppercase; color: var(--sienna); margin-top: 2px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--sienna); margin-top: 3px;
 }
 
 /* ============================================================

@@ -10,11 +10,24 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="work/case.css" />
 <style>
-/* csr-gallery inline since this page is at root, not /work/ */
-.csr-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; }
-.csr-gallery__item { position:relative; overflow:hidden; border-radius:3px; background:#E8E2D8; aspect-ratio:4/3; }
-.csr-gallery__item img { width:100%; height:100%; object-fit:cover; display:block; cursor:pointer; transition:transform .4s ease,opacity .3s ease; }
-.csr-gallery__item img:hover { transform:scale(1.04); opacity:.88; }
+.csr-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 1vw, 16px);
+  margin-top: clamp(28px, 4vh, 44px);
+}
+.csr-gallery__item {
+  position: relative; overflow: hidden; border-radius: 4px;
+  background: #E8E2D8; aspect-ratio: 4 / 3;
+}
+.csr-gallery__item img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  cursor: pointer; transition: transform .4s ease, opacity .3s ease;
+}
+.csr-gallery__item img:hover { transform: scale(1.04); opacity: .88; }
+@media (max-width: 600px) {
+  .csr-gallery { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 </head>
 <body>
@@ -73,7 +86,7 @@
         <li><span class="ix">→</span>Community building — contributing to the design practitioner ecosystem in Bangalore</li>
       </ul>
 
-      <div class="csr-gallery" style="margin-top:clamp(28px,4vh,44px);">
+      <div class="csr-gallery">
         <div class="csr-gallery__item">
           <img src="images/mitra/designbiz_BLR/image%202.jpg" alt="design@business Bangalore — speaking event" data-preview data-preview-alt="Public Speaking · design@business Bangalore" loading="lazy" />
         </div>
