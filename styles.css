@@ -469,16 +469,14 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
    ============================================================ */
 .hero__bridge {
   margin-top: clamp(24px, 4vh, 48px);
-  padding-top: clamp(20px, 3vh, 36px);
-  border-top: 1px solid var(--rule);
 }
 .hero__bridge-label {
   display: block;
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.09em;
-  text-transform: lowercase;
-  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sienna);
   margin-bottom: clamp(10px, 1.5vh, 18px);
 }
 .hero__bridge p {
