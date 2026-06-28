@@ -228,7 +228,6 @@ img { display: block; max-width: 100%; }
   display: flex; align-items: center; justify-content: space-between;
   mix-blend-mode: normal;
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
-  will-change: transform; /* force own GPU compositor layer — prevents sticky/canvas elements painting above */
 }
 .nav.is-scrolled {
   background: color-mix(in srgb, var(--paper) 72%, transparent);
