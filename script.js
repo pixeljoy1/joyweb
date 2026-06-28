@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.31";
+  var BUILD_VERSION = "2.3.32";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -234,6 +234,21 @@
       });
     }, { threshold: 0.18, rootMargin: "0px 0px -8% 0px" });
     els.forEach(function (e) { io.observe(e); });
+  })();
+
+  /* ============================================================
+     PREINTRO — scroll fade-in observer
+     ============================================================ */
+  (function preintroReveal() {
+    var el = document.getElementById("preintro");
+    if (!el || !("IntersectionObserver" in window)) {
+      if (el) el.classList.add("is-in");
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { el.classList.add("is-in"); io.disconnect(); }
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    io.observe(el);
   })();
 
   /* ============================================================
