@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.44";
+  var BUILD_VERSION = "2.3.45";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -451,8 +451,8 @@
       /* Mobile Safari cannot embed PDFs — use Google Docs viewer instead */
       var mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (mobile) {
-        return "https://docs.google.com/viewer?embedded=true&url=" +
-               encodeURIComponent(location.origin + "/" + PDF_PATH);
+        var abs = new URL(PDF_PATH, window.location.href).href;
+        return "https://docs.google.com/viewer?embedded=true&url=" + encodeURIComponent(abs);
       }
       return PDF_PATH;
     }
@@ -654,14 +654,34 @@
       resumeTO = setTimeout(resume, 1400);
     }
 
-    /* ── Touch: press-to-pause only (no drag scrub — avoids page scroll conflict) ── */
-    el.addEventListener("touchstart", function () {
+    /* ── Touch: drag to scrub, tap to pause/resume ─────────────────── */
+    el.addEventListener("touchstart", function (e) {
       clearTimeout(resumeTO);
-      pause();
+      isDragging = true;
+      hasMoved   = false;
+      dragStartX = e.touches[0].clientX;
+      dragStartY = e.touches[0].clientY;
+      dragAtX    = x;
     }, { passive: true });
 
+    el.addEventListener("touchmove", function (e) {
+      if (!isDragging) return;
+      var dx = e.touches[0].clientX - dragStartX;
+      var dy = e.touches[0].clientY - dragStartY;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault();   /* block page scroll only for horizontal swipes */
+        hasMoved = true;
+        x = wrap(dragAtX + dx);
+      }
+    }, { passive: false });
+
     el.addEventListener("touchend", function () {
-      scheduleResume();
+      isDragging = false;
+      if (!hasMoved) {
+        isPaused ? resume() : pause();
+      } else {
+        scheduleResume();
+      }
     }, { passive: true });
 
     /* ── Mouse ──────────────────────────────────────────── */

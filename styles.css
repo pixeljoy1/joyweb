@@ -1115,8 +1115,10 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .btn-cta--sienna:hover { background: var(--sienna); color: var(--paper); }
 
 .pdf-modal {
-  position: fixed; inset: 0; z-index: 200;
+  position: fixed; inset: 0; z-index: 10002;
   display: flex; align-items: center; justify-content: center;
+  padding-top: 72px; /* clear the nav */
+  padding-bottom: 20px;
   pointer-events: none; opacity: 0;
   transition: opacity .3s ease;
 }
@@ -1128,7 +1130,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 }
 .pdf-modal__panel {
   position: relative; z-index: 1;
-  width: min(900px, 94vw); height: 90vh;
+  width: min(820px, 92vw); height: 100%;
   background: var(--paper); border-radius: 8px;
   display: flex; flex-direction: column; overflow: hidden;
   transform: translateY(28px);
