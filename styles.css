@@ -37,8 +37,9 @@
   --gl-s2:  #5E5752;
 }
 
-/* B&W: accent = text colour (auto-flips in dark mode) */
+/* Contrasty: desaturate entire page, accent collapses to ink */
 [data-color="bw"]              { --sienna: var(--ink); --sienna2: var(--ink); }
+[data-color="bw"] body         { filter: grayscale(100%) contrast(1.1); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -527,10 +528,9 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   transition: filter 1.6s var(--ease);
   display: block;
 }
-/* dark mode / Contrasty: high-contrast B&W, instant switch */
+/* dark mode: high-contrast B&W on profile photo */
 [data-theme="dark"] .preintro__photo {
   filter: grayscale(100%) contrast(1.4) brightness(1.05);
-  transition: filter 0s;
 }
 .preintro:hover .preintro__photo { filter: none; }
 

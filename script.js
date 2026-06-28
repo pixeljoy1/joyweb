@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.38";
+  var BUILD_VERSION = "2.3.39";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -540,22 +540,10 @@
     }
 
     function applyColor(color) {
-      if (color === "bw") {
-        root.setAttribute("data-color", "bw");
-        /* Contrasty forces dark mode */
-        root.setAttribute("data-theme", "dark");
-        panel.querySelectorAll("[data-set-mode]").forEach(function (b) {
-          b.classList.toggle("is-active", b.getAttribute("data-set-mode") === "dark");
-        });
-      } else {
+      if (color === "orange") {
         root.removeAttribute("data-color");
-        /* Restore saved mode when leaving Contrasty */
-        var savedMode = localStorage.getItem("jm-mode") || "system";
-        var effective = (savedMode === "system") ? (mq.matches ? "dark" : "light") : savedMode;
-        root.setAttribute("data-theme", effective);
-        panel.querySelectorAll("[data-set-mode]").forEach(function (b) {
-          b.classList.toggle("is-active", b.getAttribute("data-set-mode") === savedMode);
-        });
+      } else {
+        root.setAttribute("data-color", color);
       }
       localStorage.setItem("jm-color", color);
       panel.querySelectorAll("[data-set-color]").forEach(function (b) {
