@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.45";
+  var BUILD_VERSION = "2.3.46";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -654,10 +654,13 @@
       resumeTO = setTimeout(resume, 1400);
     }
 
-    /* ── Touch: drag to scrub, tap to pause/resume ─────────────────── */
+    /* ── Touch: drag to scrub, deliberate tap to pause/resume ────────
+       isDragging is NOT set on touchstart — only once a clear horizontal
+       gesture is confirmed. This prevents vertical page-scroll passing
+       over the marquee from accidentally pausing it.                    */
     el.addEventListener("touchstart", function (e) {
       clearTimeout(resumeTO);
-      isDragging = true;
+      isDragging = false;
       hasMoved   = false;
       dragStartX = e.touches[0].clientX;
       dragStartY = e.touches[0].clientY;
@@ -665,22 +668,28 @@
     }, { passive: true });
 
     el.addEventListener("touchmove", function (e) {
-      if (!isDragging) return;
       var dx = e.touches[0].clientX - dragStartX;
       var dy = e.touches[0].clientY - dragStartY;
-      if (Math.abs(dx) > Math.abs(dy)) {
-        e.preventDefault();   /* block page scroll only for horizontal swipes */
-        hasMoved = true;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
+        isDragging = true;
+        hasMoved   = true;
+        e.preventDefault();
         x = wrap(dragAtX + dx);
       }
     }, { passive: false });
 
-    el.addEventListener("touchend", function () {
+    el.addEventListener("touchend", function (e) {
+      var wasHorizontal = hasMoved;
       isDragging = false;
-      if (!hasMoved) {
-        isPaused ? resume() : pause();
-      } else {
+      hasMoved   = false;
+      if (wasHorizontal) {
         scheduleResume();
+      } else {
+        /* only toggle pause on a genuine stationary tap */
+        var dx = Math.abs(e.changedTouches[0].clientX - dragStartX);
+        var dy = Math.abs(e.changedTouches[0].clientY - dragStartY);
+        if (dx < 10 && dy < 10) { isPaused ? resume() : pause(); }
+        /* vertical scroll passing through — do nothing */
       }
     }, { passive: true });
 
