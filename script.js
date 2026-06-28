@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.46";
+  var BUILD_VERSION = "2.3.47";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -340,7 +340,7 @@
 
     // arc fill + node lighting + logo/meta reveal (desktop only; mobile uses IO)
     if (arcSec && arcFill && innerWidth > 768) {
-      var lrTop = arcLineDocTop - y;
+      var lrTop = arcLine ? arcLine.getBoundingClientRect().top : -99999;
       var ap = clamp((innerHeight * 0.82 - lrTop) / (innerHeight * 0.65), 0, 1);
       arcFill.style.width = ap * 100 + "%";
       arcNodes.forEach(function (n) {

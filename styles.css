@@ -897,12 +897,14 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   background: color-mix(in srgb, var(--muted) 40%, transparent); border: none;
 }
 .arc__node--ghost:hover { transform: translate(-50%, -50%); background: var(--sienna); border: none; }
-/* Origin node: no visible tick, but logo/meta children still show */
+/* Origin node: no visible tick, no logo/meta — just a year anchor */
 .arc__node--origin {
   width: 0 !important; height: 0 !important;
   background: transparent !important; border: none !important;
   overflow: visible;
 }
+.arc__node--origin .timeline-logo,
+.arc__node--origin .timeline-meta { display: none !important; }
 .arc__node--last { width: 18px; height: 18px; background: var(--sienna); border-color: var(--sienna); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sienna) 18%, transparent); }
 .arc__node--current {
   width: 20px; height: 20px; background: var(--sienna); border-color: var(--sienna);
@@ -936,7 +938,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   opacity: 1;
   filter: grayscale(0%);
   transform: translateX(-50%) translateY(0);
-  background: var(--sienna);
+  background: transparent;
 }
 
 /* Timeline meta (company + years) — staggered 0.1 s after logo */
@@ -1022,7 +1024,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   border-radius: 3px;
   background: transparent;
 }
-.arc__card.is-revealed .arc__card__logo { opacity: 1; background: var(--sienna); }
+.arc__card.is-revealed .arc__card__logo { opacity: 1; background: transparent; }
 .arc__card__text { display: flex; flex-direction: column; gap: 3px; }
 .arc__card__co {
   font-family: var(--serif);
