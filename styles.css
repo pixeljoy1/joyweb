@@ -227,9 +227,17 @@ img { display: block; max-width: 100%; }
   height: 76px; padding: 0 var(--pad);
   display: flex; align-items: center; justify-content: space-between;
   mix-blend-mode: normal;
+}
+/* Frosted glass on scroll: use ::before so backdrop-filter never lands on
+   the nav element itself — backdrop-filter on a parent traps fixed children
+   and breaks megamenu compositing */
+.nav::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background: transparent;
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
-.nav.is-scrolled {
+.nav.is-scrolled::before {
   background: color-mix(in srgb, var(--paper) 72%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
