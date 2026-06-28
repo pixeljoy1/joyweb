@@ -942,7 +942,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   opacity: 1;
   filter: grayscale(0%);
   transform: translateX(-50%) translateY(0);
-  background: transparent;
+  background: var(--sienna);
 }
 
 /* Timeline meta (company + years) — staggered 0.1 s after logo */
@@ -1011,7 +1011,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .arc__card::before {
   content: "";
   position: absolute;
-  left: -32px; top: 5px;
+  left: -42px; top: 5px;
   width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--paper);
@@ -1031,7 +1031,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
   border-radius: 3px;
   background: transparent;
 }
-.arc__card.is-revealed .arc__card__logo { opacity: 1; background: transparent; }
+.arc__card.is-revealed .arc__card__logo { opacity: 1; background: var(--sienna); }
 .arc__card__text { display: flex; flex-direction: column; gap: 3px; }
 .arc__card__co {
   font-family: var(--serif);
