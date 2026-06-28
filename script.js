@@ -40,7 +40,7 @@
   /* ============================================================
      BUILD VERSION  — bump this each compile
      ============================================================ */
-  var BUILD_VERSION = "2.3.39";
+  var BUILD_VERSION = "2.3.40";
 
   /* ============================================================
      ROTATING HERO QUOTE  — auto-cycles every 10 s via timer dot
@@ -612,6 +612,7 @@
     var isDragging = false;
     var hasMoved   = false;
     var dragStartX = 0;
+    var dragStartY = 0;
     var dragAtX    = 0;
     var resumeTO   = null;
 
@@ -649,15 +650,21 @@
       isDragging = true;
       hasMoved   = false;
       dragStartX = e.touches[0].clientX;
+      dragStartY = e.touches[0].clientY;
       dragAtX    = x;
     }, { passive: true });
 
     el.addEventListener("touchmove", function (e) {
       if (!isDragging) return;
       var dx = e.touches[0].clientX - dragStartX;
-      if (Math.abs(dx) > 4) hasMoved = true;
-      x = wrap(dragAtX + dx);
-    }, { passive: true });
+      var dy = e.touches[0].clientY - dragStartY;
+      /* only hijack horizontal gestures — let vertical scroll pass through */
+      if (Math.abs(dx) > Math.abs(dy)) {
+        e.preventDefault();
+        hasMoved = true;
+        x = wrap(dragAtX + dx);
+      }
+    }, { passive: false });
 
     el.addEventListener("touchend", function () {
       isDragging = false;
