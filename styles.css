@@ -1013,7 +1013,7 @@ section { position: relative; padding: clamp(80px, 14vh, 200px) var(--pad); }
 .arc__card::before {
   content: "";
   position: absolute;
-  left: -42px; top: 5px;
+  left: -34px; top: 5px;
   width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--paper);
