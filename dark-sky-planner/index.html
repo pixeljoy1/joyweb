@@ -53,6 +53,7 @@ h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;te
 .top3 li{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .top3 b{display:block}.top3 small{color:var(--mut);font-size:13px}
 .banner{grid-column:1/-1;background:#2a1717;border:1px solid #5a2a2a;color:#ffd2cc;border-radius:12px;padding:10px 14px;font-size:14px}
+.status{grid-column:1/-1;margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px}.status .mut{color:var(--mut)}
 .sect{grid-column:1/-1;font-size:20px;margin:18px 0 0;font-weight:600}
 .night .v{font-size:26px}
 @media(max-width:1000px){.hero{grid-template-columns:auto minmax(0,1fr)}.hero .t3{grid-column:1/-1}}
@@ -130,6 +131,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 </header>
 
 <main class="grid">
+  <p class="status" id="status"></p>
   <section class="box hero" id="hero"></section>
   <section class="box"><h2>Next 7 nights · astro score out of 100 · tap one to plan it</h2><div class="out" id="outlook"></div></section>
   <h2 class="sect">Plan in detail</h2>
@@ -362,18 +364,23 @@ function renderCat(){$('#chips').innerHTML=Object.keys(FILTERS).map(k=>`<button 
 function setIdx(i){idx=clamp(Math.round(i),0,N.steps.length-1);$('#slider').value=idx;moveCursor();drawDome();renderCond();renderBest();markHH()}
 function defaultIdx(){const now=Date.now();if(now>=N.t0&&now<=N.t1)return (now-N.t0)/STEP;const t=N.d0?N.d0+HR:N.t0+3*HR;return (t-N.t0)/STEP}
 function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNight(nightI);$('#slider').max=N.steps.length-1;
-  renderHead();renderHero();renderOutlook();renderMS();renderSrc();renderCat();renderHH();drawTL();setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx())}
-async function getJSON(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
+  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[renderHH,'hourly'],[drawTL,'timeline']])safe(f,n);
+  safe(()=>setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx()),'time');renderStatus()}
+function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length;
+  $('#status').innerHTML=`<span class="${ok?'go':wxInfo==='loading…'?'maybe':'poor'}">● Weather: ${ok?`Open-Meteo live, ${wx.length} hourly values, ${esc(wxInfo)}`:esc(wxInfo)}</span><span class="${sv7?'go':svInfo==='loading…'?'maybe':'mut'}">● Seeing: ${sv7?'7Timer live':esc(svInfo)}</span>${errs.length?`<span class="poor">● Error: ${esc(errs.slice(-2).join(' · '))}</span>`:''}<span class="mut">App v3</span>`}
+async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.reason)||('HTTP '+r.status));return j}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(tm)}}
+function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
+const errs=[];
 async function loadWeather(){wx=null;sv=null;wxInfo='loading…';svInfo='loading…';const {lat,lon}=loc;
   const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,relative_humidity_2m,dew_point_2m,temperature_2m,wind_speed_10m,wind_gusts_10m,precipitation_probability,visibility,wind_speed_250hPa&timezone=GMT&past_days=1&forecast_days=8`;
-  const p1=getJSON(u).then(j=>{const h=j.hourly;wx=h.time.map((t,i)=>({t:Date.parse(t+':00Z'),cc:h.cloud_cover[i],lo:h.cloud_cover_low[i],mi:h.cloud_cover_mid[i],hi:h.cloud_cover_high[i],rh:h.relative_humidity_2m[i],dp:h.dew_point_2m[i],tp:h.temperature_2m[i],ws:h.wind_speed_10m[i],wg:h.wind_gusts_10m[i],pp:h.precipitation_probability?.[i],vis:h.visibility?.[i],jet:h.wind_speed_250hPa?.[i]})).filter(x=>x.cc!=null);
-    if(loc.elev==null&&j.elevation!=null)loc.elev=j.elevation;wxInfo='Fetched '+fmtT(Date.now())+' local'}).catch(e=>{wxInfo='Could not reach Open-Meteo ('+e.message+'). Check the connection and reload.'});
+  const p1=getJSON(u).catch(e=>getJSON(u.replace(',wind_speed_250hPa',''))).then(j=>{const h=j.hourly;wx=h.time.map((t,i)=>({t:Date.parse(t+':00Z'),cc:h.cloud_cover[i],lo:h.cloud_cover_low[i],mi:h.cloud_cover_mid[i],hi:h.cloud_cover_high[i],rh:h.relative_humidity_2m[i],dp:h.dew_point_2m[i],tp:h.temperature_2m[i],ws:h.wind_speed_10m[i],wg:h.wind_gusts_10m[i],pp:h.precipitation_probability?.[i],vis:h.visibility?.[i],jet:h.wind_speed_250hPa?.[i]})).filter(x=>x.cc!=null);
+    if(loc.elev==null&&j.elevation!=null)loc.elev=j.elevation;wxInfo='Fetched '+fmtT(Date.now())+' local'}).catch(e=>{wxInfo='Could not load Open-Meteo ('+e.message+'). Check the connection and reload.'});
   const p2=(async()=>{for(const base of['https://www.7timer.info','http://www.7timer.info']){try{const j=await getJSON(`${base}/bin/astro.php?lon=${lon}&lat=${lat}&ac=0&unit=metric&output=json&tzshift=0`);
       const s=String(j.init),init=Date.UTC(+s.slice(0,4),+s.slice(4,6)-1,+s.slice(6,8),+s.slice(8,10));
       sv=j.dataseries.map(d=>({t:init+d.timepoint*HR,see:d.seeing,tr:d.transparency,cc7:d.cloudcover})).filter(d=>d.see>0);svInfo='Model run '+fmtD(init,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'UTC'})+' UTC';return}catch(e){}}
     svInfo='Unavailable right now; seeing is estimated from the jet stream instead'})();
-  await Promise.allSettled([p1,p2]);rebuild(true)}
-function setLoc(l){loc=l;store.set('loc',loc);nightI=0;rebuild(false);loadWeather()}
+  p1.then(()=>safe(()=>rebuild(true),'redraw'));p2.then(()=>safe(()=>rebuild(true),'redraw'));renderStatus()}
+function setLoc(l){loc=l;store.set('loc',loc);nightI=0;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';safe(()=>rebuild(false),'start');loadWeather()}
 
 /* ---------- Events ---------- */
 $('#more').addEventListener('click',()=>{showAll=!showAll;renderCat()});
@@ -411,7 +418,7 @@ q.addEventListener('input',()=>{clearTimeout(timer);const v=q.value.trim();if(v.
 q.addEventListener('keydown',e=>{if(ul.hidden)return;if(e.key==='ArrowDown'){sel=Math.min(res.length-1,sel+1);showS();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);showS();e.preventDefault()}else if(e.key==='Enter'&&res[sel]){pick(res[sel]);e.preventDefault()}else if(e.key==='Escape')closeS()});
 ul.addEventListener('click',e=>{const li=e.target.closest('[data-k]');if(li)pick(res[+li.dataset.k])});
 
-rebuild(false);loadWeather();
+safe(()=>rebuild(false),'start');loadWeather();
 setInterval(()=>{if(nightI===0&&!drag&&document.visibilityState==='visible')renderOutlook()},10*60e3);
 }
 </script>
