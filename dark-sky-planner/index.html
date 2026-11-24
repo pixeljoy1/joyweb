@@ -47,7 +47,10 @@ h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;te
 .gauge .n b{font-size:56px;line-height:1;font-weight:700}.gauge .n span{color:var(--mut);font-size:13px}
 .verdict{font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.1;margin:0 0 4px}
 .why{color:var(--mut);margin:0 0 14px;font-size:15px}
-.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tiles{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(2,minmax(0,1fr));gap:8px}
+.cloudT{grid-row:span 2;display:flex;flex-direction:column;gap:2px}.tiles .cloudT b.big{font-size:46px;line-height:1.05}
+.spark{display:flex;align-items:flex-end;gap:2px;height:44px;margin-top:auto;padding-top:8px}.spark i{flex:1;height:100%;display:flex;align-items:flex-start;background:#1c212c;border-radius:2px;overflow:hidden}.spark i.dk{background:#0a0c12}.spark b{display:block;width:100%;background:var(--cloud);font-size:0}
+.sparkx{display:flex;justify-content:space-between;color:var(--mut)}.sparkx small{font-size:12px}
 .tiles .in span{display:block;color:var(--mut);font-size:13px}.tiles .in b{font-size:20px;white-space:nowrap}.tiles .in i{display:block;font-style:normal;color:var(--mut);font-size:13px}
 .top3{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .top3 li{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
@@ -57,7 +60,7 @@ h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;te
 .sect{grid-column:1/-1;font-size:20px;margin:18px 0 0;font-weight:600}
 .night .v{font-size:26px}
 @media(max-width:1000px){.hero{grid-template-columns:auto minmax(0,1fr)}.hero .t3{grid-column:1/-1}}
-@media(max-width:600px){.hero{grid-template-columns:minmax(0,1fr);justify-items:stretch}.gauge{margin:0 auto;width:160px;height:160px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.verdict,.why{text-align:center}}
+@media(max-width:600px){.hero{grid-template-columns:minmax(0,1fr);justify-items:stretch}.gauge{margin:0 auto;width:160px;height:160px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudT{grid-column:1/-1;grid-row:auto}.verdict,.why{text-align:center}}
 .c-dome{grid-column:span 5}.c-cond{grid-column:span 4}.c-best{grid-column:span 3}
 .c-ms,.c-src{grid-column:span 6}
 .dome{position:relative;aspect-ratio:1;max-height:460px;margin:0 auto}
@@ -220,7 +223,17 @@ const cloudF=w=>w?Math.pow(1-clamp(w.cc,0,100)/100,1.6):.8;
 const altF=a=>a<15?0:Math.pow(Math.min(1,(a-15)/35),.6);
 function moonF(tg,m){if(m.alt<-2)return 1;const sp=angSep(tg.ra,tg.dec,m.ra,m.dec);const f=sp<25?1:sp>100?.25:1-.75*(sp-25)/75;return 1-.75*m.illum*f*(m.alt>0?1:.5)*(tg.nb?.45:1)}
 const transF=s=>s?1-.05*(s.tr-1):1;
-const skyQ=st=>Math.round(100*darkF(st.sun)*cloudF(st.w)*(1-.45*st.moon.illum*(st.moon.alt>0?1:0))*transF(st.s));
+/* Sky quality factors, each 0–1. Cloud dominates; moon, haze, seeing, wind, dew and site altitude each trim it. */
+function envF(st){const w=st.w,s=st.s,dm=w?w.tp-w.dp:9;return {
+  clear:w?Math.pow(1-clamp(w.cc,0,100)/100,1.5):.8,
+  trans:s?1-.04*(s.tr-1):w?1-clamp((w.rh-50)/40,0,1)*.25:1,
+  see:s?1-.03*(s.see-1):w&&w.jet!=null?1-clamp((w.jet-50)/100,0,1)*.2:1,
+  wind:w?1-clamp((w.wg-25)/25,0,1)*.3:1,
+  dew:dm<1?.88:dm<2.5?.95:1,
+  site:loc.elev==null?.95:clamp(.88+loc.elev/25000,.88,1)}}
+const moonSky=m=>m.alt>0?1-.35*m.illum*(.5+.5*clamp(m.alt/40,0,1)):1;
+function skyQ(st){const f=envF(st);st.env=f.clear*f.trans*f.see*f.wind*f.dew*f.site;f.moon=moonSky(st.moon);st.f=f;return Math.round(100*darkF(st.sun)*st.env*f.moon)}
+const FNAME={clear:'cloud',moon:'bright moon',trans:'haze and humidity',see:'unsteady air',wind:'gusty wind',dew:'dew',site:'low-altitude haze'};
 const qLabel=(q,sun)=>sun>-0.83?['Daylight','poor']:sun>-12?['Twilight','maybe']:q>=70?['Excellent','go']:q>=50?['Good','go']:q>=30?['Fair','maybe']:['Poor','poor'];
 
 /* ---------- Build a night ---------- */
@@ -242,12 +255,16 @@ function nightScore(n){let dk=n.steps.filter(s=>s.sun<=-18);if(!dk.length)dk=n.s
   const cc=ws.length?ws.reduce((a,s)=>a+s.w.cc,0)/ws.length:null,dm=ws.length?Math.min(...ws.map(s=>s.w.tp-s.w.dp)):null;
   const ss=dk.filter(s=>s.s),see=ss.length?Math.round(ss.reduce((a,s)=>a+s.s.see,0)/ss.length):null,jet=ws.length&&ws[0].w.jet!=null?ws.reduce((a,s)=>a+s.w.jet,0)/ws.length:null;
   const mUp=dk.filter(s=>s.moon.alt>0).length*n.step/HR,mid=dk[Math.floor(dk.length/2)].moon;
+  const fav={};for(const k in FNAME)fav[k]=dk.reduce((a,s)=>a+s.f[k],0)/dk.length;
+  const held=Object.entries(fav).filter(([k,v])=>v<.92&&!(k==='clear'&&!ws.length)).sort((a,b)=>a[1]-b[1]).slice(0,2).map(([k])=>FNAME[k]);
+  const ccs=ws.map(s=>s.w.cc);let cw=null;if(ccs.length){const L=Math.max(1,Math.min(ccs.length,Math.round(2*HR/n.step)));let b=1e9,bi2=0,sm=ccs.slice(0,L).reduce((a,c)=>a+c,0);b=sm;for(let k=L;k<ccs.length;k++){sm+=ccs[k]-ccs[k-L];if(sm<b){b=sm;bi2=k-L+1}}cw={t0:ws[bi2].t,t1:ws[Math.min(ws.length-1,bi2+L-1)].t+n.step,cc:b/L}}
+  const gst=ws.length?Math.max(...ws.map(s=>s.w.wg)):null;
   const [label,cls]=score>=65?['Great night, go out','go']:score>=45?['Worth a try','go']:score>=25?['Marginal night','maybe']:['Stay in tonight','poor'];
-  return {score,label,cls,win:[dk[bi].t,dk[Math.min(dk.length-1,bi+w-1)].t+n.step],cc,dm,see,jet,mUp,illum:mid.illum,waxing:mid.waxing,dkH:dk.length*n.step/HR,hasWx:ws.length>0}}
+  return {score,label,cls,win:[dk[bi].t,dk[Math.min(dk.length-1,bi+w-1)].t+n.step],cc,dm,see,jet,mUp,illum:mid.illum,waxing:mid.waxing,dkH:dk.length*n.step/HR,hasWx:ws.length>0,held,cw,gst}}
 function buildNight(i){const b=nightSteps(i,STEP),steps=b.steps;
   const tg=CAT.map(o=>{const alt=[],az=[],sc=[];let peak=-90,peakT=0;
     for(const st of steps){const p=altaz(o.ra,o.dec,st.t,loc.lat,loc.lon);alt.push(p.alt);az.push(p.az);if(p.alt>peak){peak=p.alt;peakT=st.t}
-      sc.push(Math.round(100*altF(p.alt)*darkF(st.sun)*cloudF(st.w)*moonF(o,st.moon)*transF(st.s)*fitF(o.size)))}
+      sc.push(Math.round(100*altF(p.alt)*darkF(st.sun)*st.env*moonF(o,st.moon)*fitF(o.size)))}
     const good=sc.map((v,k)=>v>=35?k:-1).filter(k=>k>=0);
     return {...o,alt,az,sc,peak,peakT,sum:sc.reduce((a,b)=>a+b,0),max:Math.max(...sc),goodH:good.length*STEP/HR,win:good.length?[steps[good[0]].t,steps[good[good.length-1]].t]:null}});
   return {i,...b,tg}}
@@ -257,16 +274,22 @@ function renderHead(){$('#title').textContent=(nightI===0?'Tonight':fmtD(N.noon,
   $('#sub').textContent=[loc.sub,`${Math.abs(loc.lat).toFixed(2)}°${loc.lat>=0?'N':'S'} ${Math.abs(loc.lon).toFixed(2)}°${loc.lon>=0?'E':'W'}`,loc.elev!=null?Math.round(loc.elev).toLocaleString('en-IN')+' m':''].filter(Boolean).join(' · ')}
 function renderOutlook(){let h='';for(let i=0;i<7;i++){const n=nightSteps(i,15*MIN),s=nightScore(n);
   const word=!s.hasWx?'Moon only':s.score>=65?'Great':s.score>=45?'Good':s.score>=25?'Marginal':'Poor';
-  h+=`<button class="night" type="button" data-i="${i}" aria-pressed="${i===nightI}"><b>${i===0?'Tonight':esc(fmtD(n.noon,{weekday:'short',day:'numeric'}))}</b><span class="v ${s.hasWx?s.cls:'maybe'}">${s.score}</span><small class="${s.hasWx?s.cls:''}">${word}</small><small>${s.cc==null?'no forecast':Math.round(s.cc)+'% cloud'} · moon ${Math.round((s.illum??0)*100)}%</small></button>`}
+  h+=`<button class="night" type="button" data-i="${i}" aria-pressed="${i===nightI}"><b>${i===0?'Tonight':esc(fmtD(n.noon,{weekday:'short',day:'numeric'}))}</b><span class="v ${s.hasWx?s.cls:'maybe'}">${s.score}</span><small class="${s.hasWx?s.cls:''}">${word}</small><small>${s.cc==null?'no forecast':Math.round(s.cc)+'% cloud'} · moon ${Math.round((s.illum??0)*100)}%</small>${s.held&&s.held[0]?`<small>limited by ${s.held[0]}</small>`:''}</button>`}
   $('#outlook').innerHTML=h}
+function cloudTile(s){const now=Date.now(),t=now>=N.t0&&now<=N.t1?now:(N.d0??N.t0),w=wxAt(t);
+  const hrs=wx?wx.filter(x=>x.t>=N.t0-30*MIN&&x.t<=N.t1):[];
+  const bars=hrs.map(x=>{const dk=sunAlt(x.t)<=-18;return `<i title="${fmtT(x.t)} ${Math.round(x.cc)}%" class="${dk?'dk':''}"><b style="height:${Math.max(3,Math.round(x.cc))}%"></b></i>`}).join('');
+  return `<div class="in cloudT"><span>Cloud ${now>=N.t0&&now<=N.t1?'right now':'at dark ('+fmtT(t)+')'}</span><b class="big ${w?(w.cc<25?'go':w.cc<60?'maybe':'poor'):''}">${w?Math.round(w.cc)+'%':'–'}</b>
+  <i>${s.cc==null?'No forecast yet':`Avg in the dark ${Math.round(s.cc)}%`}${s.cw?` · clearest ${fmtT(s.cw.t0)}–${fmtT(s.cw.t1)} (${Math.round(s.cw.cc)}%)`:''}</i>
+  ${hrs.length?`<div class="spark">${bars}</div><div class="sparkx"><small>${fmtT(hrs[0].t)}</small><small>${fmtT(hrs[Math.floor(hrs.length/2)].t)}</small><small>${fmtT(hrs[hrs.length-1].t)}</small></div>`:''}</div>`}
 function renderHero(){const s=nightScore(N),top=[...N.tg].sort((a,b)=>b.sum-a.sum).filter(o=>o.max>0).slice(0,3),C=2*Math.PI*78;
   const col=s.cls==='go'?'#9fd4ff':s.cls==='maybe'?'#c9b6ff':'#ff7b72';
   const tile=(k,v,sub)=>`<div class="in"><span>${k}</span><b>${v}</b><i>${sub}</i></div>`;
   const seeTxt=s.see?SEE[s.see]:s.jet!=null?(s.jet<70?'Steady':s.jet<120?'Average':'Poor'):'–';
-  const why=!s.hasWx?'Weather not loaded: score uses darkness and moon only.':s.win?`Best stretch ${fmtT(s.win[0])}–${fmtT(s.win[1])} · ${s.dkH.toFixed(1)} h of full darkness`:'';
+  const why=!s.hasWx?'Weather not loaded: score uses darkness and moon only.':(s.win?`Best stretch ${fmtT(s.win[0])}–${fmtT(s.win[1])}. `:'')+(s.held.length?`Held back by ${s.held.join(' and ')}.`:'Nothing much holding it back.');
   $('#hero').innerHTML=`${wx||!wxInfo.startsWith('Could')?'':`<div class="banner">Live forecast couldn't load, so cloud and seeing are missing. If you opened this inside the Claude app's file preview, that preview blocks the internet. Open the file in Safari or Chrome, or use the GitHub link.</div>`}
   <div class="gauge" role="img" aria-label="Astro score ${s.score} out of 100"><svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="78" fill="none" stroke="#262c39" stroke-width="14"/><circle cx="90" cy="90" r="78" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(C*s.score/100).toFixed(1)} ${C.toFixed(1)}"/></svg><div class="n"><b>${s.score}</b><span>astro score</span></div></div>
-  <div><p class="verdict ${s.cls}">${s.label}</p><p class="why">${why}</p><div class="tiles">${tile('Clouds',s.cc==null?'–':Math.round(s.cc)+'%','avg in the dark')}${tile('Moon',Math.round(s.illum*100)+'%',s.mUp>0?`up ${s.mUp.toFixed(1)} h of dark`:'down all dark')}${tile('Seeing',seeTxt,s.see?'7Timer':'from jet stream')}${tile('Dew',s.dm==null?'–':s.dm<2.5?'Likely':'Low risk',s.dm==null?'':'heater '+(s.dm<2.5?'on':'optional'))}</div></div>
+  <div><p class="verdict ${s.cls}">${s.label}</p><p class="why">${why}</p><div class="tiles">${cloudTile(s)}${tile('Moon',Math.round(s.illum*100)+'%',s.mUp>0?`up ${s.mUp.toFixed(1)} h of dark`:'down all dark')}${tile('Seeing',seeTxt,s.see?'7Timer':'from jet stream')}${tile('Wind gusts',s.gst==null?'–':Math.round(s.gst)+' km/h',s.gst==null?'':s.gst>30?'may shake the scope':'calm enough')}${tile('Dew',s.dm==null?'–':s.dm<2.5?'Likely':'Low risk',s.dm==null?'':'heater '+(s.dm<2.5?'on':'optional'))}</div></div>
   <div class="t3"><p class="why" style="margin-bottom:8px">Shoot these ${nightI===0?'tonight':'that night'}</p><ol class="top3">${top.length?top.map(o=>`<li><b>${esc(o.name)}</b><small>${o.win?fmtT(o.win[0])+'–'+fmtT(o.win[1]):'brief window'} · peaks ${Math.round(o.peak)}° · ${framing(o.size)}</small></li>`).join(''):'<li class="msg">No target clears the cloud and moon this night.</li>'}</ol></div>`}
 
 /* ---------- Render: dome ---------- */
@@ -367,7 +390,7 @@ function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNi
   for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[renderHH,'hourly'],[drawTL,'timeline']])safe(f,n);
   safe(()=>setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx()),'time');renderStatus()}
 function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length;
-  $('#status').innerHTML=`<span class="${ok?'go':wxInfo==='loading…'?'maybe':'poor'}">● Weather: ${ok?`Open-Meteo live, ${wx.length} hourly values, ${esc(wxInfo)}`:esc(wxInfo)}</span><span class="${sv7?'go':svInfo==='loading…'?'maybe':'mut'}">● Seeing: ${sv7?'7Timer live':esc(svInfo)}</span>${errs.length?`<span class="poor">● Error: ${esc(errs.slice(-2).join(' · '))}</span>`:''}<span class="mut">App v3</span>`}
+  $('#status').innerHTML=`<span class="${ok?'go':wxInfo==='loading…'?'maybe':'poor'}">● Weather: ${ok?`Open-Meteo live, ${wx.length} hourly values, ${esc(wxInfo)}`:esc(wxInfo)}</span><span class="${sv7?'go':svInfo==='loading…'?'maybe':'mut'}">● Seeing: ${sv7?'7Timer live':esc(svInfo)}</span>${errs.length?`<span class="poor">● Error: ${esc(errs.slice(-2).join(' · '))}</span>`:''}<span class="mut">App v4</span>`}
 async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.reason)||('HTTP '+r.status));return j}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(tm)}}
 function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
 const errs=[];
