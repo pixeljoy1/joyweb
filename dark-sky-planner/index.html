@@ -21,7 +21,7 @@ button{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
 button:hover{border-color:#3a4254}
 :focus-visible{outline:2px solid var(--good);outline-offset:2px}
 .wrap{max-width:1320px;margin:0 auto;padding:16px max(3vw,12px) 40px}
-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px) auto;gap:12px;align-items:center;margin-bottom:14px}
+header{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px) auto;gap:10px 12px;align-items:center;margin-bottom:14px}
 h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;text-wrap:balance}
 .sub{color:var(--mut);margin:4px 0 0;font-size:14px}
 .search{position:relative}
@@ -68,6 +68,20 @@ h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;te
 .night .v{font-size:26px}
 @media(max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.hero{grid-template-columns:minmax(0,1fr);justify-items:stretch}.gauge{margin:0 auto;width:160px;height:160px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.verdict,.why{text-align:center}.tiles .cloudT b.big{font-size:44px}}
+.hdr2{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+.nights{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.nt{min-height:44px;padding:5px 10px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;line-height:1.15;border-radius:10px;flex:none}
+.nt span{font-size:12px;color:var(--mut)}.nt b{font-size:17px}.nt[aria-pressed=true]{border-color:var(--good);background:#1a2230}
+.c-tl{grid-column:span 9}.c-plan{grid-column:span 3}
+.tbtn{display:flex;gap:6px}.tbtn button{min-width:52px}
+#tlwrap:focus-visible{outline:2px solid var(--good);outline-offset:4px;border-radius:8px}
+ol.plan{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:8px}
+.plan button{width:100%;text-align:left;display:grid;grid-template-columns:4px minmax(0,1fr);gap:10px;padding:10px 12px;min-height:56px;border-radius:12px}
+.plan button i{border-radius:2px;background:#3f6c93}.plan button i.b2{background:#8fe3ff}.plan button i.b0{background:#3a2a30}
+.plan b{display:block;font-size:15px}.plan small{color:var(--mut);font-size:13px}.plan .tm{font-size:13px;color:var(--ink);font-weight:600}
+.plan button[aria-pressed=true]{border-color:var(--good);background:#1a2230}
+.domeh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}.domeh h2{margin:0 auto 0 0}
+select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:0 10px;max-width:100%}
 .c-dome{grid-column:span 5}.c-cond{grid-column:span 4}.c-best{grid-column:span 3}
 .c-ms,.c-src{grid-column:span 6}
 .dome{position:relative;aspect-ratio:1;max-height:460px;margin:0 auto}
@@ -122,7 +136,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 .cb{display:inline-block;width:46px;height:8px;border-radius:4px;background:#262c39;margin-inline-start:8px;vertical-align:1px;overflow:hidden}.cb i{display:block;height:100%;background:var(--cloud)}
 .dark-row td:first-child::after{content:' ●';color:var(--good);font-size:11px}
 .scroll{overflow-x:auto}
-@media(max-width:1100px){.c-dome,.c-cond{grid-column:span 6}.c-best{grid-column:span 12}.out{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1100px){.c-tl,.c-plan{grid-column:span 12}.c-dome,.c-cond{grid-column:span 6}.c-best{grid-column:span 12}.out{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:760px){header{grid-template-columns:minmax(0,1fr)}.c-dome,.c-cond,.c-ms,.c-src{grid-column:span 12}.out{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.night{flex:0 0 132px;scroll-snap-align:start}}
 @media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;color:var(--mut);font-size:13px}.stack td:empty{display:none}.tlh .t{font-size:22px}}
 @media(prefers-reduced-motion:no-preference){.bar i{transition:width .25s}}
@@ -138,24 +152,25 @@ td small{color:var(--mut);display:block;font-size:13px}
     <ul id="sugg" role="listbox" hidden></ul>
   </div>
   <div class="acts"><button id="geo" type="button">My location</button><button id="red" type="button" aria-pressed="false">Red light</button></div>
+  <div class="hdr2"><div class="nights" id="outlook" aria-label="Next 7 nights"></div><p class="status" id="status"></p></div>
 </header>
 
 <main class="grid">
-  <p class="status" id="status"></p>
   <section class="box hero" id="hero"></section>
-  <section class="box"><h2>Next 7 nights · astro score out of 100 · tap one to plan it</h2><div class="out" id="outlook"></div></section>
-  <h2 class="sect">Plan in detail</h2>
 
-  <section class="box c-dome"><h2>Sky at <span id="domeT"></span> · N up, E left</h2><div class="dome"><svg id="dome" role="img" aria-label="Sky dome"></svg></div><p class="hint" id="domeHint"></p></section>
+  <section class="box c-tl">
+    <div class="tlh"><h2>Night plan</h2><span class="t" id="tlT"></span>
+      <div class="tbtn"><button type="button" data-jump="-12" aria-label="Back one hour">−1 h</button><button id="now" type="button">Now</button><button type="button" data-jump="12" aria-label="Forward one hour">+1 h</button></div></div>
+    <p class="hint" id="nowNote">Drag anywhere on the strip, or use the arrow keys. Tap a target name to track it in the sky view.</p>
+    <div id="tlwrap" tabindex="0" aria-label="Night timeline. Use left and right arrow keys to move in time."><svg id="tl"></svg></div>
+    <p class="legend"><span><i style="background:#8fe3ff"></i>Best time to shoot</span><span><i style="background:#3f6c93"></i>Usable</span><span><i style="background:var(--cloud)"></i>Cloud</span><span><i style="background:var(--moon)"></i>Moon up</span><span><i style="background:#000;border:1px solid #444"></i>Full darkness</span></p>
+  </section>
+  <section class="box c-plan"><h2>Suggested plan</h2><ol class="plan" id="plan"></ol><p class="hint">One target per stretch of the night, picked for the best score. Starred targets get priority.</p></section>
+
+  <h2 class="sect">Sky and conditions</h2>
+  <section class="box c-dome"><div class="domeh"><h2>Sky at <span id="domeT"></span></h2><select id="track" aria-label="Track a target"></select></div><div class="dome"><svg id="dome" role="img" aria-label="Sky dome, north up, east left"></svg></div><p class="hint" id="domeHint"></p></section>
   <section class="box c-cond"><h2>Conditions at <span id="condT"></span></h2><div id="cond"><p class="msg">Fetching forecast…</p></div></section>
   <section class="box c-best"><h2>Best targets right then</h2><ol class="best" id="best"></ol></section>
-
-  <section class="box">
-    <div class="tlh"><h2>Night plan: drag across the strip</h2><span class="t" id="tlT"></span><button id="now" type="button">Now</button></div>
-    <div id="tlwrap"><svg id="tl" aria-label="Night timeline"></svg></div>
-    <input type="range" id="slider" min="0" max="100" value="0" aria-label="Time of night">
-    <p class="legend"><span><i style="background:#000;border:1px solid #333"></i>Astronomical dark</span><span><i style="background:#2a3248"></i>Twilight</span><span><i style="background:var(--cloud)"></i>Cloud cover, hangs from the top</span><span><i style="background:var(--good)"></i>Target score, brighter is better</span><span><i style="background:var(--moon)"></i>Moon up × brightness</span></p>
-  </section>
 
   <section class="box"><div class="cath"><h2>Hour by hour forecast · tap a row to jump there</h2><span class="msg" id="hhNote"></span></div><div class="scroll"><table id="hh" class="hh"></table></div></section>
 
@@ -278,10 +293,9 @@ function buildNight(i){const b=nightSteps(i,STEP),steps=b.steps;
 
 /* ---------- Render: header & outlook ---------- */
 function renderHead(){$('#title').textContent=(nightI===0?'Tonight':fmtD(N.noon,{weekday:'long',day:'numeric',month:'short'}))+' from '+loc.name;
-  $('#sub').textContent=[loc.sub,`${Math.abs(loc.lat).toFixed(2)}°${loc.lat>=0?'N':'S'} ${Math.abs(loc.lon).toFixed(2)}°${loc.lon>=0?'E':'W'}`,loc.elev!=null?Math.round(loc.elev).toLocaleString('en-IN')+' m':''].filter(Boolean).join(' · ')}
+  $('#sub').textContent=[loc.sub,`${Math.abs(loc.lat).toFixed(2)}°${loc.lat>=0?'N':'S'} ${Math.abs(loc.lon).toFixed(2)}°${loc.lon>=0?'E':'W'}`,loc.elev!=null?Math.round(loc.elev).toLocaleString('en-IN')+' m':'','site time '+fmtT(Date.now())].filter(Boolean).join(' · ')}
 function renderOutlook(){let h='';for(let i=0;i<7;i++){const n=nightSteps(i,15*MIN),s=nightScore(n);
-  const word=!s.hasWx?'Moon only':s.score>=65?'Great':s.score>=45?'Good':s.score>=25?'Marginal':'Poor';
-  h+=`<button class="night" type="button" data-i="${i}" aria-pressed="${i===nightI}"><b>${i===0?'Tonight':esc(fmtD(n.noon,{weekday:'short',day:'numeric'}))}</b><span class="v ${s.hasWx?s.cls:'maybe'}">${s.score}</span><small class="${s.hasWx?s.cls:''}">${word}</small><small>${s.cc==null?'no forecast':Math.round(s.cc)+'% cloud'} · moon ${Math.round((s.illum??0)*100)}%</small>${s.held&&s.held[0]?`<small>limited by ${s.held[0]}</small>`:''}</button>`}
+  h+=`<button class="nt" type="button" data-i="${i}" aria-pressed="${i===nightI}" title="${s.cc==null?'no forecast':Math.round(s.cc)+'% cloud'} · moon ${Math.round((s.illum??0)*100)}%${s.held&&s.held[0]?' · limited by '+s.held[0]:''}"><span>${i===0?'Tonight':esc(fmtD(n.noon,{weekday:'short',day:'numeric'}))}</span><b class="${s.hasWx?s.cls:'maybe'}">${s.score}</b></button>`}
   $('#outlook').innerHTML=h}
 /* Icons and moon drawing for the home tiles */
 const IC={cloud:'<path d="M7 18h10a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.3 10.5 3.75 3.75 0 0 0 7 18z"/>',air:'<path d="M3 8c3-3 5 3 8 0s5 3 8 0M3 13c3-3 5 3 8 0s5 3 8 0M3 18c3-3 5 3 8 0s5 3 8 0"/>',wind:'<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h8"/>',dew:'<path d="M12 3c3 4.5 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-6.5 6-11z"/>'};
@@ -313,28 +327,40 @@ function renderHero(){const s=nightScore(N),top=[...N.tg].sort((a,b)=>b.sum-a.su
   <div class="t3"><p class="why" style="margin-bottom:8px">Shoot these ${nightI===0?'tonight':'that night'}</p><ol class="top3">${top.length?top.map(o=>`<li><b>${esc(o.name)}</b><small>${o.win?fmtT(o.win[0])+'–'+fmtT(o.win[1]):'brief window'} · peaks ${Math.round(o.peak)}° · ${framing(o.size)}</small></li>`).join(''):'<li class="msg">No target clears the cloud and moon this night.</li>'}</ol></div>`}
 
 /* ---------- Render: dome ---------- */
-function drawDome(){const s=$('#dome'),W=s.clientWidth,H=s.clientHeight;if(!W||!N)return;const st=N.steps[idx],cx=W/2,cy=H/2,r=Math.min(W,H)/2-24;
-  const P=(alt,az)=>{const rr=r*(90-alt)/90;return [cx-rr*sn(az),cy-rr*cs(az)]};
-  const dk=darkF(st.sun),skyC=st.sun>-.83?'#3e4d6e':dk===0?'#222a3e':dk<1?'#11151f':'#04050a';
-  let g=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${skyC}" stroke="#2c3343"/>`;
-  if(st.w)g+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#9aa3b5" opacity="${(st.w.cc/100*.5).toFixed(2)}"/>`;
-  g+=`<circle cx="${cx}" cy="${cy}" r="${r-r*7.5/90}" fill="none" stroke="#000" stroke-opacity=".4" stroke-width="${r*15/90}"/>`;
-  for(const a of[30,60])g+=`<circle cx="${cx}" cy="${cy}" r="${r*(90-a)/90}" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-dasharray="3 4"/><text x="${cx+4}" y="${cy-r*(90-a)/90+12}" fill="#8f97a8" font-size="11">${a}°</text>`;
-  [['N',0],['E',90],['S',180],['W',270]].forEach(([l,az])=>{const [x,y]=P(-8,az);g+=`<text x="${x}" y="${y+4}" fill="#ebe8e1" font-size="13" font-weight="600" text-anchor="middle">${l}</text>`});
+const LV=v=>v>=55?2:v>=30?1:0, LVC=['#5a6170','#3f6c93','#8fe3ff'];
+let selId=null,domePts=[];
+function drawDome(){const s=$('#dome'),W=s.clientWidth,H=s.clientHeight;if(!W||!N)return;const st=N.steps[idx],cx=W/2,cy=H/2,r=Math.min(W,H)/2-26;
+  const P=(alt,az)=>{const rr=r*(90-Math.max(alt,-5))/90;return [cx-rr*sn(az),cy-rr*cs(az)]};
+  const dk=darkF(st.sun),skyC=st.sun>-.83?'#34425f':dk===0?'#1d2436':dk<1?'#0f131c':'#05060a';
+  let g=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${skyC}"/>`;
+  if(st.w)g+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#9aa3b5" opacity="${(st.w.cc/100*.45).toFixed(2)}"/>`;
+  g+=`<circle cx="${cx}" cy="${cy}" r="${r*82.5/90}" fill="none" stroke="#000" stroke-opacity=".28" stroke-width="${r*15/90}"/>`;
+  for(let az=0;az<360;az+=30){const [x,y]=P(0,az);g+=`<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#fff" stroke-opacity="${az%90?.07:.13}"/>`}
+  for(const a of[30,60])g+=`<circle cx="${cx}" cy="${cy}" r="${r*(90-a)/90}" fill="none" stroke="#fff" stroke-opacity=".14"/><text x="${cx+4}" y="${cy-r*(90-a)/90-4}" fill="#8f97a8" font-size="11">${a}°</text>`;
+  g+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#fff" stroke-opacity=".3"/><circle cx="${cx}" cy="${cy}" r="2" fill="#fff" fill-opacity=".3"/>`;
+  [['N',0],['NE',45],['E',90],['SE',135],['S',180],['SW',225],['W',270],['NW',315]].forEach(([l,az])=>{const [x,y]=P(-10,az);g+=`<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" fill="${l.length>1?'#8f97a8':'#ebe8e1'}" font-size="${l.length>1?11:13}" font-weight="600" text-anchor="middle">${l}</text>`});
   const vis=N.tg.map(o=>({o,alt:o.alt[idx],az:o.az[idx],sc:o.sc[idx]})).filter(v=>v.alt>0).sort((a,b)=>a.sc-b.sc);
-  const top=new Set(vis.slice(-6).filter(v=>v.sc>0).map(v=>v.o.id));
-  const boxes=[];let lbl='';
-  for(const v of vis){const [x,y]=P(v.alt,v.az),fv=fav.has(v.o.id);g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(2.5+v.sc/22).toFixed(1)}" fill="#9fd4ff" fill-opacity="${(.25+v.sc/130).toFixed(2)}"${fv?' stroke="#fff" stroke-width="1.5"':''}/>`}
-  for(const v of [...vis].reverse()){if(!(top.has(v.o.id)||fav.has(v.o.id)))continue;const [x,y]=P(v.alt,v.az),t=v.o.name.length>16?v.o.id:v.o.name,w=t.length*6.4,L=x>cx+r*.35;
-    let ly=y+4;const fits=yy=>{const b=[L?x-9-w:x+9,yy-11,w,14];return !boxes.some(o=>b[0]<o[0]+o[2]&&o[0]<b[0]+b[2]&&b[1]<o[1]+o[3]&&o[1]<b[1]+b[3])};
-    const tries=[0,14,-14,28,-28,42];const d=tries.find(dd=>fits(y+4+dd));if(d==null)continue;ly=y+4+d;boxes.push([L?x-9-w:x+9,ly-11,w,14]);
-    if(d)lbl+=`<line x1="${x}" y1="${y}" x2="${L?x-8:x+8}" y2="${ly-4}" stroke="#8f97a8" stroke-width=".8"/>`;
-    lbl+=`<text x="${x+(L?-9:9)}" y="${ly}" fill="#ebe8e1" font-size="12" text-anchor="${L?'end':'start'}" paint-order="stroke" stroke="#04050a" stroke-width="3">${esc(t)}</text>`}
-  g+=lbl;
-  const m=st.moon;if(m.alt>0){const [x,y]=P(m.alt,m.az);g+=`<circle cx="${x}" cy="${y}" r="11" fill="#f2eee2" fill-opacity="${(.3+.7*m.illum).toFixed(2)}" stroke="#f2eee2"/><text x="${x}" y="${y+26}" fill="#f2eee2" font-size="12" text-anchor="middle" paint-order="stroke" stroke="#04050a" stroke-width="3">Moon ${Math.round(m.illum*100)}%</text>`}
+  domePts=vis.map(v=>{const [x,y]=P(v.alt,v.az);return {id:v.o.id,x,y}});
+  for(const v of vis){const [x,y]=P(v.alt,v.az),fv=fav.has(v.o.id),dim=selId&&selId!==v.o.id;g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(2.5+v.sc/24).toFixed(1)}" fill="${LVC[LV(v.sc)]}" fill-opacity="${dim?.18:(.45+v.sc/200).toFixed(2)}"${fv&&!dim?' stroke="#fff" stroke-width="1.2"':''}/>`}
+  const sel=selId&&N.tg.find(o=>o.id===selId);let lbl='';
+  if(sel){let path='';const off=tzOff(N.t0);
+    for(const [a,b,l] of runs(sel.alt.map((al,k)=>al>0?LV(sel.sc[k])+1:0))){if(!l)continue;const pts=[];for(let k=a;k<Math.min(b+1,N.steps.length);k++)if(sel.alt[k]>-1)pts.push(P(sel.alt[k],sel.az[k]).map(v=>v.toFixed(1)).join(','));
+      path+=`<polyline points="${pts.join(' ')}" fill="none" stroke="${l===1?'#8f97a8':LVC[l-1]}" stroke-width="${l===3?5:l===2?3.5:1.6}" stroke-linecap="round" stroke-linejoin="round"${l===1?' stroke-dasharray="4 4" stroke-opacity=".7"':''}/>`}
+    N.steps.forEach((st2,k)=>{if(sel.alt[k]<=3||st2.sun>-12||((st2.t+off)%HR))return;const [x,y]=P(sel.alt[k],sel.az[k]);path+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="#ebe8e1"/><text x="${(x+6).toFixed(1)}" y="${(y-6).toFixed(1)}" fill="#ebe8e1" font-size="11" paint-order="stroke" stroke="#05060a" stroke-width="3">${String(parts(st2.t).h).padStart(2,'0')}</text>`});
+    g+=path;if(sel.alt[idx]>0){const [x,y]=P(sel.alt[idx],sel.az[idx]);g+=`<circle cx="${x}" cy="${y}" r="10" fill="none" stroke="#fff" stroke-width="2.5"/><text x="${x}" y="${y+26}" fill="#fff" font-size="13" font-weight="600" text-anchor="middle" paint-order="stroke" stroke="#05060a" stroke-width="3">${esc(sel.name)}</text>`}}
+  else{const top=new Set(vis.slice(-6).filter(v=>v.sc>0).map(v=>v.o.id)),boxes=[];
+    for(const v of [...vis].reverse()){if(!(top.has(v.o.id)||fav.has(v.o.id)))continue;const [x,y]=P(v.alt,v.az),t=v.o.name.length>16?v.o.id:v.o.name,w=t.length*6.4,L=x>cx+r*.35;
+      const fits=yy=>{const b=[L?x-9-w:x+9,yy-11,w,14];return !boxes.some(o=>b[0]<o[0]+o[2]&&o[0]<b[0]+b[2]&&b[1]<o[1]+o[3]&&o[1]<b[1]+b[3])};
+      const d=[0,14,-14,28,-28].find(dd=>fits(y+4+dd));if(d==null)continue;const ly=y+4+d;boxes.push([L?x-9-w:x+9,ly-11,w,14]);
+      if(d)lbl+=`<line x1="${x}" y1="${y}" x2="${L?x-8:x+8}" y2="${ly-4}" stroke="#8f97a8" stroke-width=".8"/>`;
+      lbl+=`<text x="${x+(L?-9:9)}" y="${ly}" fill="#ebe8e1" font-size="12" text-anchor="${L?'end':'start'}" paint-order="stroke" stroke="#05060a" stroke-width="3">${esc(t)}</text>`}}
+  g+=lbl;const m=st.moon;if(m.alt>0){const [x,y]=P(m.alt,m.az);g+=`<circle cx="${x}" cy="${y}" r="11" fill="#f2eee2" fill-opacity="${(.3+.7*m.illum).toFixed(2)}" stroke="#f2eee2"/><text x="${x}" y="${y+26}" fill="#f2eee2" font-size="12" text-anchor="middle" paint-order="stroke" stroke="#05060a" stroke-width="3">Moon ${Math.round(m.illum*100)}%</text>`}
   s.innerHTML=g;$('#domeT').textContent=fmtT(st.t);
-  $('#domeHint').textContent=`${vis.length} catalogue targets above the horizon. Outer dark ring marks below 15°, where the Dwarf fights haze and terrain.${st.w?' Sky is tinted by cloud cover.':''}`}
+  $('#domeHint').textContent=sel?`${sel.name}: ${sel.win?'best '+fmtT(sel.win[0])+'–'+fmtT(sel.win[1]):'no good window this night'} · peaks ${Math.round(sel.peak)}° at ${fmtT(sel.peakT)}. Thick bright line = best time, thinner = usable, dashed = up but poor. Hour marks along the path.`
+   :`N up, E left. ${vis.length} targets above the horizon. Shaded outer ring is below 15°. Tap a dot or pick a target above to see its path.`}
+function runs(arr){const out=[];let a=0;for(let k=1;k<=arr.length;k++)if(k===arr.length||arr[k]!==arr[a]){out.push([a,k,arr[a]]);a=k}return out}
 const roD=new ResizeObserver(drawDome);roD.observe($('#dome'));
+$('#dome').addEventListener('click',e=>{const r=$('#dome').getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;let best=null,d=22;for(const p of domePts){const dd=Math.hypot(p.x-x,p.y-y);if(dd<d){d=dd;best=p}}selectT(best?best.id:null)});
 
 /* ---------- Render: conditions ---------- */
 function renderCond(){const st=N.steps[idx],w=st.w,s=st.s,q=st.q,[lab,cls]=qLabel(q,st.sun);$('#condT').textContent=fmtT(st.t);
@@ -352,27 +378,46 @@ function renderBest(){const st=N.steps[idx];const L=N.tg.map(o=>({o,sc:o.sc[idx]
   :`<li class="msg">${st.sun>-12?'Not dark enough yet. Drag later into the night.':'Nothing scores at this time: cloud, moon or low altitude.'}</li>`}
 
 /* ---------- Render: timeline ---------- */
-function tlRows(){const s=[...N.tg].sort((a,b)=>b.sum-a.sum);const f=s.filter(o=>fav.has(o.id));return [...f,...s.filter(o=>!fav.has(o.id)&&o.sum>0).slice(0,Math.max(4,10-f.length))]}
-let G=150,PW=0;
-function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;const sm=W<520;G=sm?84:160;PW=W-G-6;const n=N.steps.length,cw=PW/n,rows=tlRows();
-  const X=t=>G+(t-N.t0)/(N.t1-N.t0+STEP)*PW,yD=24,yC=44,hC=44,yS=94,yM=110,yT=132,H=yT+rows.length*20+6;
+function tlRows(){const s=[...N.tg].sort((a,b)=>b.sum-a.sum),pin=new Set([...fav,...(selId?[selId]:[])]);const f=s.filter(o=>pin.has(o.id));return [...f,...s.filter(o=>!pin.has(o.id)&&o.sum>0).slice(0,Math.max(4,10-f.length))]}
+let G=150,PW=0,TLR=[],TLY=0;
+function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;const sm=W<560;G=sm?92:170;PW=W-G-8;const n=N.steps.length,cw=PW/n,rows=tlRows();TLR=rows;
+  const X=k=>(G+k*cw).toFixed(1),yH=44,yD=52,yC=70,hC=34,yS=110,yM=124,yT=146;TLY=yT;const H=yT+rows.length*24+4;
   const s=$('#tl');s.setAttribute('height',H);s.setAttribute('viewBox',`0 0 ${W} ${H}`);
-  const lab=(y,t,b)=>`<text x="${G-8}" y="${y}" fill="${b?'#ebe8e1':'#8f97a8'}" font-size="12" text-anchor="end">${esc(t)}</text>`;
-  let g='';const off=tzOff(N.t0);let h0=Math.ceil((N.t0+off)/HR)*HR-off;
-  for(let t=h0;t<=N.t1;t+=HR){const p=parts(t);if(sm&&p.h%2)continue;const x=X(t);g+=`<line x1="${x}" x2="${x}" y1="18" y2="${H}" stroke="#fff" stroke-opacity=".06"/><text x="${x}" y="13" fill="#8f97a8" font-size="11" text-anchor="middle">${String(p.h).padStart(2,'0')}</text>`}
-  g+=lab(yD+11,'Darkness')+lab(yC+16,'Cloud')+(sm?'':lab(yC+30,'(Open-Meteo)'))+lab(yS+9,'Steadiness')+lab(yM+9,'Moon');
-  N.steps.forEach((st,k)=>{const x=(G+k*cw).toFixed(1),w=(cw+.6).toFixed(1),a=st.sun;
-    g+=`<rect x="${x}" y="${yD}" width="${w}" height="14" fill="${a>-.83?'#5b6b8c':a>-6?'#3d4864':a>-12?'#2a3248':a>-18?'#171c2a':'#000'}"/>`;
-    if(st.w){g+=`<rect x="${x}" y="${yC}" width="${w}" height="${(st.w.cc/100*hC).toFixed(1)}" fill="#a3abbb" fill-opacity=".8"/>`}else g+=`<rect x="${x}" y="${yC}" width="${w}" height="${hC}" fill="#1b202b"/>`;
-    const see=st.s?.see??(st.w?.jet!=null?(st.w.jet<70?3:st.w.jet<120?5:7):null);g+=`<rect x="${x}" y="${yS}" width="${w}" height="10" fill="${see==null?'#1b202b':'#9fd4ff'}" fill-opacity="${see==null?1:((9-see)/8).toFixed(2)}"/>`;
-    if(st.moon.alt>0)g+=`<rect x="${x}" y="${yM}" width="${w}" height="10" fill="#f2eee2" fill-opacity="${(.15+.85*st.moon.illum).toFixed(2)}"/>`});
-  g+=`<rect x="${G}" y="${yC}" width="${PW}" height="${hC}" fill="none" stroke="#2c3343"/>`;
-  rows.forEach((o,r)=>{const y=yT+r*20,nm=sm?o.id:o.name,fv=fav.has(o.id);g+=lab(y+13,(fv?'★ ':'')+(nm.length>(sm?10:22)?nm.slice(0,sm?9:21)+'…':nm),fv);
-    o.sc.forEach((v,k)=>{if(v>0)g+=`<rect x="${(G+k*cw).toFixed(1)}" y="${y+2}" width="${(cw+.6).toFixed(1)}" height="15" fill="#9fd4ff" fill-opacity="${(v/100).toFixed(2)}"/>`})});
-  g+=`<g id="cur"><line x1="0" x2="0" y1="18" y2="${H}" stroke="#ebe8e1" stroke-width="2"/><circle cx="0" cy="18" r="5" fill="#ebe8e1"/></g>`;
-  s.innerHTML=g;moveCursor();$('#slider').style.marginInlineStart=G+'px';$('#slider').style.width=PW+'px'}
-function moveCursor(){const c=$('#cur');if(!c||!N)return;const x=G+(idx+.5)*PW/N.steps.length;c.setAttribute('transform',`translate(${x.toFixed(1)} 0)`);$('#tlT').textContent=fmtT(N.steps[idx].t)}
+  const lab=(y,t,b,dim)=>`<text x="${G-10}" y="${y}" fill="${b?'#ebe8e1':'#8f97a8'}" fill-opacity="${dim?.5:1}" font-size="12.5" ${b?'font-weight="600"':''} text-anchor="end">${esc(t)}</text>`;
+  let g='';const off=tzOff(N.t0);for(let t=Math.ceil((N.t0+off)/HR)*HR-off;t<=N.t1;t+=HR){const h=parts(t).h;if(sm&&h%2)continue;const x=G+(t-N.t0)/STEP*cw;g+=`<line x1="${x}" x2="${x}" y1="${yH+4}" y2="${H}" stroke="#fff" stroke-opacity=".06"/><text x="${x}" y="${yH}" fill="#8f97a8" font-size="11" text-anchor="middle">${String(h).padStart(2,'0')}</text>`}
+  g+=lab(yD+10,'Darkness')+lab(yC+21,'Cloud')+lab(yS+8,'Air steadiness')+lab(yM+8,'Moon');
+  const dc=a=>a>-.83?0:a>-6?1:a>-12?2:a>-18?3:4,DC=['#5b6b8c','#3d4864','#2a3248','#171c2a','#000'];
+  for(const [a,b,l] of runs(N.steps.map(st=>dc(st.sun))))g+=`<rect x="${X(a)}" y="${yD}" width="${((b-a)*cw).toFixed(1)}" height="12" fill="${DC[l]}"/>`;
+  g+=`<rect x="${G}" y="${yC}" width="${PW}" height="${hC}" fill="#161b25"/>`;
+  if(N.steps.some(st=>st.w)){let d=`M${G} ${yC}`;N.steps.forEach((st,k)=>{const c=st.w?st.w.cc:0;d+=`L${(G+(k+.5)*cw).toFixed(1)} ${(yC+c/100*hC).toFixed(1)}`});d+=`L${G+PW} ${yC}Z`;g+=`<path d="${d}" fill="#a3abbb" fill-opacity=".85"/>`}
+  else g+=`<text x="${G+8}" y="${yC+21}" fill="#8f97a8" font-size="12">Waiting for forecast</text>`;
+  const sl=st=>{const v=st.s?.see??(st.w?.jet!=null?(st.w.jet<70?3:st.w.jet<120?5:7):null);return v==null?-1:v<=3?2:v<=5?1:0},SC={'-1':'#1b202b',0:'#6b3a44',1:'#3f6c93',2:'#8fe3ff'};
+  for(const [a,b,l] of runs(N.steps.map(sl)))g+=`<rect x="${X(a)}" y="${yS}" width="${((b-a)*cw).toFixed(1)}" height="8" rx="2" fill="${SC[l]}"/>`;
+  for(const [a,b,l] of runs(N.steps.map(st=>st.moon.alt>0?1:0)))if(l)g+=`<rect x="${X(a)}" y="${yM}" width="${((b-a)*cw).toFixed(1)}" height="8" rx="2" fill="#f2eee2" fill-opacity="${(.25+.75*N.steps[a].moon.illum).toFixed(2)}"/>`;
+  rows.forEach((o,r)=>{const y=yT+r*24,on=selId===o.id,dim=selId&&!on,nm=sm?o.id:o.name;
+    if(on)g+=`<rect x="0" y="${y-2}" width="${W}" height="24" rx="6" fill="#1d2636"/>`;
+    g+=lab(y+14,(fav.has(o.id)?'★ ':'')+(nm.length>(sm?11:24)?nm.slice(0,sm?10:23)+'…':nm),on||fav.has(o.id),dim);
+    g+=`<rect x="${G}" y="${y+3}" width="${PW}" height="14" rx="3" fill="#161b25"/>`;
+    for(const [a,b,l] of runs(o.sc.map(LV)))if(l)g+=`<rect x="${X(a)}" y="${y+3}" width="${((b-a)*cw).toFixed(1)}" height="14" rx="3" fill="${LVC[l]}" fill-opacity="${dim?.35:1}"/>`});
+  g+=`<g id="cur"><line x1="0" x2="0" y1="30" y2="${H}" stroke="#fff" stroke-width="2"/><rect x="-30" y="4" width="60" height="24" rx="12" fill="#ebe8e1"/><text id="curT" x="0" y="21" fill="#090b10" font-size="13" font-weight="700" text-anchor="middle"></text></g>`;
+  s.innerHTML=g;moveCursor()}
+function moveCursor(){const c=$('#cur');if(!c||!N)return;let x=G+(idx+.5)*PW/N.steps.length;c.setAttribute('transform',`translate(${x.toFixed(1)} 0)`);
+  const W=$('#tlwrap').clientWidth,dx=x<G+30?G+30-x:x>W-32?W-32-x:0;c.querySelector('rect').setAttribute('x',-30+dx);$('#curT').setAttribute('x',dx);
+  $('#curT').textContent=fmtT(N.steps[idx].t);$('#tlT').textContent=fmtT(N.steps[idx].t)}
 const roT=new ResizeObserver(drawTL);roT.observe($('#tlwrap'));
+/* Suggested plan: best target for each stretch of darkness, short hops merged away */
+function buildPlan(){let D=N.steps.map((s,k)=>s.sun<=-18?k:-1).filter(k=>k>=0);if(!D.length)D=N.steps.map((s,k)=>s.sun<=-12?k:-1).filter(k=>k>=0);
+  const pickAt=k=>{let b=null,bv=0;for(const o of N.tg){const v=o.sc[k]*(fav.has(o.id)?1.15:1);if(v>bv){bv=v;b=o}}return bv>=25?b:null};
+  let R=[];for(const k of D){const o=pickAt(k),l=R[R.length-1];if(l&&l.o===o&&k===l.k1+1)l.k1=k;else R.push({o,k0:k,k1:k})}
+  for(let ch=true;ch&&R.length>1;){ch=false;for(let i=0;i<R.length;i++){const r=R[i];if(r.k1-r.k0+1<9){if(i>0)R[i-1].k1=r.k1;else R[1].k0=r.k0;R.splice(i,1);ch=true;break}}}
+  R=R.reduce((a,r)=>{const l=a[a.length-1];if(l&&l.o===r.o)l.k1=r.k1;else a.push(r);return a},[]);
+  return R.map(r=>{const v=r.o?Math.round(r.o.sc.slice(r.k0,r.k1+1).reduce((a,b)=>a+b,0)/(r.k1-r.k0+1)):0;return {...r,v,t0:N.steps[r.k0].t,t1:N.steps[r.k1].t+STEP}})}
+function renderPlan(){const P=buildPlan();
+  $('#plan').innerHTML=P.length?P.map(p=>p.o?`<li><button type="button" data-sel="${esc(p.o.id)}" data-k="${p.k0}" aria-pressed="${selId===p.o.id}"><i class="b${LV(p.v)}"></i><span><span class="tm">${fmtT(p.t0)}–${fmtT(p.t1)}</span><b>${esc(p.o.name)}</b><small>${LV(p.v)===2?'Best':'Usable'} · score ${p.v} · ${Math.round(p.o.alt[p.k0])}° → ${Math.round(p.o.alt[p.k1])}°</small></span></button></li>`
+    :`<li><button type="button" data-k="${p.k0}"><i class="b0"></i><span><span class="tm">${fmtT(p.t0)}–${fmtT(p.t1)}</span><b>Rest or process data</b><small>Nothing scores well: cloud or moon</small></span></button></li>`).join('')
+  :'<li class="msg">No full darkness this night.</li>'}
+function renderTrack(){const L=[...N.tg].sort((a,b)=>b.sum-a.sum);$('#track').innerHTML=`<option value="">Track a target…</option>`+L.map(o=>`<option value="${esc(o.id)}"${o.id===selId?' selected':''}>${esc(o.name)}${o.max>0?'':' (poor tonight)'}</option>`).join('')}
+function selectT(id,k){selId=id||null;if(k!=null)idx=clamp(k,0,N.steps.length-1);safe(drawTL,'timeline');safe(renderPlan,'plan');safe(renderTrack,'track');safe(()=>setIdx(idx),'time')}
 
 /* ---------- Render: hour-by-hour table (raw hourly model values, not interpolated) ---------- */
 function renderHH(){const tb=$('#hh');if(!wx){tb.innerHTML='';$('#hhNote').textContent=wxInfo;return}
@@ -404,15 +449,15 @@ function renderCat(){$('#chips').innerHTML=Object.keys(FILTERS).map(k=>`<button 
   :`<tr><td colspan="7" class="msg">No targets here yet. Tap ☆ on any target to build your plan.</td></tr>`)+'</tbody>'}
 
 /* ---------- Orchestration ---------- */
-function setIdx(i){idx=clamp(Math.round(i),0,N.steps.length-1);$('#slider').value=idx;moveCursor();drawDome();renderCond();renderBest();markHH()}
+function setIdx(i){idx=clamp(Math.round(i),0,N.steps.length-1);moveCursor();drawDome();renderCond();renderBest();markHH()}
 function defaultIdx(){const now=Date.now();if(now>=N.t0&&now<=N.t1)return (now-N.t0)/STEP;const t=N.d0?N.d0+HR:N.t0+3*HR;return (t-N.t0)/STEP}
-function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNight(nightI);$('#slider').max=N.steps.length-1;
-  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[renderHH,'hourly'],[drawTL,'timeline']])safe(f,n);
+function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNight(nightI);if(selId&&!N.tg.some(o=>o.id===selId))selId=null;
+  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[renderHH,'hourly'],[drawTL,'timeline'],[renderPlan,'plan'],[renderTrack,'track']])safe(f,n);
   safe(()=>setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx()),'time');renderStatus()}
 function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length,busy=wxInfo==='loading…';
   document.body.classList.toggle('busy',busy);
   $('#status').innerHTML=busy?`<span class="maybe">● Loading live weather for ${esc(loc.name)}…</span>`
-   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v5</span>`}
+   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v6</span>`}
 async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.reason)||('HTTP '+r.status));return j}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(tm)}}
 function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
 const errs=[];
@@ -430,15 +475,23 @@ function setLoc(l){loc=l;store.set('loc',loc);nightI=0;wx=null;sv=null;wxInfo='l
 
 /* ---------- Events ---------- */
 $('#more').addEventListener('click',()=>{showAll=!showAll;renderCat()});
-$('#slider').addEventListener('input',e=>setIdx(+e.target.value));
-$('#now').addEventListener('click',()=>{if(nightI!==0){nightI=0;rebuild(false)}else setIdx(defaultIdx())});
-const tw=$('#tlwrap');let drag=false;
+function goNow(){const now=Date.now();if(nightI!==0){nightI=0;rebuild(false)}
+  if(now>=N.t0&&now<=N.t1){setIdx((now-N.t0)/STEP);$('#nowNote').textContent=`Now at ${loc.name}: ${fmtT(now)} local time.`}
+  else{setIdx(((N.d0??N.t0+HR)-N.t0)/STEP);$('#nowNote').textContent=`It's ${fmtT(now)} at ${loc.name}, so it's still daytime there. Showing tonight from full darkness.`}}
+$('#now').addEventListener('click',goNow);
+document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>setIdx(idx+ +b.dataset.jump)));
+const tw=$('#tlwrap');let drag=false,downX=0,downY=0;
 const tlX=e=>{const r=tw.getBoundingClientRect();setIdx((e.clientX-r.left-G)/PW*N.steps.length-.5)};
-tw.addEventListener('pointerdown',e=>{drag=true;tw.setPointerCapture(e.pointerId);tlX(e)});
+tw.addEventListener('pointerdown',e=>{const r=tw.getBoundingClientRect();downX=e.clientX;downY=e.clientY;if(e.clientX-r.left<G)return;drag=true;tw.setPointerCapture(e.pointerId);tlX(e)});
 tw.addEventListener('pointermove',e=>{if(drag)tlX(e)});
-tw.addEventListener('pointerup',()=>drag=false);tw.addEventListener('pointercancel',()=>drag=false);
+tw.addEventListener('pointerup',e=>{const r=tw.getBoundingClientRect(),y=e.clientY-r.top;drag=false;
+  if(Math.abs(e.clientX-downX)<6&&Math.abs(e.clientY-downY)<6&&y>=TLY-2){const o=TLR[Math.floor((y-TLY+2)/24)];if(o)selectT(selId===o.id&&e.clientX-r.left<G?null:o.id)}});
+tw.addEventListener('pointercancel',()=>drag=false);
+tw.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){setIdx(idx+(e.key==='ArrowRight'?1:-1)*(e.shiftKey?12:1));e.preventDefault()}});
+$('#track').addEventListener('change',e=>selectT(e.target.value||null));
 $('#outlook').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;nightI=+b.dataset.i;rebuild(true)});
-document.addEventListener('click',e=>{const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderBest();drawTL();drawDome();return}
+document.addEventListener('click',e=>{const ps=e.target.closest('#plan [data-k]');if(ps){selectT(ps.dataset.sel||selId,+ps.dataset.k);return}
+  const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderBest();drawTL();drawDome();renderPlan();return}
   const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat()}
   if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=loc.name}});
 const red=$('#red');const setRed=v=>{document.documentElement.classList.toggle('red',v);red.setAttribute('aria-pressed',v);store.set('red',v)};setRed(store.get('red',false));red.addEventListener('click',()=>setRed(red.getAttribute('aria-pressed')!=='true'));
@@ -479,6 +532,7 @@ ul.addEventListener('click',e=>{const li=e.target.closest('[data-k]');if(li)pick
 
 q.value=loc.name;safe(()=>rebuild(false),'start');loadWeather();
 setInterval(()=>{if(nightI===0&&!drag&&document.visibilityState==='visible')renderOutlook()},10*60e3);
+setInterval(()=>safe(renderHead,'header'),30e3);
 }
 </script>
 </body>
