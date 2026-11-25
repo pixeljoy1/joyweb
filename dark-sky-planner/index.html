@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090b10">
 <title>Dark Sky Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,6 +17,31 @@
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Archivo,system-ui,sans-serif;font-variant-numeric:tabular-nums;overflow-x:clip}
 html.red body{filter:sepia(1) saturate(7) hue-rotate(-45deg) brightness(.72)}
+.wrap{position:relative}.ver{position:absolute;top:2px;right:max(3vw,12px);font-size:10.5px;line-height:1;padding:3px 6px;border-radius:999px;border:1px solid var(--line);color:var(--mut);background:var(--panel);letter-spacing:.02em;z-index:6}
+.menu{position:relative}.menu>button{display:flex;align-items:center;gap:6px;font-size:14px}
+.mpanel{position:absolute;right:0;top:50px;z-index:7;min-width:220px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 12px 30px #0006;display:flex;flex-direction:column;gap:2px}
+.mpanel[hidden]{display:none}.mpanel p{margin:4px 8px 6px;font-size:12px;color:var(--mut)}
+.mpanel button{border:0;background:none;text-align:left;min-height:40px;border-radius:8px;font-size:14px}.mpanel button:hover{background:var(--hov)}
+.mpanel button[aria-checked=true]{background:var(--sel);color:var(--good);font-weight:600}.mpanel button[aria-checked=true]::after{content:' ✓'}
+/* Light theme: page and panels go light; the sky dome stays a dark window */
+:root[data-theme=light]{color-scheme:light;--bg:#f3f4f7;--panel:#ffffff;--panel2:#f6f7fa;--line:#dde1e8;--ink:#141821;--mut:#5c6576;--good:#1769a6;--mid:#6a4dc4;--bad:#c2362f;--moon:#c9a23a;--cloud:#8a93a5;--hov:#eceff4;--sel:#e3eefa}
+:root{--hov:#232a38;--sel:#1a2230}
+[data-theme=light] .hero{background:linear-gradient(160deg,#ffffff,#eef2f8)}
+[data-theme=light] .night[aria-pressed=true],[data-theme=light] .nt[aria-pressed=true],[data-theme=light] .chip[aria-pressed=true],[data-theme=light] .live li.on,[data-theme=light] .plan button[aria-pressed=true],[data-theme=light] .hh tr.on{background:var(--sel)}
+[data-theme=light] .bar,[data-theme=light] .cb,[data-theme=light] .live .bar{background:#e4e8ef}
+[data-theme=light] .spark i{background:#e9ecf2}[data-theme=light] .spark i.dk{background:#2b3140}
+[data-theme=light] .gauge circle[stroke="#262c39"]{stroke:#e4e8ef}
+[data-theme=light] .hh tbody tr:hover{background:#eef1f6}[data-theme=light] td{border-bottom-color:#e6e9ef}[data-theme=light] .msline .in,[data-theme=light] .in{background:var(--panel2)}
+[data-theme=light] .banner{background:#fdecea;border-color:#f3c0bb;color:#7a1f19}
+[data-theme=light] .dome{background:#0d1018;border-radius:14px}
+[data-theme=light] .thumb,[data-theme=light] .pv img{background:#0d1018}
+[data-theme=light] #sugg li[aria-selected=true],[data-theme=light] #sugg li:hover{background:var(--hov)}
+[data-theme=light] #tl text{fill:#5c6576}[data-theme=light] #tl text[font-weight="600"]{fill:#141821}
+[data-theme=light] #tl line[stroke="#fff"]{stroke:#000}[data-theme=light] #tl rect[fill="#161b25"]{fill:#eceff4}[data-theme=light] #tl rect[fill="#1d2636"]{fill:#e3eefa}
+[data-theme=light] #tl rect[fill="#f2eee2"]{fill:#d8b24a}[data-theme=light] #tl rect[fill="#8fe3ff"]{fill:#2a9bd8}[data-theme=light] #tl rect[fill="#1b202b"]{fill:#e4e8ef}
+[data-theme=light] #cur line{stroke:#141821}[data-theme=light] #cur rect{fill:#141821}[data-theme=light] #curT{fill:#ffffff!important}[data-theme=light] #cur circle{fill:#141821}
+[data-theme=light] .legend i[style*="8fe3ff"]{background:#2a9bd8!important}[data-theme=light] .legend i[style*="--moon"]{background:#d8b24a!important}
+[data-theme=light] .live .bar i.b2,[data-theme=light] .plan button i.b2{background:#2a9bd8}
 button,input{font:inherit;color:inherit}
 button{background:var(--panel2);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:0 14px;cursor:pointer}
 button:hover{border-color:#3a4254}
@@ -170,13 +196,16 @@ td small{color:var(--mut);display:block;font-size:13px}
 </head>
 <body>
 <div class="wrap">
+<span class="ver" id="ver">v10</span>
 <header>
   <div><h1 id="title">Tonight</h1><p class="sub" id="sub"></p></div>
   <div class="search">
     <input id="q" type="search" placeholder="Change place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
     <ul id="sugg" role="listbox" hidden></ul>
   </div>
-  <div class="acts"><button id="geo" type="button">My location</button><button id="red" type="button" aria-pressed="false">Red light</button></div>
+  <div class="acts"><button id="geo" type="button">My location</button><div class="menu"><button id="themeBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="themeMenu" aria-label="Display settings"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span id="themeLbl">Display</span> ▾</button>
+    <div class="mpanel" id="themeMenu" role="menu" hidden><p>Theme</p>
+      <button type="button" role="menuitemradio" data-theme-set="system">System</button><button type="button" role="menuitemradio" data-theme-set="dark">Dark</button><button type="button" role="menuitemradio" data-theme-set="light">Light</button><button type="button" role="menuitemradio" data-theme-set="red">Red astro (night vision)</button></div></div></div>
   <div class="hdr2"><div class="nights" id="outlook" aria-label="Next 7 nights"></div><p class="status" id="status"></p></div>
 </header>
 
@@ -356,12 +385,12 @@ function cloudTile(s){const now=Date.now(),live=now>=N.t0&&now<=N.t1,t=live?now:
   <div class="cv"><b class="big ${cls}">${w?Math.round(w.cc)+'%':'–'}</b><p>${s.cc==null?'Waiting for the forecast':`Night average ${Math.round(s.cc)}%`}${s.cw?`<br>Clearest ${fmtT(s.cw.t0)}–${fmtT(s.cw.t1)} · ${Math.round(s.cw.cc)}%`:''}</p></div>
   ${hrs.length?`<div class="spark" aria-label="Hourly cloud through the night">${bars}</div><div class="sparkx"><small>${fmtT(hrs[0].t)}</small><small>midnight</small><small>${fmtT(hrs[hrs.length-1].t)}</small></div>`:''}</div>`}
 function renderHero(){const s=nightScore(N),top=[...N.tg].sort((a,b)=>b.sum-a.sum).filter(o=>o.max>0).slice(0,3),C=2*Math.PI*78;
-  const col=s.cls==='go'?'#9fd4ff':s.cls==='maybe'?'#c9b6ff':'#ff7b72';
+  const col=s.cls==='go'?'var(--good)':s.cls==='maybe'?'var(--mid)':'var(--bad)';
   const tile=(ic,k,v,sub,cls='')=>`<div class="tile"><div class="th">${ic}<span>${k}</span></div><b class="${cls}">${v}</b><small>${sub}</small></div>`;
   const sw=steadyWord(s.see,s.jet),m=s.illum??0;
   const why=!s.hasWx?'Waiting for live weather. Score uses darkness and moon only.':(s.win?`Best ${fmtT(s.win[0])}–${fmtT(s.win[1])}`:'')+(s.held.length?` · held back by ${s.held.join(' and ')}`:'');
   $('#hero').innerHTML=`${wx||!wxInfo.startsWith('Could')?'':`<div class="banner">Live weather couldn't load. Open the app in Safari or Chrome, not inside a file preview.</div>`}
-  <div class="gauge" role="img" aria-label="Astro score ${s.score} out of 100"><svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="78" fill="none" stroke="#262c39" stroke-width="14"/><circle cx="90" cy="90" r="78" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(C*s.score/100).toFixed(1)} ${C.toFixed(1)}"/></svg><div class="n"><b>${s.score}</b><span>astro score</span></div></div>
+  <div class="gauge" role="img" aria-label="Astro score ${s.score} out of 100"><svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="78" fill="none" stroke="#262c39" stroke-width="14"/><circle cx="90" cy="90" r="78" fill="none" style="stroke:${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(C*s.score/100).toFixed(1)} ${C.toFixed(1)}"/></svg><div class="n"><b>${s.score}</b><span>astro score</span></div></div>
   <div class="mid"><p class="verdict ${s.cls}">${s.label}</p><p class="why">${why}</p>
   <div class="tiles">${cloudTile(s)}
   <div class="tile moonT"><div class="th"><span>Moon</span></div><div class="mrow">${moonIcon(m,s.waxing,58)}<div><b>${Math.round(m*100)}%</b><small>${phaseName(m,s.waxing)}</small></div></div><small>${s.mUp>0?`Up ${s.mUp.toFixed(1)} h of the dark`:'Below horizon all dark'}</small></div>
@@ -522,7 +551,7 @@ function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNi
 function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length,busy=wxInfo==='loading…';
   document.body.classList.toggle('busy',busy);
   $('#status').innerHTML=busy?`<span class="maybe">● Loading live weather for ${esc(loc.name)}…</span>`
-   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v9</span>`}
+   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}`}
 async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.reason)||('HTTP '+r.status));return j}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(tm)}}
 function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
 const errs=[];
@@ -569,7 +598,22 @@ document.addEventListener('click',e=>{const ps=e.target.closest('#plan [data-k]'
   const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat();updateLive();return}
   const lv=e.target.closest('#live li[data-id]');if(lv){selectT(selId===lv.dataset.id?null:lv.dataset.id);return}
   if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=loc.name}});
-const red=$('#red');const setRed=v=>{document.documentElement.classList.toggle('red',v);red.setAttribute('aria-pressed',v);store.set('red',v)};setRed(store.get('red',false));red.addEventListener('click',()=>setRed(red.getAttribute('aria-pressed')!=='true'));
+/* Theme: system / dark / light / red. Red is dark plus a night-vision filter. */
+const mq=matchMedia('(prefers-color-scheme: light)');
+let theme=store.get('theme',store.get('red',false)?'red':'dark');
+function applyTheme(){const eff=theme==='system'?(mq.matches?'light':'dark'):theme==='red'?'dark':theme;
+  document.documentElement.dataset.theme=eff;document.documentElement.classList.toggle('red',theme==='red');
+  document.querySelectorAll('[data-theme-set]').forEach(b=>b.setAttribute('aria-checked',b.dataset.themeSet===theme));
+  $('#themeLbl').textContent={system:'System',dark:'Dark',light:'Light',red:'Red astro'}[theme];
+  const mc=document.querySelector('meta[name=theme-color]');if(mc)mc.content=eff==='light'?'#f3f4f7':'#090b10'}
+mq.addEventListener?.('change',()=>{if(theme==='system')applyTheme()});
+const tb=$('#themeBtn'),tm=$('#themeMenu');
+const openM=v=>{tm.hidden=!v;tb.setAttribute('aria-expanded',v)};
+tb.addEventListener('click',e=>{e.stopPropagation();openM(tm.hidden)});
+tm.addEventListener('click',e=>{const b=e.target.closest('[data-theme-set]');if(!b)return;theme=b.dataset.themeSet;store.set('theme',theme);applyTheme();openM(false)});
+document.addEventListener('click',e=>{if(!tm.hidden&&!e.target.closest('.menu'))openM(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!tm.hidden){openM(false);tb.focus()}});
+applyTheme();
 $('#geo').addEventListener('click',()=>{if(!navigator.geolocation){$('#geo').textContent='Not available';return}
   navigator.geolocation.getCurrentPosition(p=>setLoc({name:'My location',sub:'from this device',lat:+p.coords.latitude.toFixed(4),lon:+p.coords.longitude.toFixed(4),elev:p.coords.altitude??null,tz:Intl.DateTimeFormat().resolvedOptions().timeZone}),()=>{$('#geo').textContent='Location blocked'})});
 
