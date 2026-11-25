@@ -250,7 +250,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 </head>
 <body>
 <header class="appbar"><div class="abin">
-  <a href="#" class="brand" id="brand" aria-label="Astroplanner, back to top"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#141b2b"/><path d="M9 7l3.5 9.5L20.5 15 24 26" fill="none" stroke="#3f6c93" stroke-width="1"/><circle cx="9" cy="7" r="2" fill="#ffb08a"/><circle cx="23" cy="8" r="1.6" fill="#cfe6ff"/><circle cx="13.2" cy="16.6" r="1.4" fill="#eaf4ff"/><circle cx="16.4" cy="15.8" r="1.4" fill="#eaf4ff"/><circle cx="19.6" cy="15" r="1.4" fill="#eaf4ff"/><circle cx="10" cy="25" r="1.6" fill="#cfe6ff"/><circle cx="24" cy="26" r="2" fill="#9fd4ff"/></svg><span class="bn">Astroplanner</span><span class="ver" id="ver">v16</span></a>
+  <a href="#" class="brand" id="brand" aria-label="Astroplanner, back to top"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#141b2b"/><path d="M9 7l3.5 9.5L20.5 15 24 26" fill="none" stroke="#3f6c93" stroke-width="1"/><circle cx="9" cy="7" r="2" fill="#ffb08a"/><circle cx="23" cy="8" r="1.6" fill="#cfe6ff"/><circle cx="13.2" cy="16.6" r="1.4" fill="#eaf4ff"/><circle cx="16.4" cy="15.8" r="1.4" fill="#eaf4ff"/><circle cx="19.6" cy="15" r="1.4" fill="#eaf4ff"/><circle cx="10" cy="25" r="1.6" fill="#cfe6ff"/><circle cx="24" cy="26" r="2" fill="#9fd4ff"/></svg><span class="bn">Astroplanner</span><span class="ver" id="ver">v17</span></a>
   <div class="search">
     <input id="q" type="search" placeholder="Search a place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
     <button id="geo" type="button" class="geo" aria-label="Use my location" title="Use my location"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="7.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></button>
@@ -739,10 +739,13 @@ async function openModal(id){const o=N.tg.find(t=>t.id===id)||CAT.find(t=>t.id==
   $('#modal').hidden=false;document.body.style.overflow='hidden';$('#car').innerHTML='<figure><span class="ld">Loading photos…</span></figure>';$('#mDots').innerHTML='';$('#mCred').textContent='';$('#mClose').focus();
   let ph=[];try{ph=await commons(o)}catch(e){}
   if(WIMG[o.id]&&!ph.some(p=>p.src.split('/').pop().replace(/^\d+px-/,'')===WIMG[o.id].split('/').pop().replace(/^\d+px-/,'')))ph.unshift({src:WIMG[o.id].replace(/\/\d+px-/,'/1100px-'),fb:WIMG[o.id],page:'https://en.wikipedia.org/wiki/'+encodeURIComponent(WIKI[o.id]||o.name),by:'Wikipedia lead image',lic:'free licence'});
-  ph=ph.slice(0,5);ph.push({src:skyURL(o,1100,Math.round(1100*FOV().h/FOV().w),FOV().w),by:`Digitized Sky Survey (DSS2) via CDS, framed like ${FOV().name} (${fovTxt()})`,lic:'survey image',page:'https://aladin.cds.unistra.fr/'});
+  ph=ph.slice(0,5);
   mPhotos=ph;mI=0;
-  $('#car').innerHTML=ph.map((p,i)=>`<figure><img src="${esc(p.src)}" alt="${esc(o.name)} photo ${i+1}" ${p.fb?`data-fb="${esc(p.fb)}"`:''} onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.replaceWith(Object.assign(document.createElement('span'),{className:'ld',textContent:'This photo could not load'}))}"></figure>`).join('');
-  $('#mDots').innerHTML=ph.map(()=>'<i></i>').join('');updDots()}
+  $('#car').innerHTML=ph.map((p,i)=>`<figure><img src="${esc(p.src)}" alt="${esc(o.name)} photo ${i+1}" ${p.fb?`data-fb="${esc(p.fb)}"`:''} data-i="${i}" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{window.dspDrop&&window.dspDrop(this)}"></figure>`).join('');
+  $('#mDots').innerHTML=ph.map(()=>'<i></i>').join('');updDots();if(!ph.length)$('#car').innerHTML='<figure><span class="ld">No photos found for this target.</span></figure>'}
+window.dspDrop=img=>{const fig=img.closest('figure'),car=$('#car'),k=[...car.children].indexOf(fig);if(k<0)return;fig.remove();mPhotos.splice(k,1);
+  if(!mPhotos.length){car.innerHTML='<figure><span class="ld">No photos could load right now. Try again later.</span></figure>'}
+  $('#mDots').innerHTML=mPhotos.map(()=>'<i></i>').join('');mI=Math.min(mI,Math.max(0,mPhotos.length-1));updDots()};
 function closeModal(){$('#modal').hidden=true;document.body.style.overflow=''}
 $('#mClose').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 $('#mPrev').addEventListener('click',()=>showSlide(mI-1));$('#mNext').addEventListener('click',()=>showSlide(mI+1));
