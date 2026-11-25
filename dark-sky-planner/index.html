@@ -127,7 +127,7 @@ ol.live{list-style:none;margin:0;padding:0 2px 0 0;overflow-y:auto;display:flex;
 .plan b{display:inline!important;font-size:13.5px!important;white-space:nowrap}.plan .tm{font-size:12.5px!important;color:var(--mut)!important;font-weight:500!important;display:block;white-space:nowrap}.plan small{display:none}
 .plan button i{align-self:stretch}
 .msline{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.msline .in{padding:6px 10px;border-radius:10px;display:flex;gap:6px;align-items:baseline}.msline .in span{color:var(--mut);font-size:12.5px}.msline .in b{font-size:14px;white-space:nowrap}
-.hh{min-width:620px;font-size:13px}.hh td,.hh th{padding:4px 8px}.hh .cb{width:34px;height:6px}
+.hh{min-width:520px;font-size:13px}.hh td,.hh th{padding:4px 8px}.hh .cb{width:34px;height:6px}
 details.catd>summary{cursor:pointer;list-style:none}details.catd>summary::-webkit-details-marker{display:none}details.catd>summary h2{margin:0;display:inline}details.catd>summary::after{content:' ▾';color:var(--mut)}details.catd[open]>summary{margin-bottom:12px}
 .tbtn{display:flex;gap:6px}.tbtn button{min-width:52px}
 #tlwrap:focus-visible{outline:2px solid var(--good);outline-offset:4px;border-radius:8px}
@@ -144,6 +144,39 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel2);bor
 .plan button{grid-template-columns:4px 44px minmax(0,1fr)!important;align-items:center}.plan button.rest{grid-template-columns:4px minmax(0,1fr)!important}
 .tgt{display:flex;gap:12px;align-items:center}.tgt .thumb{width:48px;height:48px}
 .pv{margin:12px 0 0}.pv img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:10px;border:1px solid var(--line);background:#05060a}.pv figcaption{color:var(--mut);font-size:13px;margin-top:6px}
+.modal{position:fixed;inset:0;z-index:50;background:#000c;display:grid;place-items:center;padding:12px}.modal[hidden]{display:none}
+.mbox{position:relative;width:min(920px,100%);max-height:calc(100vh - 24px);background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.mx{position:absolute;top:8px;right:8px;z-index:3;width:44px;padding:0;background:#000a;border-color:#fff3;color:#fff}
+.car{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;background:#05060a;aspect-ratio:16/10;max-height:62vh}
+.car figure{flex:0 0 100%;margin:0;scroll-snap-align:start;display:grid;place-items:center;min-width:0}.car img{max-width:100%;max-height:62vh;object-fit:contain;display:block}
+.car .ld{color:#8f97a8;font-size:14px}
+.mover{position:absolute;left:0;right:0;top:0;padding:14px 60px 26px 16px;background:linear-gradient(#000d,#0000);color:#fff;pointer-events:none}
+.mover h3{margin:0 0 6px;font-size:20px}.mover .tags{display:flex;flex-wrap:wrap;gap:6px}.mover .tags span{font-size:12.5px;background:#ffffff1f;border:1px solid #ffffff2e;border-radius:999px;padding:3px 9px;backdrop-filter:blur(4px)}
+.mover .tags .fl{background:#8fe3ff33;border-color:#8fe3ff88}.mover p{margin:8px 0 0;font-size:13px;color:#e6e6e6;max-width:640px}
+.mnav{display:flex;align-items:center;justify-content:center;gap:12px;padding:8px}.mnav button{width:44px;padding:0;font-size:22px}
+.dots{display:flex;gap:6px}.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--good)}
+.mcred{margin:0;}@media(max-width:600px){.mover{position:static;background:none;color:var(--ink);padding:12px 16px 0;pointer-events:auto}.mover .tags span{color:var(--ink);background:var(--panel2);border-color:var(--line);backdrop-filter:none}.mover .tags .fl{background:var(--sel);border-color:var(--good)}.mover p{color:var(--mut)}.mbox{overflow-y:auto}}
+.mcred{margin:0;padding:0 16px 14px;font-size:12px;color:var(--mut);text-align:center}.mcred a{color:var(--good)}
+img.thumb[data-tid]{cursor:zoom-in}
+.dd{position:relative}.ddb{display:flex;align-items:center;gap:6px;font-size:13px;min-height:36px;padding:0 10px;border-radius:9px;max-width:100%}
+.ddb span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ddb .ic,.ddp .ic{width:16px;height:16px}.chev{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;flex:none;opacity:.7}
+.ddp{position:absolute;right:0;top:40px;z-index:25;min-width:220px;max-width:min(320px,86vw);max-height:340px;overflow-y:auto;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:5px;box-shadow:0 12px 30px #0006}
+.ddp[hidden]{display:none}.ddp button{display:grid;grid-template-columns:22px minmax(0,1fr);gap:2px 8px;align-items:center;width:100%;text-align:left;border:0;background:none;min-height:38px;padding:4px 8px;border-radius:8px;font-size:13px}
+.ddp button:hover{background:var(--hov)}.ddp button[aria-selected=true]{background:var(--sel);color:var(--good);font-weight:600}.ddp small{grid-column:2;color:var(--mut);font-size:11.5px;font-weight:400}
+.ddp .ti{width:22px;height:22px;border-radius:5px;object-fit:cover;background:#05060a}
+.dd-wide .ddb{max-width:200px}.clr{min-height:36px;font-size:12.5px;padding:0 10px;border-radius:9px}
+.box h2 small{font-weight:500;color:var(--mut);font-size:13px;margin-left:4px}
+.liveh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}.liveh h2{margin:0!important}
+.lnote{margin:0 0 8px;font-size:12px;color:var(--mut)}.live li.pin{border-color:#8fe3ff55}.live li.pin .star{color:var(--good)}
+.sim{margin-top:12px}.simv{position:relative;aspect-ratio:3/2;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--line)}
+.simbg{position:absolute;inset:0;transition:background .4s}
+#simImg{position:absolute;left:50%;top:50%;transform-origin:center;transition:transform .25s linear,opacity .3s;mix-blend-mode:screen;max-width:none}
+.simcl{position:absolute;inset:-10%;pointer-events:none;background:radial-gradient(40% 30% at 30% 40%,#c9ced8,transparent 70%),radial-gradient(35% 25% at 70% 60%,#b8bfcc,transparent 70%),radial-gradient(30% 22% at 55% 25%,#d5d9e2,transparent 70%);filter:blur(18px);transition:opacity .4s}
+.simfr{position:absolute;left:50%;top:50%;width:66.6%;aspect-ratio:16/9;transform:translate(-50%,-50%);border:1.5px solid #8fe3ff;box-shadow:0 0 0 999px #0009;border-radius:3px}
+.simfr span{position:absolute;left:6px;bottom:4px;font-size:11px;color:#8fe3ff}
+.simhud{position:absolute;left:8px;top:6px;right:8px;display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12px;color:#e8e8e8;text-shadow:0 1px 2px #000}
+.simmsg{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:13px;color:#fff;text-shadow:0 1px 3px #000}
+.c-glance{grid-column:span 8}.c-src2{grid-column:span 4}
 .c-dome{grid-column:span 5}.c-cond{grid-column:span 4}.c-best{grid-column:span 3}
 .c-ms,.c-src{grid-column:span 6}
 .dome{position:relative;aspect-ratio:1;max-height:460px;margin:0 auto}
@@ -198,7 +231,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 .cb{display:inline-block;width:46px;height:8px;border-radius:4px;background:#262c39;margin-inline-start:8px;vertical-align:1px;overflow:hidden}.cb i{display:block;height:100%;background:var(--cloud)}
 .dark-row td:first-child::after{content:' ●';color:var(--good);font-size:11px}
 .scroll{overflow-x:auto}
-@media(max-width:1100px){.c-tl,.c-live{grid-column:span 12}.c-live{height:520px}.c-half.c-dome,.c-half.c-cond{grid-column:span 12}.c-dome,.c-cond{grid-column:span 6}.c-best{grid-column:span 12}.out{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1100px){.c-glance,.c-src2{grid-column:span 12}.c-tl,.c-live{grid-column:span 12}.c-live{height:520px}.c-half.c-dome,.c-half.c-cond{grid-column:span 12}.c-dome,.c-cond{grid-column:span 6}.c-best{grid-column:span 12}.out{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:760px){.abin{grid-template-columns:auto minmax(0,1fr) auto;gap:10px;padding:8px 12px 6px}.bn{display:none}.brand{gap:5px}.brand .ver{font-size:9.5px;padding:2px 4px}#themeLbl{display:none}.menu>button{padding:0 12px}.topline h1{width:100%}.c-dome,.c-cond,.c-ms,.c-src{grid-column:span 12}.out{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.night{flex:0 0 132px;scroll-snap-align:start}}
 @media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;color:var(--mut);font-size:13px}.stack td:empty{display:none}.tlh .t{font-size:22px}}
 @media(prefers-reduced-motion:no-preference){.bar i{transition:width .25s}}
@@ -207,7 +240,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 </head>
 <body>
 <header class="appbar"><div class="abin">
-  <a href="#" class="brand" id="brand" aria-label="Astroplanner, back to top"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#141b2b"/><path d="M9 7l3.5 9.5L20.5 15 24 26" fill="none" stroke="#3f6c93" stroke-width="1"/><circle cx="9" cy="7" r="2" fill="#ffb08a"/><circle cx="23" cy="8" r="1.6" fill="#cfe6ff"/><circle cx="13.2" cy="16.6" r="1.4" fill="#eaf4ff"/><circle cx="16.4" cy="15.8" r="1.4" fill="#eaf4ff"/><circle cx="19.6" cy="15" r="1.4" fill="#eaf4ff"/><circle cx="10" cy="25" r="1.6" fill="#cfe6ff"/><circle cx="24" cy="26" r="2" fill="#9fd4ff"/></svg><span class="bn">Astroplanner</span><span class="ver" id="ver">v13</span></a>
+  <a href="#" class="brand" id="brand" aria-label="Astroplanner, back to top"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#141b2b"/><path d="M9 7l3.5 9.5L20.5 15 24 26" fill="none" stroke="#3f6c93" stroke-width="1"/><circle cx="9" cy="7" r="2" fill="#ffb08a"/><circle cx="23" cy="8" r="1.6" fill="#cfe6ff"/><circle cx="13.2" cy="16.6" r="1.4" fill="#eaf4ff"/><circle cx="16.4" cy="15.8" r="1.4" fill="#eaf4ff"/><circle cx="19.6" cy="15" r="1.4" fill="#eaf4ff"/><circle cx="10" cy="25" r="1.6" fill="#cfe6ff"/><circle cx="24" cy="26" r="2" fill="#9fd4ff"/></svg><span class="bn">Astroplanner</span><span class="ver" id="ver">v14</span></a>
   <div class="search">
     <input id="q" type="search" placeholder="Search a place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
     <button id="geo" type="button" class="geo" aria-label="Use my location" title="Use my location"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="7.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></button>
@@ -225,23 +258,23 @@ td small{color:var(--mut);display:block;font-size:13px}
   <section class="box hero" id="hero"></section>
 
   <section class="box c-tl">
-    <div class="tlh"><h2>Night plan</h2><span class="t" id="tlT"></span>
+    <div class="tlh"><h2>Night planner</h2><span class="t" id="tlT"></span>
       <span class="nowc" id="nowChip"></span><div class="tbtn"><button type="button" data-jump="-12" aria-label="Back one hour">−1 h</button><button id="now" type="button">Now</button><button type="button" data-jump="12" aria-label="Forward one hour">+1 h</button></div></div>
     <p class="hint" id="nowNote">Drag along the strip and the target list re-ranks for that moment. Tap a target to track it; drag one onto the strip to pin it.</p>
     <div id="tlwrap" tabindex="0" aria-label="Night timeline. Use left and right arrow keys to move in time."><svg id="tl"></svg></div>
     <p class="legend"><span><i style="background:#8fe3ff"></i>Best time to shoot</span><span><i style="background:#3f6c93"></i>Usable</span><span><i style="background:var(--cloud)"></i>Cloud</span><span><i style="background:var(--moon)"></i>Moon up</span><span><i style="background:#000;border:1px solid #444"></i>Full darkness</span></p>
     <h2 style="margin:12px 0 6px">Suggested plan</h2><ol class="plan" id="plan"></ol>
   </section>
-  <section class="box c-live"><div class="liveh"><h2>Targets at <span id="liveT"></span></h2></div><div id="chips" class="chips"></div><ol class="live" id="live"></ol></section>
+  <section class="box c-live"><div class="liveh"><h2>Targets <small id="liveT"></small></h2><div class="dd" id="ddFilt"></div></div><p class="lnote">Top 20 for this moment · ★ pins a target to the top</p><div id="chips" hidden></div><ol class="live" id="live"></ol></section>
   
 
   <h2 class="sect">Sky and conditions</h2>
-  <section class="box c-dome c-half"><div class="domeh"><h2>Sky at <span id="domeT"></span></h2><select id="track" aria-label="Track a target"></select></div><div class="dome"><svg id="dome" role="img" aria-label="Sky dome, north up, east left"></svg></div><p class="hint" id="domeHint"></p><figure class="pv" id="pv" hidden><img id="pvImg" alt=""><figcaption id="pvCap"></figcaption></figure></section>
-  <section class="box c-cond c-half"><h2>Conditions at <span id="condT"></span></h2><div id="cond"><p class="msg">Fetching forecast…</p></div></section>
+  <section class="box c-dome c-half"><div class="domeh"><h2>Sky charter <small id="domeT"></small></h2><div class="dd dd-wide" id="ddTrack"></div><button type="button" class="clr" id="clrT" hidden aria-label="Clear tracked target">✕ Clear</button></div><div class="dome"><svg id="dome" role="img" aria-label="Sky dome, north up, east left"></svg></div><p class="hint" id="domeHint"></p><div class="sim" id="sim" hidden><div class="simv" id="simv"><div class="simbg" id="simbg"></div><img id="simImg" alt=""><div class="simcl" id="simcl"></div><div class="simfr"><span>Dwarf frame 2.9° × 1.6°</span></div><div class="simhud" id="simHud"></div><div class="simmsg" id="simMsg"></div></div><p class="hint" id="simCap"></p></div></section>
+  <section class="box c-cond c-half"><h2>Conditions <small id="condT"></small></h2><div id="cond"><p class="msg">Fetching forecast…</p></div></section>
   
 
-  <section class="box"><div class="cath"><h2>This night at a glance</h2><span class="msg" id="hhNote"></span></div><div class="msline" id="ms"></div><div class="scroll"><table id="hh" class="hh"></table></div></section>
-  <section class="box src"><h2>Forecast sources</h2><ul id="src"></ul><div class="links" id="links"></div></section>
+  <section class="box c-glance"><div class="cath"><h2>This night at a glance</h2><span class="msg" id="hhNote"></span></div><div class="msline" id="ms"></div><div class="scroll"><table id="hh" class="hh"></table></div></section>
+  <section class="box src c-src2"><h2>Sources</h2><ul id="src"></ul><div class="links" id="links"></div></section>
 
   <details class="box catd"><summary><h2>Full target table for this night · Dwarf framing ~2.9° × 1.6°</h2></summary>
     <div class="scroll"><table class="stack" id="cat"></table></div>
@@ -250,6 +283,12 @@ td small{color:var(--mut);display:block;font-size:13px}
 </main>
 </div>
 
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="mbox"><button class="mx" id="mClose" type="button" aria-label="Close">✕</button>
+    <div class="car" id="car"></div>
+    <div class="mover"><h3 id="mTitle"></h3><div id="mInfo"></div></div>
+    <div class="mnav"><button type="button" id="mPrev" aria-label="Previous photo">‹</button><div class="dots" id="mDots"></div><button type="button" id="mNext" aria-label="Next photo">›</button></div>
+    <p class="mcred" id="mCred"></p></div></div>
 <script>
 {
 const $=s=>document.querySelector(s);
@@ -281,6 +320,15 @@ const dirs=['N','NE','E','SE','S','SW','W','NW'],dir=az=>dirs[Math.round(az/45)%
 /* ---------- Targets (J2000), sized for a Dwarf smart telescope ---------- */
 const CAT=[['M31','Andromeda Galaxy','Galaxy',0.712,41.27,178,3.4,0],['M33','Triangulum Galaxy','Galaxy',1.564,30.66,70,5.7,0],['NGC 281','Pacman Nebula','Nebula',0.877,56.62,35,7.4,1],['IC 59/63','Ghost of Cassiopeia','Nebula',0.95,60.9,20,null,1],['NGC 253','Sculptor Galaxy','Galaxy',0.793,-25.29,27,7.2,0],['M74','Phantom Galaxy','Galaxy',1.611,15.78,10,9.4,0],['NGC 869/884','Double Cluster','Cluster',2.333,57.13,60,3.7,0],['NGC 891','Silver Sliver Galaxy','Galaxy',2.375,42.35,13,10,0],['IC 1805','Heart Nebula','Nebula',2.55,61.45,150,6.5,1],['IC 1848','Soul Nebula','Nebula',2.85,60.43,150,6.5,1],['M45','Pleiades','Cluster',3.783,24.12,110,1.6,0],['NGC 1499','California Nebula','Nebula',4.05,36.37,145,6,1],['IC 405','Flaming Star Nebula','Nebula',5.27,34.27,37,6,1],['IC 410','Tadpoles Nebula','Nebula',5.375,33.43,40,7.5,1],['M1','Crab Nebula','Remnant',5.575,22.01,7,8.4,1],['M42','Orion Nebula','Nebula',5.588,-5.39,85,4,1],['B33','Horsehead & Flame','Nebula',5.683,-2.45,60,6.8,1],['M78','M78 reflection nebula','Nebula',5.78,0.05,8,8.3,0],['M35','M35 cluster','Cluster',6.15,24.33,28,5.1,0],['NGC 2174','Monkey Head Nebula','Nebula',6.16,20.5,40,6.8,1],['IC 443','Jellyfish Nebula','Remnant',6.28,22.53,50,12,1],['NGC 2244','Rosette Nebula','Nebula',6.533,4.95,80,4.8,1],['NGC 2264','Cone & Christmas Tree','Nebula',6.68,9.9,40,3.9,1],['IC 2177','Seagull Nebula','Nebula',7.08,-10.6,120,null,1],['NGC 2359',"Thor's Helmet",'Nebula',7.31,-13.2,10,11,1],['M44','Beehive Cluster','Cluster',8.67,19.67,95,3.7,0],['M81/M82',"Bode's & Cigar galaxies",'Galaxy',9.93,69.07,60,6.9,0],['M97/M108','Owl Nebula & M108','Planetary',11.25,55.0,50,9.9,0],['M65/M66','Leo Triplet','Galaxy',11.33,13.3,40,9,0],['M106','M106 galaxy','Galaxy',12.316,47.3,19,8.4,0],['M104','Sombrero Galaxy','Galaxy',12.666,-11.62,9,8,0],['M94',"Cat's Eye Galaxy",'Galaxy',12.85,41.12,11,8.2,0],['M63','Sunflower Galaxy','Galaxy',13.264,42.03,13,8.6,0],['M51','Whirlpool Galaxy','Galaxy',13.498,47.2,11,8.4,0],['M3','M3 globular','Cluster',13.703,28.38,18,6.2,0],['M101','Pinwheel Galaxy','Galaxy',14.053,54.35,29,7.9,0],['M5','M5 globular','Cluster',15.31,2.08,23,5.6,0],['Rho Oph','Rho Ophiuchi complex','Nebula',16.43,-24,240,null,0],['M13','Hercules Cluster','Cluster',16.695,36.46,20,5.8,0],['M92','M92 globular','Cluster',17.285,43.14,14,6.4,0],['M20','Trifid Nebula','Nebula',18.04,-23.03,28,6.3,1],['M8','Lagoon Nebula','Nebula',18.06,-24.38,90,6,1],['M16','Eagle Nebula','Nebula',18.31,-13.78,35,6,1],['M17','Omega Nebula','Nebula',18.345,-16.18,46,6,1],['M22','M22 globular','Cluster',18.607,-23.9,32,5.1,0],['M57','Ring Nebula','Planetary',18.893,33.03,1.4,8.8,1],['M27','Dumbbell Nebula','Planetary',19.993,22.72,8,7.5,1],['NGC 6888','Crescent Nebula','Nebula',20.2,38.35,20,7.4,1],['IC 1318','Sadr region','Nebula',20.37,40.25,120,null,1],['NGC 6946','Fireworks Galaxy','Galaxy',20.58,60.15,11,8.8,0],['NGC 6960/92','Veil Nebula','Remnant',20.86,31.2,180,7,1],['NGC 7000','North America & Pelican','Nebula',20.95,44.3,150,4,1],['NGC 7023','Iris Nebula','Nebula',21.02,68.17,18,7.1,0],['IC 1396',"Elephant's Trunk",'Nebula',21.65,57.5,170,3.5,1],['IC 5146','Cocoon Nebula','Nebula',21.89,47.27,12,10,0],['NGC 7293','Helix Nebula','Planetary',22.493,-20.84,25,7.6,1],['NGC 7380','Wizard Nebula','Nebula',22.79,58.1,25,7.2,1],['Sh2-155','Cave Nebula','Nebula',22.95,62.6,50,7.7,1],['NGC 7635','Bubble Nebula','Nebula',23.345,61.2,15,10,1]]
   .map(([id,name,type,ra,dec,size,mag,nb])=>({id,name,type,ra:ra*15,dec,size,mag,nb}));
+/* What kind of light each target gives, and which Dwarf filter suits it */
+const REFL=new Set(['M78','NGC 7023','M45']),MIXED=new Set(['IC 59/63','IC 5146','Rho Oph','M20','B33','M8','M42']);
+function kind(o){if(o.type==='Galaxy')return {em:'Starlight (broadband)',f:'Astro',why:'galaxies are broadband: a narrowband filter would cut most of their light'};
+  if(o.type==='Cluster')return {em:'Starlight (broadband)',f:'Astro',why:'star colours need the full spectrum; clusters cope with some moonlight'};
+  if(REFL.has(o.id))return {em:'Reflection nebula (blue dust)',f:'Astro',why:'reflection nebulae shine by scattered starlight, which narrowband blocks'};
+  if(o.type==='Planetary')return {em:'Emission: OIII + Hα',f:'Duo-band',why:'strong OIII teal and Hα red; Duo-band cuts moon and city glow'};
+  if(o.type==='Remnant')return {em:'Emission: Hα + OIII filaments',f:'Duo-band',why:'filaments glow in Hα and OIII; Duo-band lifts them out of the sky'};
+  if(MIXED.has(o.id))return {em:'Emission + reflection',f:'Duo-band, or Astro on dark moonless nights',why:'bright Hα core with blue dust around it'};
+  return {em:'Emission: Hα (H II region)',f:'Duo-band',why:'mostly hydrogen-alpha red; Duo-band works even with a bright moon'}}
 const framing=s=>s<12?'Small in frame':s<=190?'Fits frame':'Mosaic';
 /* Real sky images: DSS2 colour cutouts by coordinates (CDS hips2fits) */
 const HIPS='https://alasky.cds.unistra.fr/hips-image-services/hips2fits?hips=CDS%2FP%2FDSS2%2Fcolor&projection=TAN&coordsys=icrs&format=jpg';
@@ -321,7 +369,7 @@ function baseNoon(){const now=Date.now(),k=loc.tz+'|'+loc.lat+'|'+Math.floor(now
 function nightNoon(i){return baseNoon()+i*864e5}
 
 /* ---------- Weather lookup ---------- */
-const F=['cc','lo','mi','hi','rh','dp','tp','ws','wg','pp','vis','jet'];
+const F=['cc','lo','mi','hi','rh','dp','tp','ws','wg','pp','vis','jet','aod'];
 function wxAt(t){if(!wx||t<wx[0].t||t>wx[wx.length-1].t)return null;let i=0;while(i<wx.length-2&&wx[i+1].t<=t)i++;
   const a=wx[i],b=wx[i+1]||a,f=b.t>a.t?(t-a.t)/(b.t-a.t):0,o={};for(const k of F)o[k]=a[k]==null||b[k]==null?(a[k]??b[k]):a[k]+(b[k]-a[k])*f;return o}
 function svAt(t){if(!sv)return null;let best=null,d=1e15;for(const s of sv){const x=Math.abs(s.t-t);if(x<d){d=x;best=s}}return d<=2*HR?best:null}
@@ -335,16 +383,25 @@ const altF=a=>a<15?0:Math.pow(Math.min(1,(a-15)/35),.6);
 function moonF(tg,m){if(m.alt<-2)return 1;const sp=angSep(tg.ra,tg.dec,m.ra,m.dec);const f=sp<25?1:sp>100?.25:1-.75*(sp-25)/75;return 1-.75*m.illum*f*(m.alt>0?1:.5)*(tg.nb?.45:1)}
 const transF=s=>s?1-.05*(s.tr-1):1;
 /* Sky quality factors, each 0–1. Cloud dominates; moon, haze, seeing, wind, dew and site altitude each trim it. */
+/* City lights (Bortle 1 = pristine … 9 = city centre). Known sites preset; others estimated until you set it. */
+const BORTLE={'Haripur':4,'Manali':5,'Naggar':4,'Solang Valley':3,'Sissu':2,'Kaza':2,'Chitkul':2,'Bir Billing':4,'Hanle Dark Sky Reserve':1,'Leh':3,'Pangong Tso':1,'Bengaluru':8};
+const bkey=()=>loc.lat.toFixed(2)+','+loc.lon.toFixed(2);
+function bortleInfo(){const u=store.get('bortle',{})[bkey()];if(u)return {v:u,src:'set by you'};if(BORTLE[loc.name])return {v:BORTLE[loc.name],src:'known site'};
+  const e=loc.elev==null?5:loc.elev>3500?2:loc.elev>2500?3:loc.elev>1500?4:5;return {v:e,src:'estimate, tap to set'}}
+const bortle=()=>bortleInfo().v;
+const BDESC=['','Pristine','Truly dark','Rural','Rural edge','Suburban','Bright suburban','Suburb–city','City','Inner city'];
+const hazeWord=a=>a==null?'–':a<.1?'Clear':a<.2?'Light haze':a<.4?'Hazy':'Heavy haze';
 function envF(st){const w=st.w,s=st.s,dm=w?w.tp-w.dp:9;return {
   clear:w?Math.pow(1-clamp(w.cc,0,100)/100,1.5):.8,
-  trans:s?1-.04*(s.tr-1):w?1-clamp((w.rh-50)/40,0,1)*.25:1,
+  trans:(w&&w.aod!=null?1-clamp((w.aod-.08)/.5,0,1)*.35:1)*(s?1-.04*(s.tr-1):w?1-clamp((w.rh-50)/40,0,1)*.25:1),
+  lights:1-(bortle()-1)*.045,
   see:s?1-.03*(s.see-1):w&&w.jet!=null?1-clamp((w.jet-50)/100,0,1)*.2:1,
   wind:w?1-clamp((w.wg-25)/25,0,1)*.3:1,
   dew:dm<1?.88:dm<2.5?.95:1,
   site:loc.elev==null?.95:clamp(.88+loc.elev/25000,.88,1)}}
 const moonSky=m=>m.alt>0?1-.35*m.illum*(.5+.5*clamp(m.alt/40,0,1)):1;
-function skyQ(st){const f=envF(st);st.env=f.clear*f.trans*f.see*f.wind*f.dew*f.site;f.moon=moonSky(st.moon);st.f=f;return Math.round(100*darkF(st.sun)*st.env*f.moon)}
-const FNAME={clear:'cloud',moon:'bright moon',trans:'haze and humidity',see:'unsteady air',wind:'gusty wind',dew:'dew',site:'low-altitude haze'};
+function skyQ(st){const f=envF(st);st.env=f.clear*f.trans*f.see*f.wind*f.dew*f.site*f.lights;f.moon=moonSky(st.moon);st.f=f;return Math.round(100*darkF(st.sun)*st.env*f.moon)}
+const FNAME={clear:'cloud',moon:'bright moon',trans:'haze',lights:'city lights',see:'unsteady air',wind:'gusty wind',dew:'dew',site:'low-altitude haze'};
 const qLabel=(q,sun)=>sun>-0.83?['Daylight','poor']:sun>-12?['Twilight','maybe']:q>=70?['Excellent','go']:q>=50?['Good','go']:q>=30?['Fair','maybe']:['Poor','poor'];
 
 /* ---------- Build a night ---------- */
@@ -447,9 +504,25 @@ function drawDome(){const s=$('#dome'),W=s.clientWidth,H=s.clientHeight;if(!W||!
       lbl+=`<text x="${x+(L?-9:9)}" y="${ly}" fill="#ebe8e1" font-size="12" text-anchor="${L?'end':'start'}" paint-order="stroke" stroke="#05060a" stroke-width="3">${esc(t)}</text>`}}
   g+=lbl;const m=st.moon;if(m.alt>0){const [x,y]=P(m.alt,m.az);g+=`<circle cx="${x}" cy="${y}" r="11" fill="#f2eee2" fill-opacity="${(.3+.7*m.illum).toFixed(2)}" stroke="#f2eee2"/><text x="${x}" y="${y+26}" fill="#f2eee2" font-size="12" text-anchor="middle" paint-order="stroke" stroke="#05060a" stroke-width="3">Moon ${Math.round(m.illum*100)}%</text>`}
   s.innerHTML=g;$('#domeT').textContent=fmtT(st.t);
-  const pv=$('#pv');if(sel){const u=skyURL(sel,704,396,2.93),im=$('#pvImg');if(im.dataset.u!==u){im.dataset.u=u;im.dataset.fb=WIMG[sel.id]?WIMG[sel.id].replace(/\/\d+px-/,'/800px-'):'';im.onerror=function(){this.onerror=null;if(this.dataset.fb)this.src=this.dataset.fb;else $('#pv').hidden=true};im.src=u;im.alt=sel.name+' in a Dwarf-sized frame'}$('#pvCap').textContent=`${sel.name} (${sel.id}) as the Dwarf frames it: about 2.9° × 1.6°. ${sel.size}′ across, ${framing(sel.size).toLowerCase()}.`;pv.hidden=false}else pv.hidden=true;
+  safe(()=>renderSim(sel,st),'sim');
   $('#domeHint').textContent=sel?`${sel.name}: ${sel.win?'best '+fmtT(sel.win[0])+'–'+fmtT(sel.win[1]):'no good window this night'} · peaks ${Math.round(sel.peak)}° at ${fmtT(sel.peakT)}. Thick bright line = best time, thinner = usable, dashed = up but poor. Hour marks along the path.`
    :`N up, E left. ${vis.length} targets above the horizon. Shaded outer ring is below 15°. Tap a dot or pick a target above to see its path.`}
+/* Telescope view: the Dwarf frame on an alt-az mount. The target stays centred while the field rotates by the parallactic angle. */
+function paraAng(o,t){const H=norm(280.46061837+360.98564736629*(jd(t)-2451545)+loc.lon)-o.ra;return Math.atan2(sn(H),Math.tan(loc.lat*RD)*cs(o.dec)-sn(o.dec)*cs(H))/RD}
+function renderSim(sel,st){const box=$('#sim');if(!sel){box.hidden=true;return}box.hidden=false;
+  const im=$('#simImg'),src=WIMG[sel.id]?WIMG[sel.id].replace(/\/\d+px-/,'/640px-'):ph(sel);
+  if(im.dataset.id!==sel.id){im.dataset.id=sel.id;im.onerror=function(){this.onerror=null;this.src=WIMG[sel.id]||ph(sel)};im.src=src;im.alt=sel.name}
+  const alt=sel.alt[idx],az=sel.az[idx],k0=Math.max(0,N.steps.findIndex((x,k)=>sel.alt[k]>15&&x.sun<=-12)),q0=paraAng(sel,N.steps[k0].t),q=paraAng(sel,st.t),rot=q-q0,sc=sel.sc[idx];
+  const wPct=clamp(sel.size*1.6/264*100,8,220);im.style.width=wPct+'%';
+  im.style.transform=`translate(-50%,-50%) rotate(${rot.toFixed(1)}deg)`;
+  const dk=darkF(st.sun),m=st.moon,mUp=m.alt>0,mSep=mUp?angSep(sel.ra,sel.dec,m.ra,m.dec):180;
+  const base=st.sun>-.83?'#4a5d82':dk===0?'#27324a':dk<1?'#121826':'#04060b',glow=mUp?clamp(m.illum*(1-mSep/120),0,1)*.55:0;
+  $('#simbg').style.background=`radial-gradient(120% 90% at ${mSep<60?'85% 10%':'50% -40%'},rgba(190,200,225,${glow.toFixed(2)}),transparent 70%),${base}`;
+  $('#simcl').style.opacity=st.w?(st.w.cc/100*.85).toFixed(2):0;
+  im.style.opacity=alt<=0?0:clamp((alt-3)/25,.25,1)*(dk<1?.6:1);
+  $('#simHud').innerHTML=`<span>${fmtT(st.t)}</span><span>Alt ${Math.round(alt)}° · ${dir(az)}</span><span>Field turned ${rot>=0?'+':''}${rot.toFixed(0)}° since ${fmtT(N.steps[k0].t)}</span><span>${LV(sc)===2?'Best':LV(sc)===1?'Usable':'Poor'} · ${sc}</span>`;
+  $('#simMsg').textContent=alt<=0?`Below the horizon${sel.win?' · best '+fmtT(sel.win[0])+'–'+fmtT(sel.win[1]):''}`:st.sun>-12?'Sky still bright':alt<15?'Very low: haze and terrain':st.w&&st.w.cc>60?'Clouded out':'';
+  $('#simCap').textContent=`Simulated Dwarf view of ${sel.name}. Drag the night planner: the target stays centred while the field slowly turns (alt-az mount), the sky darkens, and moonlight and cloud come and go. Photo: Wikipedia, scaled to the target's ${sel.size}′ size.`}
 function runs(arr){const out=[];let a=0;for(let k=1;k<=arr.length;k++)if(k===arr.length||arr[k]!==arr[a]){out.push([a,k,arr[a]]);a=k}return out}
 const roD=new ResizeObserver(drawDome);roD.observe($('#dome'));
 $('#dome').addEventListener('click',e=>{const r=$('#dome').getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;let best=null,d=22;for(const p of domePts){const dd=Math.hypot(p.x-x,p.y-y);if(dd<d){d=dd;best=p}}selectT(best?best.id:null)});
@@ -461,8 +534,9 @@ function renderCond(){const st=N.steps[idx],w=st.w,s=st.s,q=st.q,[lab,cls]=qLabe
   if(!w){$('#cond').innerHTML=h+`<p class="msg">${wx?'Outside the forecast range for this time.':'Forecast not loaded yet. Moon, sun and targets still work.'}</p>`;return}
   const dm=w.tp-w.dp,jet=w.jet,see=s?SEE[s.see]:jet==null?'–':jet<70?'Likely steady':jet<120?'Average':'Likely poor';
   h+=`<div class="in" style="margin-bottom:8px"><span class="msg">Cloud ${Math.round(w.cc)}%</span><div class="layers">${[['Low',w.lo],['Mid',w.mi],['High',w.hi]].map(([k,v])=>`<div class="layer"><span>${k}</span><div class="bar"><i style="width:${Math.round(v??0)}%"></i></div><span>${v==null?'–':Math.round(v)+'%'}</span></div>`).join('')}</div></div>`;
-  h+=`<div class="kv">${cell('Air steadiness',steadyWord(s?.see,jet),s?SEE[s.see]+' blur · 7Timer':'estimated from jet stream')}${cell('Sky clarity',s?TRN[s.tr]:'–',s?'7Timer':'')}${cell('Dew margin',dm.toFixed(1)+' °C',dm<2.5?'Dew likely: heater on':'Air minus dew point',dm<2.5)}${cell('Humidity',Math.round(w.rh)+'%','')}${cell('Wind',Math.round(w.ws)+' km/h','gusts '+Math.round(w.wg)+' km/h',w.wg>30)}${cell('Jet stream',jet==null?'–':Math.round(jet)+' km/h','250 hPa',jet>120)}${cell('Temperature',Math.round(w.tp)+' °C','')}${cell('Rain chance',w.pp==null?'–':Math.round(w.pp)+'%','',w.pp>30)}</div>`;
-  $('#cond').innerHTML=h}
+  h+=`<div class="kv">${cell('Air steadiness',steadyWord(s?.see,jet),s?SEE[s.see]+' blur · 7Timer':'estimated from jet stream')}${cell('Sky clarity',s?TRN[s.tr]:'–',s?'7Timer':'')}${cell('Dew margin',dm.toFixed(1)+' °C',dm<2.5?'Dew likely: heater on':'Air minus dew point',dm<2.5)}${cell('Humidity',Math.round(w.rh)+'%','')}${cell('Wind',Math.round(w.ws)+' km/h','gusts '+Math.round(w.wg)+' km/h',w.wg>30)}${cell('Jet stream',jet==null?'–':Math.round(jet)+' km/h','250 hPa',jet>120)}${cell('Haze',hazeWord(w.aod),w.aod==null?'aerosol data '+aodInfo:'aerosol depth '+w.aod.toFixed(2),w.aod>=.4)}<div class="in"><span>City lights</span><b>Bortle ${bortle()}</b><i>${esc(BDESC[bortle()])} · ${esc(bortleInfo().src)}</i><div class="dd" id="ddB" style="margin-top:6px"></div></div>${cell('Temperature',Math.round(w.tp)+' °C','')}${cell('Rain chance',w.pp==null?'–':Math.round(w.pp)+'%','',w.pp>30)}</div>`;
+  $('#cond').innerHTML=h;
+  dd($('#ddB'),{value:String(bortle()),aria:'Set city lights level',label:()=>'Set level',items:BDESC.slice(1).map((d,i)=>({v:String(i+1),label:`Bortle ${i+1} · ${d}`,icon:`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="${3+i}" fill="#ffd27a" fill-opacity="${(.08*(i+1)).toFixed(2)}" stroke="none"/><circle cx="12" cy="12" r="2" fill="#fff" stroke="none"/></svg>`})),onPick:v=>{const b=store.get('bortle',{});b[bkey()]=+v;store.set('bortle',b);rebuild(true)}})}
 
 /* ---------- Render: best now ---------- */
 function renderBest(){if(!$('#best'))return;const st=N.steps[idx];const L=N.tg.map(o=>({o,sc:o.sc[idx],alt:o.alt[idx],az:o.az[idx]})).filter(v=>v.sc>0).sort((a,b)=>b.sc-a.sc).slice(0,6);
@@ -473,11 +547,12 @@ function renderBest(){if(!$('#best'))return;const st=N.steps[idx];const L=N.tg.m
 function tlRows(){const s=[...N.tg].sort((a,b)=>b.sum-a.sum),pin=new Set([...fav,...(selId?[selId]:[])]);const f=s.filter(o=>pin.has(o.id));return [...f,...s.filter(o=>!pin.has(o.id)&&o.sum>0).slice(0,Math.max(4,10-f.length))]}
 let G=150,PW=0,TLR=[],TLY=0;
 function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;const sm=W<560;G=sm?104:170;PW=W-G-8;const n=N.steps.length,cw=PW/n,rows=tlRows();TLR=rows;
-  const X=k=>(G+k*cw).toFixed(1),yH=44,yD=52,yC=70,hC=34,yS=110,yM=124,yT=146;TLY=yT;const H=yT+rows.length*24+4;
+  const X=k=>(G+k*cw).toFixed(1),yH=44,yD=52,yC=70,hC=34,yS=110,yZ=124,yM=138,yT=160;TLY=yT;const H=yT+rows.length*24+4;
   const s=$('#tl');s.setAttribute('height',H);s.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const lab=(y,t,b,dim)=>`<text x="${G-10}" y="${y}" fill="${b?'#ebe8e1':'#8f97a8'}" fill-opacity="${dim?.5:1}" font-size="12.5" ${b?'font-weight="600"':''} text-anchor="end">${esc(t)}</text>`;
   let g='';const off=tzOff(N.t0);for(let t=Math.ceil((N.t0+off)/HR)*HR-off;t<=N.t1;t+=HR){const h=parts(t).h;if(sm&&h%2)continue;const x=G+(t-N.t0)/STEP*cw;g+=`<line x1="${x}" x2="${x}" y1="${yH+4}" y2="${H}" stroke="#fff" stroke-opacity=".06"/><text x="${x}" y="${yH}" fill="#8f97a8" font-size="11" text-anchor="middle">${String(h).padStart(2,'0')}</text>`}
-  g+=lab(yD+10,'Darkness')+lab(yC+21,'Cloud')+lab(yS+8,'Air steadiness')+lab(yM+8,'Moon');
+  g+=lab(yD+10,'Darkness')+lab(yC+21,'Cloud')+lab(yS+8,'Air steadiness')+lab(yZ+8,'Haze')+lab(yM+8,'Moon');
+  {const hz=st=>st.w?.aod==null?-1:st.w.aod<.1?2:st.w.aod<.2?1:st.w.aod<.4?0:-2,HC={'-2':'#6b3a44','-1':'#1b202b',0:'#6b5a3a',1:'#3f6c93',2:'#8fe3ff'};for(const [a,b,l] of runs(N.steps.map(hz)))g+=`<rect x="${X(a)}" y="${yZ}" width="${((b-a)*cw).toFixed(1)}" height="8" rx="2" fill="${HC[l]}"/>`}
   const dc=a=>a>-.83?0:a>-6?1:a>-12?2:a>-18?3:4,DC=['#5b6b8c','#3d4864','#2a3248','#171c2a','#000'];
   for(const [a,b,l] of runs(N.steps.map(st=>dc(st.sun))))g+=`<rect x="${X(a)}" y="${yD}" width="${((b-a)*cw).toFixed(1)}" height="12" fill="${DC[l]}"/>`;
   g+=`<rect x="${G}" y="${yC}" width="${PW}" height="${hC}" fill="#161b25"/>`;
@@ -509,7 +584,10 @@ function renderPlan(){const P=buildPlan();
   $('#plan').innerHTML=P.length?P.map(p=>p.o?`<li><button type="button" data-sel="${esc(p.o.id)}" data-k="${p.k0}" aria-pressed="${selId===p.o.id}"><i class="b${LV(p.v)}"></i>${thumb(p.o,44)}<span><span class="tm">${fmtT(p.t0)}–${fmtT(p.t1)}</span><b>${esc(p.o.name)}</b><small>${LV(p.v)===2?'Best':'Usable'} · score ${p.v} · ${Math.round(p.o.alt[p.k0])}° → ${Math.round(p.o.alt[p.k1])}°</small></span></button></li>`
     :`<li><button type="button" data-k="${p.k0}" class="rest"><i class="b0"></i><span><span class="tm">${fmtT(p.t0)}–${fmtT(p.t1)}</span><b>Rest or process data</b><small>Nothing scores well: cloud or moon</small></span></button></li>`).join('')
   :'<li class="msg">No full darkness this night.</li>'}
-function renderTrack(){const L=[...N.tg].sort((a,b)=>b.sum-a.sum);$('#track').innerHTML=`<option value="">Track a target…</option>`+L.map(o=>`<option value="${esc(o.id)}"${o.id===selId?' selected':''}>${esc(o.name)}${o.max>0?'':' (poor tonight)'}</option>`).join('')}
+function renderTrack(){const L=[...N.tg].sort((a,b)=>b.sum-a.sum);
+  dd($('#ddTrack'),{value:selId||'',aria:'Track a target',label:c=>c.v?c.label:'Track a target',
+    items:[{v:'',label:'No target (show all)',icon:ic('<circle cx="12" cy="12" r="8"/><path d="M8 8l8 8"/>')},...L.map(o=>({v:o.id,label:o.name,sub:o.win?`best ${fmtT(o.win[0])}–${fmtT(o.win[1])}`:'poor this night',icon:`<img class="ti" src="${esc(imgFor(o))}" alt="" loading="lazy">`}))],onPick:v=>selectT(v||null)});
+  $('#clrT').hidden=!selId}
 function selectT(id,k){selId=id||null;if(k!=null)idx=clamp(k,0,N.steps.length-1);safe(drawTL,'timeline');safe(renderPlan,'plan');safe(renderTrack,'track');safe(()=>setIdx(idx),'time')}
 /* Drag a target from the list onto the strip to pin it */
 document.addEventListener('dragstart',e=>{const li=e.target.closest&&e.target.closest('#live li[data-id]');if(li){e.dataTransfer.setData('text/plain',li.dataset.id);e.dataTransfer.effectAllowed='copy'}});
@@ -519,9 +597,9 @@ function renderHH(){const tb=$('#hh');if(!wx){tb.innerHTML='';$('#hhNote').textC
   const rows=wx.filter(w=>w.t>=N.t0-30*MIN&&w.t<=N.t1+30*MIN);
   $('#hhNote').textContent=rows.length?`Tap an hour to jump there · ● full darkness`:'This night is beyond the forecast range';
   const n=v=>v==null?'–':Math.round(v);
-  tb.innerHTML=`<thead><tr><th>Time</th><th>Cloud</th><th>Low · mid · high</th><th>Steadiness</th><th>Humidity</th><th>Dew</th><th>Gusts</th><th>Temp</th><th>Score</th></tr></thead><tbody>`+
+  tb.innerHTML=`<thead><tr><th>Time</th><th>Cloud</th><th>Haze</th><th>Steadiness</th><th>Dew</th><th>Gusts</th><th>Temp</th><th>Score</th></tr></thead><tbody>`+
   rows.map(w=>{const k=clamp(Math.round((w.t-N.t0)/STEP),0,N.steps.length-1),st=N.steps[k],s=svAt(w.t),dm=w.tp-w.dp,dk=st.sun<=-18,[lab,cls]=qLabel(st.q,st.sun);
-    return `<tr data-k="${k}" class="${dk?'dark-row':''}"><td>${fmtT(w.t)}</td><td><b>${n(w.cc)}%</b><span class="cb"><i style="width:${n(w.cc)}%"></i></span></td><td>${n(w.lo)} · ${n(w.mi)} · ${n(w.hi)}</td><td>${steadyWord(s?.see,w.jet)}</td><td>${n(w.rh)}%</td><td class="${dm<2.5?'poor':''}">${dm<2.5?'High':'Low'}</td><td class="${w.wg>30?'poor':''}">${n(w.wg)}</td><td>${n(w.tp)}°</td><td class="${cls}"><b>${st.sun>-12?lab:st.q}</b></td></tr>`}).join('')+'</tbody>';
+    return `<tr data-k="${k}" class="${dk?'dark-row':''}"><td>${fmtT(w.t)}</td><td><b>${n(w.cc)}%</b><span class="cb"><i style="width:${n(w.cc)}%"></i></span></td><td class="${w.aod>=.4?'poor':''}">${hazeWord(w.aod)}</td><td>${steadyWord(s?.see,w.jet)}</td><td class="${dm<2.5?'poor':''}">${dm<2.5?'High':'Low'}</td><td class="${w.wg>30?'poor':''}">${n(w.wg)}</td><td>${n(w.tp)}°</td><td class="${cls}"><b>${st.sun>-12?lab:st.q}</b></td></tr>`}).join('')+'</tbody>';
   markHH()}
 function markHH(){const t=N.steps[idx].t;let best=null,d=1e15;document.querySelectorAll('#hh tbody tr').forEach(r=>{const x=Math.abs(N.steps[+r.dataset.k].t-t);r.classList.remove('on');if(x<d){d=x;best=r}});if(best&&d<=30*MIN)best.classList.add('on')}
 $('#hh').addEventListener('click',e=>{const r=e.target.closest('tr[data-k]');if(r){setIdx(+r.dataset.k);$('#tlwrap').scrollIntoView({behavior:'smooth',block:'center'})}});
@@ -531,10 +609,22 @@ function renderMS(){const mid=N.d0&&N.d1?(N.d0+N.d1)/2:(N.t0+N.t1)/2,m=moonAt(mi
   for(let k=1;k<N.steps.length;k++){const a=N.steps[k-1].moon.alt,b=N.steps[k].moon.alt;if(a<0&&b>=0&&!mr)mr=N.steps[k].t;if(a>=0&&b<0&&!ms)ms=N.steps[k].t}
   const dh=N.d0&&N.d1?((N.d1-N.d0)/HR):0;let md=0;if(N.d0&&N.d1)for(const st of N.steps)if(st.t>=N.d0&&st.t<=N.d1&&st.moon.alt<=0)md+=STEP/HR;
   const c=(k,v)=>`<div class="in"><span>${k}</span><b>${v}</b></div>`;
-  $('#ms').innerHTML=c('Sunset',N.set?fmtT(N.set):'–')+c('Sunrise',N.rise?fmtT(N.rise):'–')+c('Astro dark',N.d0&&N.d1?fmtT(N.d0)+'–'+fmtT(N.d1):'None tonight')+c('Dark hours',dh.toFixed(1)+' h')+c('Moon',phaseName(m.illum,m.waxing)+' · '+Math.round(m.illum*100)+'%')+c('Moonless dark',md.toFixed(1)+' h')+c('Moonrise',mr?fmtT(mr):'not in window')+c('Moonset',ms?fmtT(ms):'not in window')}
-function renderSrc(){$('#src').innerHTML=`<li>Open-Meteo forecast <small>${esc(wxInfo||'loading…')} · cloud by layer, humidity, dew point, wind, 250 hPa jet stream; best-match blend of ECMWF, GFS, ICON and others</small></li><li>7Timer! ASTRO <small>${esc(svInfo||'loading…')} · seeing and transparency, 3-hourly for 72 h (NOAA GFS based)</small></li><li>Target photos <small>${esc(imgSrc)} · lead images from Wikipedia / Wikimedia Commons (free licences). The tracked-target frame preview uses the Digitized Sky Survey via CDS hips2fits.</small></li><li>Sun, moon and target positions <small>Computed here for ${esc(loc.name)}; times in ${esc(loc.tz)}</small></li>`;
+  $('#ms').innerHTML=c('Sunset',N.set?fmtT(N.set):'–')+c('Full dark',N.d0&&N.d1?fmtT(N.d0)+'–'+fmtT(N.d1)+' ('+dh.toFixed(1)+' h)':'none')+c('Sunrise',N.rise?fmtT(N.rise):'–')+c('Moon',Math.round(m.illum*100)+'%'+(mr?' · rises '+fmtT(mr):'')+(ms?' · sets '+fmtT(ms):''))+c('Moonless dark',md.toFixed(1)+' h')+c('City lights','Bortle '+bortle())}
+function renderSrc(){$('#src').innerHTML=`<li>Weather <small>Open-Meteo · ${esc(wxInfo||'loading…')}</small></li><li>Haze <small>Open-Meteo air quality (aerosol depth) · ${esc(aodInfo)}</small></li><li>Air steadiness <small>7Timer! · ${esc(sv&&sv.length?'live':'jet-stream estimate')}</small></li><li>Photos <small>Wikipedia / Wikimedia Commons · ${esc(imgSrc)}</small></li><li>Sky positions <small>Computed here · ${esc(loc.tz)}</small></li>`;
   const la=loc.lat.toFixed(2),lo=loc.lon.toFixed(2),mb=`${Math.abs(loc.lat).toFixed(3)}${loc.lat>=0?'N':'S'}${Math.abs(loc.lon).toFixed(3)}${loc.lon>=0?'E':'W'}`;
-  $('#links').innerHTML=[['Clear Outside',`https://clearoutside.com/forecast/${la}/${lo}`],['Meteoblue seeing',`https://www.meteoblue.com/en/weather/outdoorsports/seeing/${mb}`],['Windy clouds',`https://www.windy.com/-Clouds-clouds?clouds,${la},${lo},9`],['Light pollution map',`https://www.lightpollutionmap.info/#zoom=9.00&lat=${la}&lon=${lo}`]].map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${t} ↗</a>`).join('')}
+  $('#links').innerHTML=[['Clear Outside',`https://clearoutside.com/forecast/${la}/${lo}`],['Meteoblue',`https://www.meteoblue.com/en/weather/outdoorsports/seeing/${mb}`],['Windy',`https://www.windy.com/-Clouds-clouds?clouds,${la},${lo},9`],['Light pollution',`https://www.lightpollutionmap.info/#zoom=9.00&lat=${la}&lon=${lo}`]].map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${t} ↗</a>`).join('')}
+/* Small dropdown with icons, used for target filter, sky charter and city lights */
+const FI={All:'<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',Nebulae:'<path d="M5 15c0-3 2-5 5-5 1-3 6-3 7 1 2 0 3 2 3 4s-2 3-4 3H8c-2 0-3-1-3-3z"/>',Galaxies:'<ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(-25 12 12)"/><circle cx="12" cy="12" r="1.6"/>',Clusters:'<circle cx="8" cy="9" r="1.5"/><circle cx="15" cy="7" r="1.5"/><circle cx="12" cy="13" r="1.5"/><circle cx="17" cy="15" r="1.5"/><circle cx="7" cy="16" r="1.5"/>','My plan':'<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.6 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/>'};
+const ic=d=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+function dd(host,{value,items,onPick,label,aria}){const cur=items.find(i=>i.v===value)||items[0];
+  host.innerHTML=`<button type="button" class="ddb" aria-haspopup="listbox" aria-expanded="false" aria-label="${esc(aria||'')}">${cur.icon||''}<span>${esc(label?label(cur):cur.label)}</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="ddp" role="listbox" hidden>${items.map(i=>`<button type="button" role="option" data-v="${esc(i.v)}" aria-selected="${i.v===value}">${i.icon||'<span></span>'}<span>${esc(i.label)}</span>${i.sub?`<small>${esc(i.sub)}</small>`:''}</button>`).join('')}</div>`;
+  host._pick=onPick}
+document.addEventListener('click',e=>{const b=e.target.closest('.ddb');const open=document.querySelectorAll('.ddp:not([hidden])');
+  if(b){const pnl=b.nextElementSibling,was=!pnl.hidden;open.forEach(x=>{x.hidden=true;x.previousElementSibling.setAttribute('aria-expanded','false')});if(!was){pnl.hidden=false;b.setAttribute('aria-expanded','true')}return}
+  const o=e.target.closest('.ddp [data-v]');if(o){const host=o.closest('.dd');o.parentElement.hidden=true;host._pick&&host._pick(o.dataset.v);return}
+  open.forEach(x=>{x.hidden=true;x.previousElementSibling.setAttribute('aria-expanded','false')})});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.ddp:not([hidden])').forEach(x=>x.hidden=true)});
+function renderFilt(){dd($('#ddFilt'),{value:filt,aria:'Filter targets',items:Object.keys(FILTERS).map(k=>({v:k,label:k==='My plan'?`My plan (${fav.size})`:k,icon:ic(FI[k])})),onPick:v=>{filt=v;renderCat();renderFilt();updateLive()}})}
 /* Live target list beside the timeline: re-ranks for the cursor time while dragging */
 let LIVE=new Map();
 function buildLive(){const ol=$('#live');ol.innerHTML='';LIVE=new Map();
@@ -542,13 +632,14 @@ function buildLive(){const ol=$('#live');ol.innerHTML='';LIVE=new Map();
     li.innerHTML=`${thumb(o,40)}<div><span class="nm">${esc(o.name)}</span><small class="ld"></small><div class="bar"><i></i></div></div><button class="star" type="button" data-fav="${esc(o.id)}" aria-label="Star ${esc(o.name)}"></button>`;
     LIVE.set(o.id,{li,o,ld:li.querySelector('.ld'),bar:li.querySelector('.bar i'),star:li.querySelector('.star')});ol.appendChild(li)}
   updateLive()}
-function updateLive(){if(!N||!LIVE.size)return;$('#liveT').textContent=fmtT(N.steps[idx].t);const f=FILTERS[filt];
-  const L=[...LIVE.values()].filter(v=>f(v.o)).sort((a,b)=>(b.o.sc[idx]-a.o.sc[idx])||(b.o.alt[idx]-a.o.alt[idx]));
+function updateLive(){if(!N||!LIVE.size)return;$('#liveT').textContent='at '+fmtT(N.steps[idx].t);const f=FILTERS[filt];
+  const S=[...LIVE.values()].filter(v=>f(v.o)).sort((a,b)=>(fav.has(b.o.id)-fav.has(a.o.id))||(b.o.sc[idx]-a.o.sc[idx])||(b.o.alt[idx]-a.o.alt[idx]));
+  const L=S.slice(0,Math.max(20,S.filter(v=>fav.has(v.o.id)).length));
   const ol=$('#live'),show=new Set(L.map(v=>v.o.id));
   for(const v of LIVE.values())v.li.hidden=!show.has(v.o.id);
   L.forEach((v,i)=>{const o=v.o,sc=o.sc[idx],al=o.alt[idx],lv=LV(sc);
     v.ld.textContent=al<=0?`Below horizon${o.win?' · best '+fmtT(o.win[0])+'–'+fmtT(o.win[1]):''}`:`${Math.round(al)}° ${dir(o.az[idx])} · ${lv===2?'Best now':lv===1?'Usable now':'Poor now'} · ${sc}`;
-    v.bar.style.width=sc+'%';v.bar.className=lv===2?'b2':'';v.li.classList.toggle('down',al<=0);v.li.classList.toggle('on',selId===o.id);
+    v.bar.style.width=sc+'%';v.bar.className=lv===2?'b2':'';v.li.classList.toggle('down',al<=0);v.li.classList.toggle('on',selId===o.id);v.li.classList.toggle('pin',fav.has(o.id));
     const fv=fav.has(o.id);v.star.textContent=fv?'★':'☆';v.star.setAttribute('aria-pressed',fv);
     if(ol.children[i]!==v.li)ol.insertBefore(v.li,ol.children[i]||null)});
   if(!L.length&&!$('#live .msg'))ol.insertAdjacentHTML('beforeend','<li class="msg">No targets here yet. Star some to build your plan.</li>');
@@ -565,7 +656,7 @@ function renderCat(){$('#chips').innerHTML=Object.keys(FILTERS).map(k=>`<button 
 function setIdx(i){idx=clamp(Math.round(i),0,N.steps.length-1);moveCursor();safe(updateLive,'targets');drawDome();renderCond();renderBest();markHH()}
 function defaultIdx(){const now=Date.now();if(now>=N.t0&&now<=N.t1)return (now-N.t0)/STEP;const t=N.d0?N.d0+HR:N.t0+3*HR;return (t-N.t0)/STEP}
 function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNight(nightI);if(selId&&!N.tg.some(o=>o.id===selId))selId=null;
-  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[buildLive,'live'],[renderHH,'hourly'],[drawTL,'timeline'],[renderPlan,'plan'],[renderTrack,'track'],[renderNowChip,'now']])safe(f,n);
+  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[renderFilt,'filter'],[buildLive,'live'],[renderHH,'hourly'],[drawTL,'timeline'],[renderPlan,'plan'],[renderTrack,'track'],[renderNowChip,'now']])safe(f,n);
   safe(()=>setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx()),'time');renderStatus()}
 function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length,busy=wxInfo==='loading…';
   document.body.classList.toggle('busy',busy);
@@ -575,7 +666,8 @@ async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout((
 function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
 const errs=[];
 let wtok=0;
-async function loadWeather(){const tok=++wtok;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';const {lat,lon}=loc;
+let aod=null,aodInfo='loading…';
+async function loadWeather(){const tok=++wtok;wx=null;sv=null;aod=null;aodInfo='loading…';wxInfo='loading…';svInfo='loading…';const {lat,lon}=loc;
   const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,relative_humidity_2m,dew_point_2m,temperature_2m,wind_speed_10m,wind_gusts_10m,precipitation_probability,visibility,wind_speed_250hPa&timezone=GMT&past_days=1&forecast_days=8`;
   const p1=getJSON(u).catch(e=>getJSON(u.replace(',wind_speed_250hPa',''))).then(j=>{if(tok!==wtok)return;const h=j.hourly;wx=h.time.map((t,i)=>({t:Date.parse(t+':00Z'),cc:h.cloud_cover[i],lo:h.cloud_cover_low[i],mi:h.cloud_cover_mid[i],hi:h.cloud_cover_high[i],rh:h.relative_humidity_2m[i],dp:h.dew_point_2m[i],tp:h.temperature_2m[i],ws:h.wind_speed_10m[i],wg:h.wind_gusts_10m[i],pp:h.precipitation_probability?.[i],vis:h.visibility?.[i],jet:h.wind_speed_250hPa?.[i]})).filter(x=>x.cc!=null);
     if(loc.elev==null&&j.elevation!=null)loc.elev=j.elevation;wxInfo='Fetched '+fmtT(Date.now())+' local'}).catch(e=>{if(tok!==wtok)return;wxInfo='Could not load Open-Meteo ('+e.message+'). Check the connection and reload.'});
@@ -583,8 +675,39 @@ async function loadWeather(){const tok=++wtok;wx=null;sv=null;wxInfo='loading…
       if(tok!==wtok)return;const s=String(j.init),init=Date.UTC(+s.slice(0,4),+s.slice(4,6)-1,+s.slice(6,8),+s.slice(8,10));
       sv=j.dataseries.map(d=>({t:init+d.timepoint*HR,see:d.seeing,tr:d.transparency,cc7:d.cloudcover})).filter(d=>d.see>0);svInfo='Model run '+fmtD(init,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'UTC'})+' UTC';return}catch(e){}}
     if(tok!==wtok)return;svInfo='Unavailable right now; seeing is estimated from the jet stream instead'})();
+  const p3=getJSON(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&hourly=aerosol_optical_depth,dust&timezone=GMT&past_days=1&forecast_days=5`).then(j=>{if(tok!==wtok)return;const h=j.hourly;aod=new Map(h.time.map((t,i)=>[Date.parse(t+':00Z'),h.aerosol_optical_depth[i]]));aodInfo='live'}).catch(e=>{aodInfo='unavailable'});
+  const merge=()=>{if(wx&&aod)for(const x of wx)x.aod=aod.get(x.t)??null};
+Promise.allSettled([p1,p3]).then(()=>{if(tok!==wtok)return;merge();safe(()=>rebuild(true),'redraw')});
   p1.then(()=>{if(tok===wtok)safe(()=>rebuild(true),'redraw')});renderStatus();p2.then(()=>{if(tok===wtok)safe(()=>rebuild(true),'redraw')});renderStatus()}
 function setLoc(l){loc=l;store.set('loc',loc);nightI=0;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';q.value=fullName();safe(()=>rebuild(false),'start');loadWeather();window.scrollTo({top:0,behavior:'smooth'})}
+
+/* Photo modal: up to 5 free-licensed photos from Wikimedia Commons, plus the survey view; target summary on top */
+let mPhotos=[],mI=0;const strip=h=>{const d=document.createElement('div');d.innerHTML=h||'';return d.textContent.trim()};
+async function commons(o){const key='cm_'+o.id,c=store.get(key,null);if(c&&Date.now()-c.t<14*864e5)return c.v;
+  const q=`${o.name.replace(/ & .*/,'')} ${o.type==='Galaxy'?'galaxy':o.type==='Cluster'?'cluster':''}`.trim();
+  const j=await getJSON('https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&generator=search&gsrnamespace=6&gsrlimit=12&gsrsearch='+encodeURIComponent(q+' filetype:bitmap')+'&prop=imageinfo&iiprop=url|extmetadata|size&iiurlwidth=1100',15000);
+  const v=(j.query?.pages||[]).sort((a,b)=>(a.index||0)-(b.index||0)).map(pg=>{const ii=pg.imageinfo?.[0];if(!ii||ii.width<500)return null;const m=ii.extmetadata||{};
+    return {src:ii.thumburl||ii.url,page:ii.descriptionurl,by:strip(m.Artist?.value).slice(0,60)||'Unknown',lic:strip(m.LicenseShortName?.value)||'see file page'}}).filter(Boolean).slice(0,5);
+  store.set(key,{t:Date.now(),v});return v}
+function showSlide(i){const figs=$('#car').children;if(!figs.length)return;mI=(i+figs.length)%figs.length;figs[mI].scrollIntoView({behavior:'smooth',block:'nearest',inline:'start'});updDots()}
+function updDots(){[...$('#mDots').children].forEach((d,k)=>d.classList.toggle('on',k===mI));const p=mPhotos[mI];
+  $('#mCred').innerHTML=p?(p.page?`Photo ${mI+1}/${mPhotos.length}: ${esc(p.by)} · ${esc(p.lic)} · <a href="${esc(p.page)}" target="_blank" rel="noopener">Wikimedia Commons ↗</a>`:`Photo ${mI+1}/${mPhotos.length}: ${esc(p.by)}`):''}
+async function openModal(id){const o=N.tg.find(t=>t.id===id)||CAT.find(t=>t.id===id);if(!o)return;const k=kind(o);
+  $('#mTitle').textContent=`${o.name} · ${o.id}`;
+  $('#mInfo').innerHTML=`<div class="tags"><span>${esc(o.type)}</span><span>${esc(k.em)}</span><span class="fl">Dwarf filter: ${esc(k.f)}</span><span>${o.size}′ · ${framing(o.size).toLowerCase()}</span>${o.mag!=null?`<span>mag ${o.mag}</span>`:''}${o.win?`<span>Best ${fmtT(o.win[0])}–${fmtT(o.win[1])}</span>`:''}</div><p>${esc(k.why[0].toUpperCase()+k.why.slice(1))}.</p>`;
+  $('#modal').hidden=false;document.body.style.overflow='hidden';$('#car').innerHTML='<figure><span class="ld">Loading photos…</span></figure>';$('#mDots').innerHTML='';$('#mCred').textContent='';$('#mClose').focus();
+  let ph=[];try{ph=await commons(o)}catch(e){}
+  if(WIMG[o.id]&&!ph.some(p=>p.src.split('/').pop().replace(/^\d+px-/,'')===WIMG[o.id].split('/').pop().replace(/^\d+px-/,'')))ph.unshift({src:WIMG[o.id].replace(/\/\d+px-/,'/1100px-'),fb:WIMG[o.id],page:'https://en.wikipedia.org/wiki/'+encodeURIComponent(WIKI[o.id]||o.name),by:'Wikipedia lead image',lic:'free licence'});
+  ph=ph.slice(0,5);ph.push({src:skyURL(o,1100,688,2.93),by:'Digitized Sky Survey (DSS2) via CDS, at Dwarf framing 2.9° × 1.6°',lic:'survey image',page:'https://aladin.cds.unistra.fr/'});
+  mPhotos=ph;mI=0;
+  $('#car').innerHTML=ph.map((p,i)=>`<figure><img src="${esc(p.src)}" alt="${esc(o.name)} photo ${i+1}" ${p.fb?`data-fb="${esc(p.fb)}"`:''} onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.removeAttribute('data-fb')}else{this.replaceWith(Object.assign(document.createElement('span'),{className:'ld',textContent:'This photo could not load'}))}"></figure>`).join('');
+  $('#mDots').innerHTML=ph.map(()=>'<i></i>').join('');updDots()}
+function closeModal(){$('#modal').hidden=true;document.body.style.overflow=''}
+$('#mClose').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+$('#mPrev').addEventListener('click',()=>showSlide(mI-1));$('#mNext').addEventListener('click',()=>showSlide(mI+1));
+$('#car').addEventListener('scroll',()=>{const c=$('#car');const i=Math.round(c.scrollLeft/c.clientWidth);if(i!==mI){mI=i;updDots()}},{passive:true});
+document.addEventListener('keydown',e=>{if($('#modal').hidden)return;if(e.key==='Escape')closeModal();if(e.key==='ArrowRight')showSlide(mI+1);if(e.key==='ArrowLeft')showSlide(mI-1)});
+document.addEventListener('click',e=>{const im=e.target.closest('img.thumb[data-tid]');if(im){e.stopPropagation();e.preventDefault();openModal(im.dataset.tid)}},true);
 
 /* ---------- Events ---------- */
 $('#more').addEventListener('click',()=>{showAll=!showAll;renderCat()});
@@ -613,10 +736,10 @@ tw.addEventListener('pointercancel',()=>{drag=false;pend=false});
 tw.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){setIdx(idx+(e.key==='ArrowRight'?1:-1)*(e.shiftKey?12:1));e.preventDefault()}});
 tw.addEventListener('dragover',e=>{e.preventDefault();tw.classList.add('drop')});tw.addEventListener('dragleave',()=>tw.classList.remove('drop'));
 tw.addEventListener('drop',e=>{e.preventDefault();tw.classList.remove('drop');const id=e.dataTransfer.getData('text/plain');if(!N.tg.some(o=>o.id===id))return;fav.add(id);store.set('fav',[...fav]);renderCat();selectT(id)});
-$('#track').addEventListener('change',e=>selectT(e.target.value||null));
+$('#clrT').addEventListener('click',()=>selectT(null));
 $('#outlook').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;nightI=+b.dataset.i;rebuild(true)});
 document.addEventListener('click',e=>{const ps=e.target.closest('#plan [data-k]');if(ps){selectT(ps.dataset.sel||selId,+ps.dataset.k);return}
-  const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderBest();drawTL();drawDome();renderPlan();updateLive();return}
+  const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderFilt();renderBest();drawTL();drawDome();renderPlan();updateLive();return}
   const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat();updateLive();return}
   const lv=e.target.closest('#live li[data-id]');if(lv){selectT(selId===lv.dataset.id?null:lv.dataset.id);return}
   if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=fullName()}});
