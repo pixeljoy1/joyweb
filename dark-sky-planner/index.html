@@ -132,7 +132,7 @@ ol.best{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
 .star[aria-pressed=true]{color:var(--good)}
 .tlh{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 .tlh h2{margin:0}.tlh .t{font-size:28px;font-weight:700;margin-inline-start:auto}
-#tlwrap{position:relative;touch-action:none;cursor:ew-resize}
+#tlwrap{position:relative;touch-action:pan-y;cursor:ew-resize;user-select:none;-webkit-user-select:none}
 #tl{display:block;width:100%}
 input[type=range]{width:100%;height:44px;background:none;-webkit-appearance:none;appearance:none;margin:4px 0 0}
 input[type=range]::-webkit-slider-runnable-track{height:6px;background:#262c39;border-radius:3px}
@@ -244,7 +244,23 @@ const framing=s=>s<12?'Small in frame':s<=190?'Fits frame':'Mosaic';
 /* Real sky images: DSS2 colour cutouts by coordinates (CDS hips2fits) */
 const HIPS='https://alasky.cds.unistra.fr/hips-image-services/hips2fits?hips=CDS%2FP%2FDSS2%2Fcolor&projection=TAN&coordsys=icrs&format=jpg';
 const skyURL=(o,w,h,fov)=>`${HIPS}&width=${w}&height=${h}&fov=${fov.toFixed(2)}&ra=${o.ra.toFixed(4)}&dec=${o.dec.toFixed(4)}`;
-const thumb=(o,px=44)=>`<img class="thumb" loading="lazy" width="${px}" height="${px}" alt="" src="${skyURL(o,px*2,px*2,clamp(o.size/60*1.6,.2,4))}" onerror="this.classList.add('nf')">`;
+/* Target photos: each object's lead image on Wikipedia (free-licensed, from Wikimedia Commons), loaded in one or two batched requests and cached for a week */
+const WIKI={'M31':'Andromeda Galaxy','M33':'Triangulum Galaxy','NGC 281':'NGC 281','IC 59/63':'IC 63','NGC 253':'Sculptor Galaxy','M74':'Messier 74','NGC 869/884':'Double Cluster','NGC 891':'NGC 891','IC 1805':'Heart Nebula','IC 1848':'Soul Nebula','M45':'Pleiades','NGC 1499':'California Nebula','IC 405':'Flaming Star Nebula','IC 410':'IC 410','M1':'Crab Nebula','M42':'Orion Nebula','B33':'Horsehead Nebula','M78':'Messier 78','M35':'Messier 35','NGC 2174':'NGC 2174','IC 443':'IC 443','NGC 2244':'Rosette Nebula','NGC 2264':'Cone Nebula','IC 2177':'Seagull Nebula','NGC 2359':"Thor's Helmet",'M44':'Beehive Cluster','M81/M82':"Bode's Galaxy",'M97/M108':'Owl Nebula','M65/M66':'Leo Triplet','M106':'Messier 106','M104':'Sombrero Galaxy','M94':'Messier 94','M63':'Sunflower Galaxy','M51':'Whirlpool Galaxy','M3':'Messier 3','M101':'Pinwheel Galaxy','M5':'Messier 5','Rho Oph':'Rho Ophiuchi cloud complex','M13':'Messier 13','M92':'Messier 92','M20':'Trifid Nebula','M8':'Lagoon Nebula','M16':'Eagle Nebula','M17':'Omega Nebula','M22':'Messier 22','M57':'Ring Nebula','M27':'Dumbbell Nebula','NGC 6888':'Crescent Nebula','IC 1318':'IC 1318','NGC 6946':'Fireworks Galaxy','NGC 6960/92':'Veil Nebula','NGC 7000':'North America Nebula','NGC 7023':'Iris Nebula','IC 1396':'IC 1396','IC 5146':'Cocoon Nebula','NGC 7293':'Helix Nebula','NGC 7380':'NGC 7380','Sh2-155':'Sh2-155','NGC 7635':'NGC 7635'};
+let WIMG={},imgSrc='loading…';
+const PHC={Galaxy:'<ellipse cx="32" cy="32" rx="22" ry="9" fill="#9fb4d8" opacity=".55" transform="rotate(-25 32 32)"/><circle cx="32" cy="32" r="5" fill="#f2eee2"/>',Cluster:'<g fill="#f2eee2">'+[[22,24],[34,20],[40,30],[28,36],[38,42],[24,44],[46,22],[18,34]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.2"/>`).join('')+'</g>',Planetary:'<circle cx="32" cy="32" r="13" fill="none" stroke="#8fe3ff" stroke-width="5" opacity=".7"/>',Remnant:'<path d="M14 40c8-20 28-26 36-10" fill="none" stroke="#ff9db0" stroke-width="4" opacity=".7"/>',Nebula:'<circle cx="28" cy="30" r="15" fill="#c75b7a" opacity=".55"/><circle cx="38" cy="36" r="12" fill="#6fa8d8" opacity=".45"/>'};
+const ph=o=>'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#0a0d16"/>${PHC[o.type]||PHC.Nebula}</svg>`);
+const imgFor=o=>WIMG[o.id]||ph(o);
+const thumb=(o,px=44)=>`<img class="thumb" loading="lazy" width="${px}" height="${px}" alt="" data-tid="${esc(o.id)}" src="${esc(imgFor(o))}" onerror="this.onerror=null;this.src=this.dataset.ph" data-ph="${esc(ph(o))}">`;
+function applyImgs(){document.querySelectorAll('img[data-tid]').forEach(im=>{const o=CAT.find(c=>c.id===im.dataset.tid);if(o&&WIMG[o.id]&&im.src!==WIMG[o.id]){im.onerror=function(){this.onerror=null;this.src=this.dataset.ph};im.src=WIMG[o.id]}})}
+async function loadImages(){const c=store.get('wimg2',null);if(c&&Date.now()-c.t<7*864e5&&Object.keys(c.m).length>20){WIMG=c.m;imgSrc='cached';applyImgs();return}
+  const ids=Object.keys(WIKI),m={};
+  for(let i=0;i<ids.length;i+=40){const chunk=ids.slice(i,i+40);
+    try{const j=await getJSON('https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=240&titles='+encodeURIComponent(chunk.map(id=>WIKI[id]).join('|')),15000);
+      const fw={};for(const n of(j.query.normalized||[]))fw[n.from]=n.to;for(const r of(j.query.redirects||[]))fw[r.from]=r.to;
+      const by={};for(const pg of(j.query.pages||[]))if(pg.thumbnail)by[pg.title]=pg.thumbnail.source;
+      for(const id of chunk){let t=WIKI[id];for(let k=0;k<4&&fw[t];k++)t=fw[t];if(by[t])m[id]=by[t]}}catch(e){imgSrc='unavailable ('+e.message+')'}}
+  WIMG=m;const n=Object.keys(m).length;if(n){store.set('wimg2',{t:Date.now(),m});imgSrc=n+' of '+ids.length+' loaded'}applyImgs();safe(renderSrc,'sources')}
+const thumbDSS=(o,px=44)=>`<img class="thumb" loading="lazy" width="${px}" height="${px}" alt="" src="${skyURL(o,px*2,px*2,clamp(o.size/60*1.6,.2,4))}" onerror="this.classList.add('nf')">`;
 const fitF=s=>s<6?.5:s<12?.72:s<=190?1:.8;
 
 /* ---------- State ---------- */
@@ -384,7 +400,7 @@ function drawDome(){const s=$('#dome'),W=s.clientWidth,H=s.clientHeight;if(!W||!
       lbl+=`<text x="${x+(L?-9:9)}" y="${ly}" fill="#ebe8e1" font-size="12" text-anchor="${L?'end':'start'}" paint-order="stroke" stroke="#05060a" stroke-width="3">${esc(t)}</text>`}}
   g+=lbl;const m=st.moon;if(m.alt>0){const [x,y]=P(m.alt,m.az);g+=`<circle cx="${x}" cy="${y}" r="11" fill="#f2eee2" fill-opacity="${(.3+.7*m.illum).toFixed(2)}" stroke="#f2eee2"/><text x="${x}" y="${y+26}" fill="#f2eee2" font-size="12" text-anchor="middle" paint-order="stroke" stroke="#05060a" stroke-width="3">Moon ${Math.round(m.illum*100)}%</text>`}
   s.innerHTML=g;$('#domeT').textContent=fmtT(st.t);
-  const pv=$('#pv');if(sel){const u=skyURL(sel,704,396,2.93);if($('#pvImg').dataset.u!==u){$('#pvImg').dataset.u=u;$('#pvImg').src=u;$('#pvImg').alt=sel.name+' in a Dwarf-sized frame'}$('#pvCap').textContent=`${sel.name} (${sel.id}) as the Dwarf frames it: about 2.9° × 1.6°. ${sel.size}′ across, ${framing(sel.size).toLowerCase()}.`;pv.hidden=false}else pv.hidden=true;
+  const pv=$('#pv');if(sel){const u=skyURL(sel,704,396,2.93),im=$('#pvImg');if(im.dataset.u!==u){im.dataset.u=u;im.dataset.fb=WIMG[sel.id]?WIMG[sel.id].replace(/\/\d+px-/,'/800px-'):'';im.onerror=function(){this.onerror=null;if(this.dataset.fb)this.src=this.dataset.fb;else $('#pv').hidden=true};im.src=u;im.alt=sel.name+' in a Dwarf-sized frame'}$('#pvCap').textContent=`${sel.name} (${sel.id}) as the Dwarf frames it: about 2.9° × 1.6°. ${sel.size}′ across, ${framing(sel.size).toLowerCase()}.`;pv.hidden=false}else pv.hidden=true;
   $('#domeHint').textContent=sel?`${sel.name}: ${sel.win?'best '+fmtT(sel.win[0])+'–'+fmtT(sel.win[1]):'no good window this night'} · peaks ${Math.round(sel.peak)}° at ${fmtT(sel.peakT)}. Thick bright line = best time, thinner = usable, dashed = up but poor. Hour marks along the path.`
    :`N up, E left. ${vis.length} targets above the horizon. Shaded outer ring is below 15°. Tap a dot or pick a target above to see its path.`}
 function runs(arr){const out=[];let a=0;for(let k=1;k<=arr.length;k++)if(k===arr.length||arr[k]!==arr[a]){out.push([a,k,arr[a]]);a=k}return out}
@@ -409,7 +425,7 @@ function renderBest(){if(!$('#best'))return;const st=N.steps[idx];const L=N.tg.m
 /* ---------- Render: timeline ---------- */
 function tlRows(){const s=[...N.tg].sort((a,b)=>b.sum-a.sum),pin=new Set([...fav,...(selId?[selId]:[])]);const f=s.filter(o=>pin.has(o.id));return [...f,...s.filter(o=>!pin.has(o.id)&&o.sum>0).slice(0,Math.max(4,10-f.length))]}
 let G=150,PW=0,TLR=[],TLY=0;
-function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;const sm=W<560;G=sm?92:170;PW=W-G-8;const n=N.steps.length,cw=PW/n,rows=tlRows();TLR=rows;
+function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;const sm=W<560;G=sm?104:170;PW=W-G-8;const n=N.steps.length,cw=PW/n,rows=tlRows();TLR=rows;
   const X=k=>(G+k*cw).toFixed(1),yH=44,yD=52,yC=70,hC=34,yS=110,yM=124,yT=146;TLY=yT;const H=yT+rows.length*24+4;
   const s=$('#tl');s.setAttribute('height',H);s.setAttribute('viewBox',`0 0 ${W} ${H}`);
   const lab=(y,t,b,dim)=>`<text x="${G-10}" y="${y}" fill="${b?'#ebe8e1':'#8f97a8'}" fill-opacity="${dim?.5:1}" font-size="12.5" ${b?'font-weight="600"':''} text-anchor="end">${esc(t)}</text>`;
@@ -423,9 +439,9 @@ function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;con
   const sl=st=>{const v=st.s?.see??(st.w?.jet!=null?(st.w.jet<70?3:st.w.jet<120?5:7):null);return v==null?-1:v<=3?2:v<=5?1:0},SC={'-1':'#1b202b',0:'#6b3a44',1:'#3f6c93',2:'#8fe3ff'};
   for(const [a,b,l] of runs(N.steps.map(sl)))g+=`<rect x="${X(a)}" y="${yS}" width="${((b-a)*cw).toFixed(1)}" height="8" rx="2" fill="${SC[l]}"/>`;
   for(const [a,b,l] of runs(N.steps.map(st=>st.moon.alt>0?1:0)))if(l)g+=`<rect x="${X(a)}" y="${yM}" width="${((b-a)*cw).toFixed(1)}" height="8" rx="2" fill="#f2eee2" fill-opacity="${(.25+.75*N.steps[a].moon.illum).toFixed(2)}"/>`;
-  rows.forEach((o,r)=>{const y=yT+r*24,on=selId===o.id,dim=selId&&!on,nm=sm?o.id:o.name;
+  rows.forEach((o,r)=>{const y=yT+r*24,on=selId===o.id,dim=selId&&!on,nm=sm?o.name.replace(/ (Nebula|Galaxy|Cluster|galaxies|globular)$/,''):o.name;
     if(on)g+=`<rect x="0" y="${y-2}" width="${W}" height="24" rx="6" fill="#1d2636"/>`;
-    g+=lab(y+14,(fav.has(o.id)?'★ ':'')+(nm.length>(sm?11:24)?nm.slice(0,sm?10:23)+'…':nm),on||fav.has(o.id),dim);
+    g+=lab(y+14,(fav.has(o.id)?'★ ':'')+(nm.length>(sm?13:24)?nm.slice(0,sm?12:23)+'…':nm),on||fav.has(o.id),dim);
     g+=`<rect x="${G}" y="${y+3}" width="${PW}" height="14" rx="3" fill="#161b25"/>`;
     for(const [a,b,l] of runs(o.sc.map(LV)))if(l)g+=`<rect x="${X(a)}" y="${y+3}" width="${((b-a)*cw).toFixed(1)}" height="14" rx="3" fill="${LVC[l]}" fill-opacity="${dim?.35:1}"/>`});
   g+=`<g id="cur"><line x1="0" x2="0" y1="30" y2="${H}" stroke="#fff" stroke-width="2"/><rect x="-30" y="4" width="60" height="24" rx="12" fill="#ebe8e1"/><text id="curT" x="0" y="21" fill="#090b10" font-size="13" font-weight="700" text-anchor="middle"></text></g>`;
@@ -468,7 +484,7 @@ function renderMS(){const mid=N.d0&&N.d1?(N.d0+N.d1)/2:(N.t0+N.t1)/2,m=moonAt(mi
   const dh=N.d0&&N.d1?((N.d1-N.d0)/HR):0;let md=0;if(N.d0&&N.d1)for(const st of N.steps)if(st.t>=N.d0&&st.t<=N.d1&&st.moon.alt<=0)md+=STEP/HR;
   const c=(k,v)=>`<div class="in"><span>${k}</span><b>${v}</b></div>`;
   $('#ms').innerHTML=c('Sunset',N.set?fmtT(N.set):'–')+c('Sunrise',N.rise?fmtT(N.rise):'–')+c('Astro dark',N.d0&&N.d1?fmtT(N.d0)+'–'+fmtT(N.d1):'None tonight')+c('Dark hours',dh.toFixed(1)+' h')+c('Moon',phaseName(m.illum,m.waxing)+' · '+Math.round(m.illum*100)+'%')+c('Moonless dark',md.toFixed(1)+' h')+c('Moonrise',mr?fmtT(mr):'not in window')+c('Moonset',ms?fmtT(ms):'not in window')}
-function renderSrc(){$('#src').innerHTML=`<li>Open-Meteo forecast <small>${esc(wxInfo||'loading…')} · cloud by layer, humidity, dew point, wind, 250 hPa jet stream; best-match blend of ECMWF, GFS, ICON and others</small></li><li>7Timer! ASTRO <small>${esc(svInfo||'loading…')} · seeing and transparency, 3-hourly for 72 h (NOAA GFS based)</small></li><li>Target photos <small>Digitized Sky Survey (DSS2 colour) cutouts via CDS Aladin hips2fits, centred on each target's coordinates</small></li><li>Sun, moon and target positions <small>Computed here for ${esc(loc.name)}; times in ${esc(loc.tz)}</small></li>`;
+function renderSrc(){$('#src').innerHTML=`<li>Open-Meteo forecast <small>${esc(wxInfo||'loading…')} · cloud by layer, humidity, dew point, wind, 250 hPa jet stream; best-match blend of ECMWF, GFS, ICON and others</small></li><li>7Timer! ASTRO <small>${esc(svInfo||'loading…')} · seeing and transparency, 3-hourly for 72 h (NOAA GFS based)</small></li><li>Target photos <small>${esc(imgSrc)} · lead images from Wikipedia / Wikimedia Commons (free licences). The tracked-target frame preview uses the Digitized Sky Survey via CDS hips2fits.</small></li><li>Sun, moon and target positions <small>Computed here for ${esc(loc.name)}; times in ${esc(loc.tz)}</small></li>`;
   const la=loc.lat.toFixed(2),lo=loc.lon.toFixed(2),mb=`${Math.abs(loc.lat).toFixed(3)}${loc.lat>=0?'N':'S'}${Math.abs(loc.lon).toFixed(3)}${loc.lon>=0?'E':'W'}`;
   $('#links').innerHTML=[['Clear Outside',`https://clearoutside.com/forecast/${la}/${lo}`],['Meteoblue seeing',`https://www.meteoblue.com/en/weather/outdoorsports/seeing/${mb}`],['Windy clouds',`https://www.windy.com/-Clouds-clouds?clouds,${la},${lo},9`],['Light pollution map',`https://www.lightpollutionmap.info/#zoom=9.00&lat=${la}&lon=${lo}`]].map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${t} ↗</a>`).join('')}
 /* Live target list beside the timeline: re-ranks for the cursor time while dragging */
@@ -506,7 +522,7 @@ function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNi
 function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length,busy=wxInfo==='loading…';
   document.body.classList.toggle('busy',busy);
   $('#status').innerHTML=busy?`<span class="maybe">● Loading live weather for ${esc(loc.name)}…</span>`
-   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v8</span>`}
+   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v9</span>`}
 async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.reason)||('HTTP '+r.status));return j}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(tm)}}
 function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
 const errs=[];
@@ -529,13 +545,20 @@ function goNow(){const now=Date.now();if(nightI!==0){nightI=0;rebuild(false)}
   else{setIdx(((N.d0??N.t0+HR)-N.t0)/STEP);$('#nowNote').textContent=`It's ${fmtT(now)} at ${loc.name}, so it's still daytime there. Showing tonight from full darkness.`}}
 $('#now').addEventListener('click',goNow);
 document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>setIdx(idx+ +b.dataset.jump)));
-const tw=$('#tlwrap');let drag=false,downX=0,downY=0;
+const tw=$('#tlwrap');let drag=false,pend=false,downX=0,downY=0,downIn=false;
 const tlX=e=>{const r=tw.getBoundingClientRect();setIdx((e.clientX-r.left-G)/PW*N.steps.length-.5)};
-tw.addEventListener('pointerdown',e=>{const r=tw.getBoundingClientRect();downX=e.clientX;downY=e.clientY;if(e.clientX-r.left<G)return;drag=true;tw.setPointerCapture(e.pointerId);tlX(e)});
-tw.addEventListener('pointermove',e=>{if(drag)tlX(e)});
-tw.addEventListener('pointerup',e=>{const r=tw.getBoundingClientRect(),y=e.clientY-r.top;drag=false;
-  if(Math.abs(e.clientX-downX)<6&&Math.abs(e.clientY-downY)<6&&y>=TLY-2){const o=TLR[Math.floor((y-TLY+2)/24)];if(o)selectT(selId===o.id&&e.clientX-r.left<G?null:o.id)}});
-tw.addEventListener('pointercancel',()=>drag=false);
+/* Mouse scrubs at once. Touch waits to see the gesture: sideways = scrub time, up/down = let the page scroll. */
+tw.addEventListener('pointerdown',e=>{const r=tw.getBoundingClientRect();downX=e.clientX;downY=e.clientY;downIn=e.clientX-r.left>=G;
+  if(!downIn)return;if(e.pointerType==='mouse'){drag=true;tw.setPointerCapture(e.pointerId);tlX(e)}else pend=true});
+tw.addEventListener('pointermove',e=>{if(pend){const dx=Math.abs(e.clientX-downX),dy=Math.abs(e.clientY-downY);
+    if(dx>8&&dx>dy*1.2){pend=false;drag=true;try{tw.setPointerCapture(e.pointerId)}catch(_){}}else if(dy>8)pend=false}
+  if(drag){tlX(e);e.preventDefault()}},{passive:false});
+tw.addEventListener('touchmove',e=>{if(drag)e.preventDefault()},{passive:false});
+tw.addEventListener('pointerup',e=>{const r=tw.getBoundingClientRect(),y=e.clientY-r.top,tap=Math.abs(e.clientX-downX)<8&&Math.abs(e.clientY-downY)<8;
+  const wasDrag=drag;drag=false;pend=false;if(!tap||wasDrag&&e.pointerType==='mouse'&&!tap)return;
+  if(y>=TLY-2){const o=TLR[Math.floor((y-TLY+2)/24)];if(o){if(downIn&&e.pointerType!=='mouse')tlX(e);selectT(selId===o.id&&!downIn?null:o.id);return}}
+  if(downIn&&e.pointerType!=='mouse')tlX(e)});
+tw.addEventListener('pointercancel',()=>{drag=false;pend=false});
 tw.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){setIdx(idx+(e.key==='ArrowRight'?1:-1)*(e.shiftKey?12:1));e.preventDefault()}});
 tw.addEventListener('dragover',e=>{e.preventDefault();tw.classList.add('drop')});tw.addEventListener('dragleave',()=>tw.classList.remove('drop'));
 tw.addEventListener('drop',e=>{e.preventDefault();tw.classList.remove('drop');const id=e.dataTransfer.getData('text/plain');if(!N.tg.some(o=>o.id===id))return;fav.add(id);store.set('fav',[...fav]);renderCat();selectT(id)});
@@ -582,7 +605,7 @@ q.addEventListener('blur',()=>setTimeout(()=>{if(document.activeElement!==q&&ul.
 ul.addEventListener('pointerdown',e=>e.preventDefault());
 ul.addEventListener('click',e=>{const li=e.target.closest('[data-k]');if(li)pick(res[+li.dataset.k])});
 
-q.value=loc.name;safe(()=>rebuild(false),'start');loadWeather();
+q.value=loc.name;safe(()=>rebuild(false),'start');loadWeather();loadImages();
 setInterval(()=>{if(nightI===0&&!drag&&document.visibilityState==='visible')renderOutlook()},10*60e3);
 setInterval(()=>safe(renderHead,'header'),30e3);
 }
