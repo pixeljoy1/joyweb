@@ -72,7 +72,26 @@ h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;te
 .nights{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;max-width:100%}
 .nt{min-height:44px;padding:5px 10px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;line-height:1.15;border-radius:10px;flex:none}
 .nt span{font-size:12px;color:var(--mut)}.nt b{font-size:17px}.nt[aria-pressed=true]{border-color:var(--good);background:#1a2230}
-.c-tl{grid-column:span 9}.c-plan{grid-column:span 3}
+.c-tl{grid-column:span 8}.c-live{grid-column:span 4;display:flex;flex-direction:column}
+.c-half.c-dome,.c-half.c-cond{grid-column:span 6}
+.liveh{display:flex;align-items:baseline;gap:8px}.liveh h2{margin:0 0 8px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:8px}.chips .chip{flex:none;min-height:36px;padding:0 12px}
+ol.live{list-style:none;margin:0;padding:0 2px 0 0;overflow-y:auto;display:flex;flex-direction:column;gap:6px;flex:1 1 0;min-height:0;height:0}
+.live li{display:grid;grid-template-columns:40px minmax(0,1fr) 40px;gap:8px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:6px 6px 6px 8px;cursor:pointer;transition:transform .15s}
+.live li.on{border-color:var(--good);background:#1a2230}.live li.down{opacity:.45}
+.live li[draggable=true]{cursor:grab}.live .thumb{width:40px;height:40px}
+.live .nm{font-weight:600;font-size:14px;line-height:1.2;display:block}.live small{color:var(--mut);font-size:12.5px;display:block}
+.live .bar{margin-top:4px;height:5px}.live .bar i{background:#3f6c93}.live .bar i.b2{background:#8fe3ff}
+.live .star{width:40px;min-height:40px}
+#tlwrap.drop{outline:2px dashed var(--good);outline-offset:4px;border-radius:8px}
+.plan{flex-direction:row!important;overflow-x:auto;scrollbar-width:thin;gap:6px!important;margin:0!important;padding-bottom:2px}.plan li{flex:0 0 auto}
+.plan button{min-height:44px!important;padding:4px 10px 4px 6px!important;gap:8px!important;grid-template-columns:3px 30px auto!important;border-radius:10px!important}
+.plan button.rest{grid-template-columns:3px auto!important}.plan .thumb{width:30px;height:30px;border-radius:6px}
+.plan b{display:inline!important;font-size:13.5px!important;white-space:nowrap}.plan .tm{font-size:12.5px!important;color:var(--mut)!important;font-weight:500!important;display:block;white-space:nowrap}.plan small{display:none}
+.plan button i{align-self:stretch}
+.msline{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.msline .in{padding:6px 10px;border-radius:10px;display:flex;gap:6px;align-items:baseline}.msline .in span{color:var(--mut);font-size:12.5px}.msline .in b{font-size:14px;white-space:nowrap}
+.hh{min-width:620px;font-size:13px}.hh td,.hh th{padding:4px 8px}.hh .cb{width:34px;height:6px}
+details.catd>summary{cursor:pointer;list-style:none}details.catd>summary::-webkit-details-marker{display:none}details.catd>summary h2{margin:0;display:inline}details.catd>summary::after{content:' ▾';color:var(--mut)}details.catd[open]>summary{margin-bottom:12px}
 .tbtn{display:flex;gap:6px}.tbtn button{min-width:52px}
 #tlwrap:focus-visible{outline:2px solid var(--good);outline-offset:4px;border-radius:8px}
 ol.plan{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:8px}
@@ -120,7 +139,7 @@ input[type=range]::-webkit-slider-runnable-track{height:6px;background:#262c39;b
 input[type=range]::-moz-range-track{height:6px;background:#262c39;border-radius:3px}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--good);margin-top:-10px;border:3px solid var(--bg)}
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--good);border:3px solid var(--bg)}
-.legend{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--mut);font-size:13px;margin:6px 0 0}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--mut);font-size:12.5px;margin:4px 0 0}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-inline-end:5px}
 .rows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .rows .in span{display:block;color:var(--mut);font-size:13px}.rows .in b{font-size:18px;white-space:nowrap}
@@ -142,7 +161,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 .cb{display:inline-block;width:46px;height:8px;border-radius:4px;background:#262c39;margin-inline-start:8px;vertical-align:1px;overflow:hidden}.cb i{display:block;height:100%;background:var(--cloud)}
 .dark-row td:first-child::after{content:' ●';color:var(--good);font-size:11px}
 .scroll{overflow-x:auto}
-@media(max-width:1100px){.c-tl,.c-plan{grid-column:span 12}.c-dome,.c-cond{grid-column:span 6}.c-best{grid-column:span 12}.out{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1100px){.c-tl,.c-live{grid-column:span 12}.c-live{height:520px}.c-half.c-dome,.c-half.c-cond{grid-column:span 12}.c-dome,.c-cond{grid-column:span 6}.c-best{grid-column:span 12}.out{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:760px){header{grid-template-columns:minmax(0,1fr)}.c-dome,.c-cond,.c-ms,.c-src{grid-column:span 12}.out{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.night{flex:0 0 132px;scroll-snap-align:start}}
 @media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;color:var(--mut);font-size:13px}.stack td:empty{display:none}.tlh .t{font-size:22px}}
 @media(prefers-reduced-motion:no-preference){.bar i{transition:width .25s}}
@@ -167,27 +186,26 @@ td small{color:var(--mut);display:block;font-size:13px}
   <section class="box c-tl">
     <div class="tlh"><h2>Night plan</h2><span class="t" id="tlT"></span>
       <div class="tbtn"><button type="button" data-jump="-12" aria-label="Back one hour">−1 h</button><button id="now" type="button">Now</button><button type="button" data-jump="12" aria-label="Forward one hour">+1 h</button></div></div>
-    <p class="hint" id="nowNote">Drag anywhere on the strip, or use the arrow keys. Tap a target name to track it in the sky view.</p>
+    <p class="hint" id="nowNote">Drag along the strip and the target list re-ranks for that moment. Tap a target to track it; drag one onto the strip to pin it.</p>
     <div id="tlwrap" tabindex="0" aria-label="Night timeline. Use left and right arrow keys to move in time."><svg id="tl"></svg></div>
     <p class="legend"><span><i style="background:#8fe3ff"></i>Best time to shoot</span><span><i style="background:#3f6c93"></i>Usable</span><span><i style="background:var(--cloud)"></i>Cloud</span><span><i style="background:var(--moon)"></i>Moon up</span><span><i style="background:#000;border:1px solid #444"></i>Full darkness</span></p>
+    <h2 style="margin:12px 0 6px">Suggested plan</h2><ol class="plan" id="plan"></ol>
   </section>
-  <section class="box c-plan"><h2>Suggested plan</h2><ol class="plan" id="plan"></ol><p class="hint">One target per stretch of the night, picked for the best score. Starred targets get priority.</p></section>
+  <section class="box c-live"><div class="liveh"><h2>Targets at <span id="liveT"></span></h2></div><div id="chips" class="chips"></div><ol class="live" id="live"></ol></section>
+  
 
   <h2 class="sect">Sky and conditions</h2>
-  <section class="box c-dome"><div class="domeh"><h2>Sky at <span id="domeT"></span></h2><select id="track" aria-label="Track a target"></select></div><div class="dome"><svg id="dome" role="img" aria-label="Sky dome, north up, east left"></svg></div><p class="hint" id="domeHint"></p><figure class="pv" id="pv" hidden><img id="pvImg" alt=""><figcaption id="pvCap"></figcaption></figure></section>
-  <section class="box c-cond"><h2>Conditions at <span id="condT"></span></h2><div id="cond"><p class="msg">Fetching forecast…</p></div></section>
-  <section class="box c-best"><h2>Best targets right then</h2><ol class="best" id="best"></ol></section>
+  <section class="box c-dome c-half"><div class="domeh"><h2>Sky at <span id="domeT"></span></h2><select id="track" aria-label="Track a target"></select></div><div class="dome"><svg id="dome" role="img" aria-label="Sky dome, north up, east left"></svg></div><p class="hint" id="domeHint"></p><figure class="pv" id="pv" hidden><img id="pvImg" alt=""><figcaption id="pvCap"></figcaption></figure></section>
+  <section class="box c-cond c-half"><h2>Conditions at <span id="condT"></span></h2><div id="cond"><p class="msg">Fetching forecast…</p></div></section>
+  
 
-  <section class="box"><div class="cath"><h2>Hour by hour forecast · tap a row to jump there</h2><span class="msg" id="hhNote"></span></div><div class="scroll"><table id="hh" class="hh"></table></div></section>
+  <section class="box"><div class="cath"><h2>This night at a glance</h2><span class="msg" id="hhNote"></span></div><div class="msline" id="ms"></div><div class="scroll"><table id="hh" class="hh"></table></div></section>
+  <section class="box src"><h2>Forecast sources</h2><ul id="src"></ul><div class="links" id="links"></div></section>
 
-  <section class="box c-ms"><h2>Sun &amp; Moon this night</h2><div class="rows" id="ms"></div></section>
-  <section class="box c-src src"><h2>Forecast sources</h2><ul id="src"></ul><div class="links" id="links"></div></section>
-
-  <section class="box">
-    <div class="cath"><h2>Targets for this night · Dwarf framing ~2.9° × 1.6°</h2><div id="chips" class="acts" style="flex-wrap:wrap"></div></div>
+  <details class="box catd"><summary><h2>Full target table for this night · Dwarf framing ~2.9° × 1.6°</h2></summary>
     <div class="scroll"><table class="stack" id="cat"></table></div>
     <button id="more" type="button" style="margin-top:12px"></button>
-  </section>
+  </details>
 </main>
 </div>
 
@@ -384,7 +402,7 @@ function renderCond(){const st=N.steps[idx],w=st.w,s=st.s,q=st.q,[lab,cls]=qLabe
   $('#cond').innerHTML=h}
 
 /* ---------- Render: best now ---------- */
-function renderBest(){const st=N.steps[idx];const L=N.tg.map(o=>({o,sc:o.sc[idx],alt:o.alt[idx],az:o.az[idx]})).filter(v=>v.sc>0).sort((a,b)=>b.sc-a.sc).slice(0,6);
+function renderBest(){if(!$('#best'))return;const st=N.steps[idx];const L=N.tg.map(o=>({o,sc:o.sc[idx],alt:o.alt[idx],az:o.az[idx]})).filter(v=>v.sc>0).sort((a,b)=>b.sc-a.sc).slice(0,6);
   $('#best').innerHTML=L.length?L.map(v=>`<li><button class="star" type="button" data-fav="${esc(v.o.id)}" aria-pressed="${fav.has(v.o.id)}" aria-label="Add ${esc(v.o.name)} to my plan">${fav.has(v.o.id)?'★':'☆'}</button>${thumb(v.o,40)}<div><span class="nm">${esc(v.o.name)}</span><small>${esc(v.o.id)} · ${Math.round(v.alt)}° ${dir(v.az)} · ${framing(v.o.size)}</small><div class="bar"><i style="width:${v.sc}%"></i></div></div></li>`).join('')
   :`<li class="msg">${st.sun>-12?'Not dark enough yet. Drag later into the night.':'Nothing scores at this time: cloud, moon or low altitude.'}</li>`}
 
@@ -429,15 +447,17 @@ function renderPlan(){const P=buildPlan();
   :'<li class="msg">No full darkness this night.</li>'}
 function renderTrack(){const L=[...N.tg].sort((a,b)=>b.sum-a.sum);$('#track').innerHTML=`<option value="">Track a target…</option>`+L.map(o=>`<option value="${esc(o.id)}"${o.id===selId?' selected':''}>${esc(o.name)}${o.max>0?'':' (poor tonight)'}</option>`).join('')}
 function selectT(id,k){selId=id||null;if(k!=null)idx=clamp(k,0,N.steps.length-1);safe(drawTL,'timeline');safe(renderPlan,'plan');safe(renderTrack,'track');safe(()=>setIdx(idx),'time')}
+/* Drag a target from the list onto the strip to pin it */
+document.addEventListener('dragstart',e=>{const li=e.target.closest&&e.target.closest('#live li[data-id]');if(li){e.dataTransfer.setData('text/plain',li.dataset.id);e.dataTransfer.effectAllowed='copy'}});
 
 /* ---------- Render: hour-by-hour table (raw hourly model values, not interpolated) ---------- */
 function renderHH(){const tb=$('#hh');if(!wx){tb.innerHTML='';$('#hhNote').textContent=wxInfo;return}
   const rows=wx.filter(w=>w.t>=N.t0-30*MIN&&w.t<=N.t1+30*MIN);
-  $('#hhNote').textContent=rows.length?`${rows.length} hours · ● = astronomical dark`:'This night is beyond the forecast range';
+  $('#hhNote').textContent=rows.length?`Tap an hour to jump there · ● full darkness`:'This night is beyond the forecast range';
   const n=v=>v==null?'–':Math.round(v);
-  tb.innerHTML=`<thead><tr><th>Time</th><th>Cloud</th><th>Low</th><th>Mid</th><th>High</th><th>Steadiness</th><th>Clarity</th><th>Humidity</th><th>Dew margin</th><th>Wind / gust</th><th>Jet</th><th>Temp</th><th>Rain</th><th>Sky score</th></tr></thead><tbody>`+
+  tb.innerHTML=`<thead><tr><th>Time</th><th>Cloud</th><th>Low · mid · high</th><th>Steadiness</th><th>Humidity</th><th>Dew</th><th>Gusts</th><th>Temp</th><th>Score</th></tr></thead><tbody>`+
   rows.map(w=>{const k=clamp(Math.round((w.t-N.t0)/STEP),0,N.steps.length-1),st=N.steps[k],s=svAt(w.t),dm=w.tp-w.dp,dk=st.sun<=-18,[lab,cls]=qLabel(st.q,st.sun);
-    return `<tr data-k="${k}" class="${dk?'dark-row':''}"><td>${fmtT(w.t)}</td><td><b>${n(w.cc)}%</b><span class="cb"><i style="width:${n(w.cc)}%"></i></span></td><td>${n(w.lo)}%</td><td>${n(w.mi)}%</td><td>${n(w.hi)}%</td><td>${steadyWord(s?.see,w.jet)}</td><td>${s?TRN[s.tr]:'–'}</td><td>${n(w.rh)}%</td><td class="${dm<2.5?'poor':''}">${dm.toFixed(1)}°</td><td>${n(w.ws)} / ${n(w.wg)}</td><td class="${w.jet>120?'poor':''}">${n(w.jet)}</td><td>${n(w.tp)}°</td><td>${n(w.pp)}%</td><td class="${cls}"><b>${st.sun>-12?'–':st.q}</b> ${st.sun>-12?lab:''}</td></tr>`}).join('')+'</tbody>';
+    return `<tr data-k="${k}" class="${dk?'dark-row':''}"><td>${fmtT(w.t)}</td><td><b>${n(w.cc)}%</b><span class="cb"><i style="width:${n(w.cc)}%"></i></span></td><td>${n(w.lo)} · ${n(w.mi)} · ${n(w.hi)}</td><td>${steadyWord(s?.see,w.jet)}</td><td>${n(w.rh)}%</td><td class="${dm<2.5?'poor':''}">${dm<2.5?'High':'Low'}</td><td class="${w.wg>30?'poor':''}">${n(w.wg)}</td><td>${n(w.tp)}°</td><td class="${cls}"><b>${st.sun>-12?lab:st.q}</b></td></tr>`}).join('')+'</tbody>';
   markHH()}
 function markHH(){const t=N.steps[idx].t;let best=null,d=1e15;document.querySelectorAll('#hh tbody tr').forEach(r=>{const x=Math.abs(N.steps[+r.dataset.k].t-t);r.classList.remove('on');if(x<d){d=x;best=r}});if(best&&d<=30*MIN)best.classList.add('on')}
 $('#hh').addEventListener('click',e=>{const r=e.target.closest('tr[data-k]');if(r){setIdx(+r.dataset.k);$('#tlwrap').scrollIntoView({behavior:'smooth',block:'center'})}});
@@ -451,6 +471,24 @@ function renderMS(){const mid=N.d0&&N.d1?(N.d0+N.d1)/2:(N.t0+N.t1)/2,m=moonAt(mi
 function renderSrc(){$('#src').innerHTML=`<li>Open-Meteo forecast <small>${esc(wxInfo||'loading…')} · cloud by layer, humidity, dew point, wind, 250 hPa jet stream; best-match blend of ECMWF, GFS, ICON and others</small></li><li>7Timer! ASTRO <small>${esc(svInfo||'loading…')} · seeing and transparency, 3-hourly for 72 h (NOAA GFS based)</small></li><li>Target photos <small>Digitized Sky Survey (DSS2 colour) cutouts via CDS Aladin hips2fits, centred on each target's coordinates</small></li><li>Sun, moon and target positions <small>Computed here for ${esc(loc.name)}; times in ${esc(loc.tz)}</small></li>`;
   const la=loc.lat.toFixed(2),lo=loc.lon.toFixed(2),mb=`${Math.abs(loc.lat).toFixed(3)}${loc.lat>=0?'N':'S'}${Math.abs(loc.lon).toFixed(3)}${loc.lon>=0?'E':'W'}`;
   $('#links').innerHTML=[['Clear Outside',`https://clearoutside.com/forecast/${la}/${lo}`],['Meteoblue seeing',`https://www.meteoblue.com/en/weather/outdoorsports/seeing/${mb}`],['Windy clouds',`https://www.windy.com/-Clouds-clouds?clouds,${la},${lo},9`],['Light pollution map',`https://www.lightpollutionmap.info/#zoom=9.00&lat=${la}&lon=${lo}`]].map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${t} ↗</a>`).join('')}
+/* Live target list beside the timeline: re-ranks for the cursor time while dragging */
+let LIVE=new Map();
+function buildLive(){const ol=$('#live');ol.innerHTML='';LIVE=new Map();
+  for(const o of N.tg){const li=document.createElement('li');li.dataset.id=o.id;li.draggable=true;
+    li.innerHTML=`${thumb(o,40)}<div><span class="nm">${esc(o.name)}</span><small class="ld"></small><div class="bar"><i></i></div></div><button class="star" type="button" data-fav="${esc(o.id)}" aria-label="Star ${esc(o.name)}"></button>`;
+    LIVE.set(o.id,{li,o,ld:li.querySelector('.ld'),bar:li.querySelector('.bar i'),star:li.querySelector('.star')});ol.appendChild(li)}
+  updateLive()}
+function updateLive(){if(!N||!LIVE.size)return;$('#liveT').textContent=fmtT(N.steps[idx].t);const f=FILTERS[filt];
+  const L=[...LIVE.values()].filter(v=>f(v.o)).sort((a,b)=>(b.o.sc[idx]-a.o.sc[idx])||(b.o.alt[idx]-a.o.alt[idx]));
+  const ol=$('#live'),show=new Set(L.map(v=>v.o.id));
+  for(const v of LIVE.values())v.li.hidden=!show.has(v.o.id);
+  L.forEach((v,i)=>{const o=v.o,sc=o.sc[idx],al=o.alt[idx],lv=LV(sc);
+    v.ld.textContent=al<=0?`Below horizon${o.win?' · best '+fmtT(o.win[0])+'–'+fmtT(o.win[1]):''}`:`${Math.round(al)}° ${dir(o.az[idx])} · ${lv===2?'Best now':lv===1?'Usable now':'Poor now'} · ${sc}`;
+    v.bar.style.width=sc+'%';v.bar.className=lv===2?'b2':'';v.li.classList.toggle('down',al<=0);v.li.classList.toggle('on',selId===o.id);
+    const fv=fav.has(o.id);v.star.textContent=fv?'★':'☆';v.star.setAttribute('aria-pressed',fv);
+    if(ol.children[i]!==v.li)ol.insertBefore(v.li,ol.children[i]||null)});
+  if(!L.length&&!$('#live .msg'))ol.insertAdjacentHTML('beforeend','<li class="msg">No targets here yet. Star some to build your plan.</li>');
+  if(L.length)$('#live .msg')?.remove()}
 const FILTERS={All:()=>1,Nebulae:o=>['Nebula','Planetary','Remnant'].includes(o.type),Galaxies:o=>o.type==='Galaxy',Clusters:o=>o.type==='Cluster','My plan':o=>fav.has(o.id)};
 function renderCat(){$('#chips').innerHTML=Object.keys(FILTERS).map(k=>`<button class="chip" type="button" data-f="${k}" aria-pressed="${k===filt}">${k}${k==='My plan'?' ('+fav.size+')':''}</button>`).join('');
   const all=N.tg.filter(FILTERS[filt]).sort((a,b)=>b.sum-a.sum),L=showAll||filt==='My plan'?all:all.slice(0,15);
@@ -460,15 +498,15 @@ function renderCat(){$('#chips').innerHTML=Object.keys(FILTERS).map(k=>`<button 
   :`<tr><td colspan="7" class="msg">No targets here yet. Tap ☆ on any target to build your plan.</td></tr>`)+'</tbody>'}
 
 /* ---------- Orchestration ---------- */
-function setIdx(i){idx=clamp(Math.round(i),0,N.steps.length-1);moveCursor();drawDome();renderCond();renderBest();markHH()}
+function setIdx(i){idx=clamp(Math.round(i),0,N.steps.length-1);moveCursor();safe(updateLive,'targets');drawDome();renderCond();renderBest();markHH()}
 function defaultIdx(){const now=Date.now();if(now>=N.t0&&now<=N.t1)return (now-N.t0)/STEP;const t=N.d0?N.d0+HR:N.t0+3*HR;return (t-N.t0)/STEP}
 function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNight(nightI);if(selId&&!N.tg.some(o=>o.id===selId))selId=null;
-  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[renderHH,'hourly'],[drawTL,'timeline'],[renderPlan,'plan'],[renderTrack,'track']])safe(f,n);
+  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[buildLive,'live'],[renderHH,'hourly'],[drawTL,'timeline'],[renderPlan,'plan'],[renderTrack,'track']])safe(f,n);
   safe(()=>setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx()),'time');renderStatus()}
 function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length,busy=wxInfo==='loading…';
   document.body.classList.toggle('busy',busy);
   $('#status').innerHTML=busy?`<span class="maybe">● Loading live weather for ${esc(loc.name)}…</span>`
-   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v7</span>`}
+   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v8</span>`}
 async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.reason)||('HTTP '+r.status));return j}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(tm)}}
 function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
 const errs=[];
@@ -499,11 +537,14 @@ tw.addEventListener('pointerup',e=>{const r=tw.getBoundingClientRect(),y=e.clien
   if(Math.abs(e.clientX-downX)<6&&Math.abs(e.clientY-downY)<6&&y>=TLY-2){const o=TLR[Math.floor((y-TLY+2)/24)];if(o)selectT(selId===o.id&&e.clientX-r.left<G?null:o.id)}});
 tw.addEventListener('pointercancel',()=>drag=false);
 tw.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){setIdx(idx+(e.key==='ArrowRight'?1:-1)*(e.shiftKey?12:1));e.preventDefault()}});
+tw.addEventListener('dragover',e=>{e.preventDefault();tw.classList.add('drop')});tw.addEventListener('dragleave',()=>tw.classList.remove('drop'));
+tw.addEventListener('drop',e=>{e.preventDefault();tw.classList.remove('drop');const id=e.dataTransfer.getData('text/plain');if(!N.tg.some(o=>o.id===id))return;fav.add(id);store.set('fav',[...fav]);renderCat();selectT(id)});
 $('#track').addEventListener('change',e=>selectT(e.target.value||null));
 $('#outlook').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;nightI=+b.dataset.i;rebuild(true)});
 document.addEventListener('click',e=>{const ps=e.target.closest('#plan [data-k]');if(ps){selectT(ps.dataset.sel||selId,+ps.dataset.k);return}
-  const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderBest();drawTL();drawDome();renderPlan();return}
-  const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat()}
+  const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderBest();drawTL();drawDome();renderPlan();updateLive();return}
+  const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat();updateLive();return}
+  const lv=e.target.closest('#live li[data-id]');if(lv){selectT(selId===lv.dataset.id?null:lv.dataset.id);return}
   if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=loc.name}});
 const red=$('#red');const setRed=v=>{document.documentElement.classList.toggle('red',v);red.setAttribute('aria-pressed',v);store.set('red',v)};setRed(store.get('red',false));red.addEventListener('click',()=>setRed(red.getAttribute('aria-pressed')!=='true'));
 $('#geo').addEventListener('click',()=>{if(!navigator.geolocation){$('#geo').textContent='Not available';return}
