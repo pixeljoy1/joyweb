@@ -41,26 +41,33 @@ h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;te
 .night b{font-size:14px}.night .v{font-size:20px;font-weight:700}
 .night small{color:var(--mut);font-size:13px}
 .go{color:var(--good)}.maybe{color:var(--mid)}.poor{color:var(--bad)}
-.hero{display:grid;grid-template-columns:auto minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:center;background:linear-gradient(160deg,#141a26,#0d1017)}
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;background:linear-gradient(160deg,#141a26,#0d1017)}
 .gauge{position:relative;width:180px;height:180px}.gauge svg{width:100%;height:100%;transform:rotate(-90deg)}
 .gauge .n{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .gauge .n b{font-size:56px;line-height:1;font-weight:700}.gauge .n span{color:var(--mut);font-size:13px}
 .verdict{font-size:clamp(24px,3vw,34px);font-weight:700;line-height:1.1;margin:0 0 4px}
 .why{color:var(--mut);margin:0 0 14px;font-size:15px}
-.tiles{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(2,minmax(0,1fr));gap:8px}
-.cloudT{grid-row:span 2;display:flex;flex-direction:column;gap:2px}.tiles .cloudT b.big{font-size:46px;line-height:1.05}
-.spark{display:flex;align-items:flex-end;gap:2px;height:44px;margin-top:auto;padding-top:8px}.spark i{flex:1;height:100%;display:flex;align-items:flex-start;background:#1c212c;border-radius:2px;overflow:hidden}.spark i.dk{background:#0a0c12}.spark b{display:block;width:100%;background:var(--cloud);font-size:0}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tile{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.tile .th{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:13px}
+.ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.tile>b{font-size:24px;line-height:1.15;white-space:nowrap}.tile small{color:var(--mut);font-size:13px}
+.cloudT{grid-column:1/-1}.cv{display:flex;align-items:center;gap:16px}.cv p{margin:0;color:var(--mut);font-size:14px;line-height:1.4}
+.tiles .cloudT b.big{font-size:52px;line-height:1}
+.mrow{display:flex;align-items:center;gap:10px}.mrow b{display:block;font-size:24px;line-height:1.1}.mrow small{display:block}
+.spark{display:flex;align-items:flex-end;gap:2px;height:40px;margin-top:6px}.spark i{flex:1;height:100%;display:flex;align-items:flex-start;background:#1c212c;border-radius:2px;overflow:hidden}.spark i.dk{background:#07080d}.spark b{display:block;width:100%;background:var(--cloud)}
 .sparkx{display:flex;justify-content:space-between;color:var(--mut)}.sparkx small{font-size:12px}
+.busy .hero,.busy .grid>.box{opacity:.45;transition:opacity .2s}
 .tiles .in span{display:block;color:var(--mut);font-size:13px}.tiles .in b{font-size:20px;white-space:nowrap}.tiles .in i{display:block;font-style:normal;color:var(--mut);font-size:13px}
-.top3{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.hero .t3{grid-column:1/-1}.top3{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}@media(max-width:700px){.top3{grid-template-columns:minmax(0,1fr)}}
 .top3 li{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
 .top3 b{display:block}.top3 small{color:var(--mut);font-size:13px}
 .banner{grid-column:1/-1;background:#2a1717;border:1px solid #5a2a2a;color:#ffd2cc;border-radius:12px;padding:10px 14px;font-size:14px}
 .status{grid-column:1/-1;margin:0;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px}.status .mut{color:var(--mut)}
 .sect{grid-column:1/-1;font-size:20px;margin:18px 0 0;font-weight:600}
 .night .v{font-size:26px}
-@media(max-width:1000px){.hero{grid-template-columns:auto minmax(0,1fr)}.hero .t3{grid-column:1/-1}}
-@media(max-width:600px){.hero{grid-template-columns:minmax(0,1fr);justify-items:stretch}.gauge{margin:0 auto;width:160px;height:160px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.cloudT{grid-column:1/-1;grid-row:auto}.verdict,.why{text-align:center}}
+@media(max-width:820px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.hero{grid-template-columns:minmax(0,1fr);justify-items:stretch}.gauge{margin:0 auto;width:160px;height:160px}.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.verdict,.why{text-align:center}.tiles .cloudT b.big{font-size:44px}}
 .c-dome{grid-column:span 5}.c-cond{grid-column:span 4}.c-best{grid-column:span 3}
 .c-ms,.c-src{grid-column:span 6}
 .dome{position:relative;aspect-ratio:1;max-height:460px;margin:0 auto}
@@ -127,7 +134,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 <header>
   <div><h1 id="title">Tonight</h1><p class="sub" id="sub"></p></div>
   <div class="search">
-    <input id="q" type="search" placeholder="Search a place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
+    <input id="q" type="search" placeholder="Change place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
     <ul id="sugg" role="listbox" hidden></ul>
   </div>
   <div class="acts"><button id="geo" type="button">My location</button><button id="red" type="button" aria-pressed="false">Red light</button></div>
@@ -276,20 +283,33 @@ function renderOutlook(){let h='';for(let i=0;i<7;i++){const n=nightSteps(i,15*M
   const word=!s.hasWx?'Moon only':s.score>=65?'Great':s.score>=45?'Good':s.score>=25?'Marginal':'Poor';
   h+=`<button class="night" type="button" data-i="${i}" aria-pressed="${i===nightI}"><b>${i===0?'Tonight':esc(fmtD(n.noon,{weekday:'short',day:'numeric'}))}</b><span class="v ${s.hasWx?s.cls:'maybe'}">${s.score}</span><small class="${s.hasWx?s.cls:''}">${word}</small><small>${s.cc==null?'no forecast':Math.round(s.cc)+'% cloud'} · moon ${Math.round((s.illum??0)*100)}%</small>${s.held&&s.held[0]?`<small>limited by ${s.held[0]}</small>`:''}</button>`}
   $('#outlook').innerHTML=h}
-function cloudTile(s){const now=Date.now(),t=now>=N.t0&&now<=N.t1?now:(N.d0??N.t0),w=wxAt(t);
+/* Icons and moon drawing for the home tiles */
+const IC={cloud:'<path d="M7 18h10a4 4 0 0 0 .6-7.96A6 6 0 0 0 6.3 10.5 3.75 3.75 0 0 0 7 18z"/>',air:'<path d="M3 8c3-3 5 3 8 0s5 3 8 0M3 13c3-3 5 3 8 0s5 3 8 0M3 18c3-3 5 3 8 0s5 3 8 0"/>',wind:'<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3M3 12h8"/>',dew:'<path d="M12 3c3 4.5 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 3-6.5 6-11z"/>'};
+const icon=k=>`<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${IC[k]}</svg>`;
+function moonIcon(k,wax,size){const R=size/2-2,c=size/2,rx=Math.abs(1-2*k)*R,ls=wax?1:0,ts=k<.5?(wax?0:1):(wax?1:0);
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${c}" cy="${c}" r="${R}" fill="#2a3040"/>${k>.02?`<path d="M${c} ${c-R}A${R} ${R} 0 0 ${ls} ${c} ${c+R}A${rx.toFixed(2)} ${R} 0 0 ${ts} ${c} ${c-R}z" fill="#f2eee2"/>`:''}<circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="#f2eee2" stroke-opacity=".35"/></svg>`}
+const steadyWord=(see,jet)=>see?(see<=3?'Steady':see<=5?'Fair':'Unsteady'):jet!=null?(jet<70?'Steady':jet<120?'Fair':'Unsteady'):'–';
+const steadySub={Steady:'stars stay sharp',Fair:'slight blur on small targets',Unsteady:'stars twinkle and blur','–':'no data yet'};
+function cloudTile(s){const now=Date.now(),live=now>=N.t0&&now<=N.t1,t=live?now:(N.d0??N.t0),w=wxAt(t);
   const hrs=wx?wx.filter(x=>x.t>=N.t0-30*MIN&&x.t<=N.t1):[];
-  const bars=hrs.map(x=>{const dk=sunAlt(x.t)<=-18;return `<i title="${fmtT(x.t)} ${Math.round(x.cc)}%" class="${dk?'dk':''}"><b style="height:${Math.max(3,Math.round(x.cc))}%"></b></i>`}).join('');
-  return `<div class="in cloudT"><span>Cloud ${now>=N.t0&&now<=N.t1?'right now':'at dark ('+fmtT(t)+')'}</span><b class="big ${w?(w.cc<25?'go':w.cc<60?'maybe':'poor'):''}">${w?Math.round(w.cc)+'%':'–'}</b>
-  <i>${s.cc==null?'No forecast yet':`Avg in the dark ${Math.round(s.cc)}%`}${s.cw?` · clearest ${fmtT(s.cw.t0)}–${fmtT(s.cw.t1)} (${Math.round(s.cw.cc)}%)`:''}</i>
-  ${hrs.length?`<div class="spark">${bars}</div><div class="sparkx"><small>${fmtT(hrs[0].t)}</small><small>${fmtT(hrs[Math.floor(hrs.length/2)].t)}</small><small>${fmtT(hrs[hrs.length-1].t)}</small></div>`:''}</div>`}
+  const bars=hrs.map(x=>`<i class="${sunAlt(x.t)<=-18?'dk':''}"><b style="height:${Math.max(3,Math.round(x.cc))}%"></b></i>`).join('');
+  const cls=w?(w.cc<25?'go':w.cc<60?'maybe':'poor'):'';
+  return `<div class="tile cloudT"><div class="th">${icon('cloud')}<span>Cloud cover ${live?'now':'at '+fmtT(t)}</span></div>
+  <div class="cv"><b class="big ${cls}">${w?Math.round(w.cc)+'%':'–'}</b><p>${s.cc==null?'Waiting for the forecast':`Night average ${Math.round(s.cc)}%`}${s.cw?`<br>Clearest ${fmtT(s.cw.t0)}–${fmtT(s.cw.t1)} · ${Math.round(s.cw.cc)}%`:''}</p></div>
+  ${hrs.length?`<div class="spark" aria-label="Hourly cloud through the night">${bars}</div><div class="sparkx"><small>${fmtT(hrs[0].t)}</small><small>midnight</small><small>${fmtT(hrs[hrs.length-1].t)}</small></div>`:''}</div>`}
 function renderHero(){const s=nightScore(N),top=[...N.tg].sort((a,b)=>b.sum-a.sum).filter(o=>o.max>0).slice(0,3),C=2*Math.PI*78;
   const col=s.cls==='go'?'#9fd4ff':s.cls==='maybe'?'#c9b6ff':'#ff7b72';
-  const tile=(k,v,sub)=>`<div class="in"><span>${k}</span><b>${v}</b><i>${sub}</i></div>`;
-  const seeTxt=s.see?SEE[s.see]:s.jet!=null?(s.jet<70?'Steady':s.jet<120?'Average':'Poor'):'–';
-  const why=!s.hasWx?'Weather not loaded: score uses darkness and moon only.':(s.win?`Best stretch ${fmtT(s.win[0])}–${fmtT(s.win[1])}. `:'')+(s.held.length?`Held back by ${s.held.join(' and ')}.`:'Nothing much holding it back.');
-  $('#hero').innerHTML=`${wx||!wxInfo.startsWith('Could')?'':`<div class="banner">Live forecast couldn't load, so cloud and seeing are missing. If you opened this inside the Claude app's file preview, that preview blocks the internet. Open the file in Safari or Chrome, or use the GitHub link.</div>`}
+  const tile=(ic,k,v,sub,cls='')=>`<div class="tile"><div class="th">${ic}<span>${k}</span></div><b class="${cls}">${v}</b><small>${sub}</small></div>`;
+  const sw=steadyWord(s.see,s.jet),m=s.illum??0;
+  const why=!s.hasWx?'Waiting for live weather. Score uses darkness and moon only.':(s.win?`Best ${fmtT(s.win[0])}–${fmtT(s.win[1])}`:'')+(s.held.length?` · held back by ${s.held.join(' and ')}`:'');
+  $('#hero').innerHTML=`${wx||!wxInfo.startsWith('Could')?'':`<div class="banner">Live weather couldn't load. Open the app in Safari or Chrome, not inside a file preview.</div>`}
   <div class="gauge" role="img" aria-label="Astro score ${s.score} out of 100"><svg viewBox="0 0 180 180"><circle cx="90" cy="90" r="78" fill="none" stroke="#262c39" stroke-width="14"/><circle cx="90" cy="90" r="78" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(C*s.score/100).toFixed(1)} ${C.toFixed(1)}"/></svg><div class="n"><b>${s.score}</b><span>astro score</span></div></div>
-  <div><p class="verdict ${s.cls}">${s.label}</p><p class="why">${why}</p><div class="tiles">${cloudTile(s)}${tile('Moon',Math.round(s.illum*100)+'%',s.mUp>0?`up ${s.mUp.toFixed(1)} h of dark`:'down all dark')}${tile('Seeing',seeTxt,s.see?'7Timer':'from jet stream')}${tile('Wind gusts',s.gst==null?'–':Math.round(s.gst)+' km/h',s.gst==null?'':s.gst>30?'may shake the scope':'calm enough')}${tile('Dew',s.dm==null?'–':s.dm<2.5?'Likely':'Low risk',s.dm==null?'':'heater '+(s.dm<2.5?'on':'optional'))}</div></div>
+  <div class="mid"><p class="verdict ${s.cls}">${s.label}</p><p class="why">${why}</p>
+  <div class="tiles">${cloudTile(s)}
+  <div class="tile moonT"><div class="th"><span>Moon</span></div><div class="mrow">${moonIcon(m,s.waxing,58)}<div><b>${Math.round(m*100)}%</b><small>${phaseName(m,s.waxing)}</small></div></div><small>${s.mUp>0?`Up ${s.mUp.toFixed(1)} h of the dark`:'Below horizon all dark'}</small></div>
+  ${tile(icon('air'),'Air steadiness',sw,steadySub[sw],sw==='Steady'?'go':sw==='Fair'?'maybe':sw==='Unsteady'?'poor':'')}
+  ${tile(icon('wind'),'Wind gusts',s.gst==null?'–':Math.round(s.gst)+' km/h',s.gst==null?'no data yet':s.gst>30?'may shake the mount':'calm enough',s.gst>30?'poor':'')}
+  ${tile(icon('dew'),'Dew risk',s.dm==null?'–':s.dm<2.5?'High':'Low',s.dm==null?'no data yet':s.dm<2.5?'run the dew heater':'heater optional',s.dm!=null&&s.dm<2.5?'poor':'')}</div></div>
   <div class="t3"><p class="why" style="margin-bottom:8px">Shoot these ${nightI===0?'tonight':'that night'}</p><ol class="top3">${top.length?top.map(o=>`<li><b>${esc(o.name)}</b><small>${o.win?fmtT(o.win[0])+'–'+fmtT(o.win[1]):'brief window'} · peaks ${Math.round(o.peak)}° · ${framing(o.size)}</small></li>`).join(''):'<li class="msg">No target clears the cloud and moon this night.</li>'}</ol></div>`}
 
 /* ---------- Render: dome ---------- */
@@ -323,7 +343,7 @@ function renderCond(){const st=N.steps[idx],w=st.w,s=st.s,q=st.q,[lab,cls]=qLabe
   if(!w){$('#cond').innerHTML=h+`<p class="msg">${wx?'Outside the forecast range for this time.':'Forecast not loaded yet. Moon, sun and targets still work.'}</p>`;return}
   const dm=w.tp-w.dp,jet=w.jet,see=s?SEE[s.see]:jet==null?'–':jet<70?'Likely steady':jet<120?'Average':'Likely poor';
   h+=`<div class="in" style="margin-bottom:8px"><span class="msg">Cloud ${Math.round(w.cc)}%</span><div class="layers">${[['Low',w.lo],['Mid',w.mi],['High',w.hi]].map(([k,v])=>`<div class="layer"><span>${k}</span><div class="bar"><i style="width:${Math.round(v??0)}%"></i></div><span>${v==null?'–':Math.round(v)+'%'}</span></div>`).join('')}</div></div>`;
-  h+=`<div class="kv">${cell('Seeing',see,s?'7Timer':'from jet stream')}${cell('Transparency',s?TRN[s.tr]:'–',s?'7Timer':'')}${cell('Dew margin',dm.toFixed(1)+' °C',dm<2.5?'Dew likely: heater on':'Air minus dew point',dm<2.5)}${cell('Humidity',Math.round(w.rh)+'%','')}${cell('Wind',Math.round(w.ws)+' km/h','gusts '+Math.round(w.wg)+' km/h',w.wg>30)}${cell('Jet stream',jet==null?'–':Math.round(jet)+' km/h','250 hPa',jet>120)}${cell('Temperature',Math.round(w.tp)+' °C','')}${cell('Rain chance',w.pp==null?'–':Math.round(w.pp)+'%','',w.pp>30)}</div>`;
+  h+=`<div class="kv">${cell('Air steadiness',steadyWord(s?.see,jet),s?SEE[s.see]+' blur · 7Timer':'estimated from jet stream')}${cell('Sky clarity',s?TRN[s.tr]:'–',s?'7Timer':'')}${cell('Dew margin',dm.toFixed(1)+' °C',dm<2.5?'Dew likely: heater on':'Air minus dew point',dm<2.5)}${cell('Humidity',Math.round(w.rh)+'%','')}${cell('Wind',Math.round(w.ws)+' km/h','gusts '+Math.round(w.wg)+' km/h',w.wg>30)}${cell('Jet stream',jet==null?'–':Math.round(jet)+' km/h','250 hPa',jet>120)}${cell('Temperature',Math.round(w.tp)+' °C','')}${cell('Rain chance',w.pp==null?'–':Math.round(w.pp)+'%','',w.pp>30)}</div>`;
   $('#cond').innerHTML=h}
 
 /* ---------- Render: best now ---------- */
@@ -340,7 +360,7 @@ function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;con
   const lab=(y,t,b)=>`<text x="${G-8}" y="${y}" fill="${b?'#ebe8e1':'#8f97a8'}" font-size="12" text-anchor="end">${esc(t)}</text>`;
   let g='';const off=tzOff(N.t0);let h0=Math.ceil((N.t0+off)/HR)*HR-off;
   for(let t=h0;t<=N.t1;t+=HR){const p=parts(t);if(sm&&p.h%2)continue;const x=X(t);g+=`<line x1="${x}" x2="${x}" y1="18" y2="${H}" stroke="#fff" stroke-opacity=".06"/><text x="${x}" y="13" fill="#8f97a8" font-size="11" text-anchor="middle">${String(p.h).padStart(2,'0')}</text>`}
-  g+=lab(yD+11,'Darkness')+lab(yC+16,'Cloud')+(sm?'':lab(yC+30,'(Open-Meteo)'))+lab(yS+9,'Seeing')+lab(yM+9,'Moon');
+  g+=lab(yD+11,'Darkness')+lab(yC+16,'Cloud')+(sm?'':lab(yC+30,'(Open-Meteo)'))+lab(yS+9,'Steadiness')+lab(yM+9,'Moon');
   N.steps.forEach((st,k)=>{const x=(G+k*cw).toFixed(1),w=(cw+.6).toFixed(1),a=st.sun;
     g+=`<rect x="${x}" y="${yD}" width="${w}" height="14" fill="${a>-.83?'#5b6b8c':a>-6?'#3d4864':a>-12?'#2a3248':a>-18?'#171c2a':'#000'}"/>`;
     if(st.w){g+=`<rect x="${x}" y="${yC}" width="${w}" height="${(st.w.cc/100*hC).toFixed(1)}" fill="#a3abbb" fill-opacity=".8"/>`}else g+=`<rect x="${x}" y="${yC}" width="${w}" height="${hC}" fill="#1b202b"/>`;
@@ -359,9 +379,9 @@ function renderHH(){const tb=$('#hh');if(!wx){tb.innerHTML='';$('#hhNote').textC
   const rows=wx.filter(w=>w.t>=N.t0-30*MIN&&w.t<=N.t1+30*MIN);
   $('#hhNote').textContent=rows.length?`${rows.length} hours · ● = astronomical dark`:'This night is beyond the forecast range';
   const n=v=>v==null?'–':Math.round(v);
-  tb.innerHTML=`<thead><tr><th>Time</th><th>Cloud</th><th>Low</th><th>Mid</th><th>High</th><th>Seeing</th><th>Transp.</th><th>Humidity</th><th>Dew margin</th><th>Wind / gust</th><th>Jet</th><th>Temp</th><th>Rain</th><th>Sky score</th></tr></thead><tbody>`+
+  tb.innerHTML=`<thead><tr><th>Time</th><th>Cloud</th><th>Low</th><th>Mid</th><th>High</th><th>Steadiness</th><th>Clarity</th><th>Humidity</th><th>Dew margin</th><th>Wind / gust</th><th>Jet</th><th>Temp</th><th>Rain</th><th>Sky score</th></tr></thead><tbody>`+
   rows.map(w=>{const k=clamp(Math.round((w.t-N.t0)/STEP),0,N.steps.length-1),st=N.steps[k],s=svAt(w.t),dm=w.tp-w.dp,dk=st.sun<=-18,[lab,cls]=qLabel(st.q,st.sun);
-    return `<tr data-k="${k}" class="${dk?'dark-row':''}"><td>${fmtT(w.t)}</td><td><b>${n(w.cc)}%</b><span class="cb"><i style="width:${n(w.cc)}%"></i></span></td><td>${n(w.lo)}%</td><td>${n(w.mi)}%</td><td>${n(w.hi)}%</td><td>${s?SEE[s.see]:'–'}</td><td>${s?TRN[s.tr]:'–'}</td><td>${n(w.rh)}%</td><td class="${dm<2.5?'poor':''}">${dm.toFixed(1)}°</td><td>${n(w.ws)} / ${n(w.wg)}</td><td class="${w.jet>120?'poor':''}">${n(w.jet)}</td><td>${n(w.tp)}°</td><td>${n(w.pp)}%</td><td class="${cls}"><b>${st.sun>-12?'–':st.q}</b> ${st.sun>-12?lab:''}</td></tr>`}).join('')+'</tbody>';
+    return `<tr data-k="${k}" class="${dk?'dark-row':''}"><td>${fmtT(w.t)}</td><td><b>${n(w.cc)}%</b><span class="cb"><i style="width:${n(w.cc)}%"></i></span></td><td>${n(w.lo)}%</td><td>${n(w.mi)}%</td><td>${n(w.hi)}%</td><td>${steadyWord(s?.see,w.jet)}</td><td>${s?TRN[s.tr]:'–'}</td><td>${n(w.rh)}%</td><td class="${dm<2.5?'poor':''}">${dm.toFixed(1)}°</td><td>${n(w.ws)} / ${n(w.wg)}</td><td class="${w.jet>120?'poor':''}">${n(w.jet)}</td><td>${n(w.tp)}°</td><td>${n(w.pp)}%</td><td class="${cls}"><b>${st.sun>-12?'–':st.q}</b> ${st.sun>-12?lab:''}</td></tr>`}).join('')+'</tbody>';
   markHH()}
 function markHH(){const t=N.steps[idx].t;let best=null,d=1e15;document.querySelectorAll('#hh tbody tr').forEach(r=>{const x=Math.abs(N.steps[+r.dataset.k].t-t);r.classList.remove('on');if(x<d){d=x;best=r}});if(best&&d<=30*MIN)best.classList.add('on')}
 $('#hh').addEventListener('click',e=>{const r=e.target.closest('tr[data-k]');if(r){setIdx(+r.dataset.k);$('#tlwrap').scrollIntoView({behavior:'smooth',block:'center'})}});
@@ -389,21 +409,24 @@ function defaultIdx(){const now=Date.now();if(now>=N.t0&&now<=N.t1)return (now-N
 function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNight(nightI);$('#slider').max=N.steps.length-1;
   for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[renderHH,'hourly'],[drawTL,'timeline']])safe(f,n);
   safe(()=>setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx()),'time');renderStatus()}
-function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length;
-  $('#status').innerHTML=`<span class="${ok?'go':wxInfo==='loading…'?'maybe':'poor'}">● Weather: ${ok?`Open-Meteo live, ${wx.length} hourly values, ${esc(wxInfo)}`:esc(wxInfo)}</span><span class="${sv7?'go':svInfo==='loading…'?'maybe':'mut'}">● Seeing: ${sv7?'7Timer live':esc(svInfo)}</span>${errs.length?`<span class="poor">● Error: ${esc(errs.slice(-2).join(' · '))}</span>`:''}<span class="mut">App v4</span>`}
+function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length,busy=wxInfo==='loading…';
+  document.body.classList.toggle('busy',busy);
+  $('#status').innerHTML=busy?`<span class="maybe">● Loading live weather for ${esc(loc.name)}…</span>`
+   :`<span class="${ok?'go':'poor'}">● ${ok?'Live weather · '+esc(wxInfo.replace('Fetched ','updated ').replace(' local','')):esc(wxInfo)}</span><span class="mut">● Air steadiness: ${sv7?'live from 7Timer':svInfo==='loading…'?'loading…':'estimated from jet stream'}</span>${errs.length?`<span class="poor">● ${esc(errs.slice(-1)[0])}</span>`:''}<span class="mut">v5</span>`}
 async function getJSON(u,ms=12000){const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms);try{const r=await fetch(u,{signal:c.signal});const j=await r.json().catch(()=>null);if(!r.ok)throw new Error((j&&j.reason)||('HTTP '+r.status));return j}catch(e){throw new Error(e.name==='AbortError'?'timed out':e.message)}finally{clearTimeout(tm)}}
 function safe(f,name){try{f()}catch(e){errs.push(name+': '+e.message);console.error(name,e)}}
 const errs=[];
-async function loadWeather(){wx=null;sv=null;wxInfo='loading…';svInfo='loading…';const {lat,lon}=loc;
+let wtok=0;
+async function loadWeather(){const tok=++wtok;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';const {lat,lon}=loc;
   const u=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,relative_humidity_2m,dew_point_2m,temperature_2m,wind_speed_10m,wind_gusts_10m,precipitation_probability,visibility,wind_speed_250hPa&timezone=GMT&past_days=1&forecast_days=8`;
-  const p1=getJSON(u).catch(e=>getJSON(u.replace(',wind_speed_250hPa',''))).then(j=>{const h=j.hourly;wx=h.time.map((t,i)=>({t:Date.parse(t+':00Z'),cc:h.cloud_cover[i],lo:h.cloud_cover_low[i],mi:h.cloud_cover_mid[i],hi:h.cloud_cover_high[i],rh:h.relative_humidity_2m[i],dp:h.dew_point_2m[i],tp:h.temperature_2m[i],ws:h.wind_speed_10m[i],wg:h.wind_gusts_10m[i],pp:h.precipitation_probability?.[i],vis:h.visibility?.[i],jet:h.wind_speed_250hPa?.[i]})).filter(x=>x.cc!=null);
-    if(loc.elev==null&&j.elevation!=null)loc.elev=j.elevation;wxInfo='Fetched '+fmtT(Date.now())+' local'}).catch(e=>{wxInfo='Could not load Open-Meteo ('+e.message+'). Check the connection and reload.'});
+  const p1=getJSON(u).catch(e=>getJSON(u.replace(',wind_speed_250hPa',''))).then(j=>{if(tok!==wtok)return;const h=j.hourly;wx=h.time.map((t,i)=>({t:Date.parse(t+':00Z'),cc:h.cloud_cover[i],lo:h.cloud_cover_low[i],mi:h.cloud_cover_mid[i],hi:h.cloud_cover_high[i],rh:h.relative_humidity_2m[i],dp:h.dew_point_2m[i],tp:h.temperature_2m[i],ws:h.wind_speed_10m[i],wg:h.wind_gusts_10m[i],pp:h.precipitation_probability?.[i],vis:h.visibility?.[i],jet:h.wind_speed_250hPa?.[i]})).filter(x=>x.cc!=null);
+    if(loc.elev==null&&j.elevation!=null)loc.elev=j.elevation;wxInfo='Fetched '+fmtT(Date.now())+' local'}).catch(e=>{if(tok!==wtok)return;wxInfo='Could not load Open-Meteo ('+e.message+'). Check the connection and reload.'});
   const p2=(async()=>{for(const base of['https://www.7timer.info','http://www.7timer.info']){try{const j=await getJSON(`${base}/bin/astro.php?lon=${lon}&lat=${lat}&ac=0&unit=metric&output=json&tzshift=0`);
-      const s=String(j.init),init=Date.UTC(+s.slice(0,4),+s.slice(4,6)-1,+s.slice(6,8),+s.slice(8,10));
+      if(tok!==wtok)return;const s=String(j.init),init=Date.UTC(+s.slice(0,4),+s.slice(4,6)-1,+s.slice(6,8),+s.slice(8,10));
       sv=j.dataseries.map(d=>({t:init+d.timepoint*HR,see:d.seeing,tr:d.transparency,cc7:d.cloudcover})).filter(d=>d.see>0);svInfo='Model run '+fmtD(init,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'UTC'})+' UTC';return}catch(e){}}
-    svInfo='Unavailable right now; seeing is estimated from the jet stream instead'})();
-  p1.then(()=>safe(()=>rebuild(true),'redraw'));p2.then(()=>safe(()=>rebuild(true),'redraw'));renderStatus()}
-function setLoc(l){loc=l;store.set('loc',loc);nightI=0;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';safe(()=>rebuild(false),'start');loadWeather()}
+    if(tok!==wtok)return;svInfo='Unavailable right now; seeing is estimated from the jet stream instead'})();
+  p1.then(()=>{if(tok===wtok)safe(()=>rebuild(true),'redraw')});renderStatus();p2.then(()=>{if(tok===wtok)safe(()=>rebuild(true),'redraw')});renderStatus()}
+function setLoc(l){loc=l;store.set('loc',loc);nightI=0;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';q.value=loc.name;safe(()=>rebuild(false),'start');loadWeather();window.scrollTo({top:0,behavior:'smooth'})}
 
 /* ---------- Events ---------- */
 $('#more').addEventListener('click',()=>{showAll=!showAll;renderCat()});
@@ -417,7 +440,7 @@ tw.addEventListener('pointerup',()=>drag=false);tw.addEventListener('pointercanc
 $('#outlook').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;nightI=+b.dataset.i;rebuild(true)});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderBest();drawTL();drawDome();return}
   const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat()}
-  if(!e.target.closest('.search'))closeS()});
+  if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=loc.name}});
 const red=$('#red');const setRed=v=>{document.documentElement.classList.toggle('red',v);red.setAttribute('aria-pressed',v);store.set('red',v)};setRed(store.get('red',false));red.addEventListener('click',()=>setRed(red.getAttribute('aria-pressed')!=='true'));
 $('#geo').addEventListener('click',()=>{if(!navigator.geolocation){$('#geo').textContent='Not available';return}
   navigator.geolocation.getCurrentPosition(p=>setLoc({name:'My location',sub:'from this device',lat:+p.coords.latitude.toFixed(4),lon:+p.coords.longitude.toFixed(4),elev:p.coords.altitude??null,tz:Intl.DateTimeFormat().resolvedOptions().timeZone}),()=>{$('#geo').textContent='Location blocked'})});
@@ -425,23 +448,36 @@ $('#geo').addEventListener('click',()=>{if(!navigator.geolocation){$('#geo').tex
 /* ---------- Search with autocomplete (Open-Meteo geocoding) ---------- */
 const q=$('#q'),ul=$('#sugg');let res=[],sel=-1,timer=null,seq=0;
 function closeS(){ul.hidden=true;q.setAttribute('aria-expanded','false');sel=-1}
-function showS(pending){ul.innerHTML=res.length?res.map((r,i)=>`<li role="option" id="s${i}" data-k="${i}" aria-selected="${i===sel}">${esc(r.name)}<small>${esc([r.admin2,r.admin1,r.country].filter(Boolean).join(', '))}${r.elevation!=null?' · '+Math.round(r.elevation)+' m':''}</small></li>`).join(''):(pending?'<li class="msg">Searching…</li>':'<li class="msg">No matches</li>');ul.hidden=false;q.setAttribute('aria-expanded','true');q.setAttribute('aria-activedescendant',sel>=0?'s'+sel:'')}
-function pick(r){q.value='';closeS();setLoc({name:r.name,sub:[r.admin2,r.admin1,r.country].filter(Boolean).join(', '),lat:r.latitude,lon:r.longitude,elev:r.elevation??null,tz:r.timezone||'UTC'})}
-/* Built-in Himalayan sky spots: these match even when online search is blocked */
-const SPOTS=[['Haripur','Kullu','Himachal Pradesh',32.18,77.18,1900],['Manali','Kullu','Himachal Pradesh',32.243,77.189,2050],['Naggar','Kullu','Himachal Pradesh',32.12,77.17,1800],['Solang Valley','Kullu','Himachal Pradesh',32.316,77.157,2480],['Sissu','Lahaul','Himachal Pradesh',32.48,77.13,3100],['Kaza','Spiti','Himachal Pradesh',32.226,78.072,3800],['Chitkul','Kinnaur','Himachal Pradesh',31.35,78.44,3450],['Bir Billing','Kangra','Himachal Pradesh',32.04,76.72,1500],['Hanle Dark Sky Reserve','Leh','Ladakh',32.779,78.964,4500],['Leh','Leh','Ladakh',34.152,77.577,3500],['Pangong Tso','Leh','Ladakh',33.75,78.65,4250]]
-  .map(([name,admin2,admin1,latitude,longitude,elevation])=>({name,admin2,admin1,country:'India',latitude,longitude,elevation,timezone:'Asia/Kolkata',local:1}));
-q.addEventListener('input',()=>{clearTimeout(timer);const v=q.value.trim();if(v.length<2){closeS();return}
-  const lv=v.toLowerCase(),loc1=SPOTS.filter(s=>(s.name+' '+s.admin2+' '+s.admin1).toLowerCase().includes(lv));
+const where=r=>[r.admin2,r.admin1,r.country].filter(Boolean).join(', ');
+function showS(pending){ul.innerHTML=(res.length?res.map((r,i)=>`<li role="option" id="s${i}" data-k="${i}" aria-selected="${i===sel}">${esc(r.name)}<small>${esc(where(r))}${r.elevation!=null?' · '+Math.round(r.elevation)+' m':''}</small></li>`).join(''):'')+(pending?'<li class="msg">Searching…</li>':res.length?'':'<li class="msg">No matches</li>');ul.hidden=false;q.setAttribute('aria-expanded','true');q.setAttribute('aria-activedescendant',sel>=0?'s'+sel:'')}
+function pick(r){seq++;clearTimeout(timer);res=[];closeS();q.blur();
+  setLoc({name:r.name,sub:where(r),lat:r.latitude,lon:r.longitude,elev:r.elevation??null,tz:r.timezone||'UTC'})}
+/* Built-in sky spots and old city names: these match even when online search is blocked */
+const SPOTS=[['Haripur','Kullu','Himachal Pradesh',32.18,77.18,1900],['Manali','Kullu','Himachal Pradesh',32.243,77.189,2050],['Naggar','Kullu','Himachal Pradesh',32.12,77.17,1800],['Solang Valley','Kullu','Himachal Pradesh',32.316,77.157,2480],['Sissu','Lahaul','Himachal Pradesh',32.48,77.13,3100],['Kaza','Spiti','Himachal Pradesh',32.226,78.072,3800],['Chitkul','Kinnaur','Himachal Pradesh',31.35,78.44,3450],['Bir Billing','Kangra','Himachal Pradesh',32.04,76.72,1500],['Hanle Dark Sky Reserve','Leh','Ladakh',32.779,78.964,4500],['Leh','Leh','Ladakh',34.152,77.577,3500],['Pangong Tso','Leh','Ladakh',33.75,78.65,4250],['Bengaluru','Bangalore Urban','Karnataka',12.972,77.594,920]]
+  .map(([name,admin2,admin1,latitude,longitude,elevation])=>({name,admin2,admin1,country:'India',country_code:'IN',latitude,longitude,elevation,timezone:'Asia/Kolkata'}));
+const ALIAS={bangalore:'Bengaluru',bombay:'Mumbai',calcutta:'Kolkata',madras:'Chennai',poona:'Pune',simla:'Shimla',mysore:'Mysuru',gurgaon:'Gurugram'};
+/* Rank: India first, then bigger places, so "Bangalore" means Bengaluru, not a suburb abroad */
+const rank=a=>a.sort((x,y)=>((y.country_code==='IN')-(x.country_code==='IN'))||((y.population||0)-(x.population||0)));
+q.addEventListener('focus',()=>q.select());
+q.addEventListener('input',()=>{clearTimeout(timer);const v=q.value.trim();const my=++seq;if(v.length<2){res=[];closeS();return}
+  const lv=v.toLowerCase(),al=Object.entries(ALIAS).find(([k])=>k.startsWith(lv)||lv.startsWith(k));
+  const loc1=SPOTS.filter(s=>(s.name+' '+s.admin2+' '+s.admin1).toLowerCase().includes(lv)||(al&&s.name===al[1]));
   const m=v.match(/^\s*(-?\d{1,2}(?:\.\d+)?)\s*[, ]\s*(-?\d{1,3}(?:\.\d+)?)\s*$/);
   const coord=m&&Math.abs(+m[1])<=90&&Math.abs(+m[2])<=180?[{name:`${(+m[1]).toFixed(3)}, ${(+m[2]).toFixed(3)}`,admin1:'Custom coordinates',latitude:+m[1],longitude:+m[2],elevation:null,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone}]:[];
   res=[...coord,...loc1];sel=res.length?0:-1;showS(!coord.length);if(coord.length)return;
-  timer=setTimeout(async()=>{const my=++seq;try{const j=await getJSON(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(v)}&count=8&language=en&format=json`);if(my!==seq)return;
-    const seen=new Set(res.map(r=>r.name.toLowerCase()));res=[...res,...(j.results||[]).filter(r=>!seen.has(String(r.name).toLowerCase()))];sel=res.length?0:-1;showS()}
-  catch(e){if(my!==seq)return;showS();ul.insertAdjacentHTML('beforeend','<li class="msg">Online search is blocked here. Type coordinates like 32.18, 77.18, or open the app in a browser.</li>')}},250)});
-q.addEventListener('keydown',e=>{if(ul.hidden)return;if(e.key==='ArrowDown'){sel=Math.min(res.length-1,sel+1);showS();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);showS();e.preventDefault()}else if(e.key==='Enter'&&res[sel]){pick(res[sel]);e.preventDefault()}else if(e.key==='Escape')closeS()});
+  timer=setTimeout(async()=>{const names=[v];if(al&&!names.includes(al[1]))names.push(al[1]);
+    const got=await Promise.allSettled(names.map(n=>getJSON(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(n)}&count=10&language=en&format=json`,8000)));
+    if(my!==seq)return;
+    const remote=rank(got.flatMap(g=>g.status==='fulfilled'?(g.value.results||[]):[]));
+    const key=r=>r.name.toLowerCase()+'|'+(r.admin1||'')+'|'+(r.country||''),seen=new Set(res.map(key));
+    res=[...res,...remote.filter(r=>!seen.has(key(r))&&seen.add(key(r)))].slice(0,10);sel=res.length?0:-1;showS();
+    if(got.every(g=>g.status==='rejected'))ul.insertAdjacentHTML('beforeend','<li class="msg">Online search is unavailable. Pick a listed spot or type coordinates like 32.18, 77.18.</li>')},300)});
+q.addEventListener('keydown',e=>{if(e.key==='Escape'){closeS();q.value=loc.name;q.blur();return}if(ul.hidden)return;if(e.key==='ArrowDown'){sel=Math.min(res.length-1,sel+1);showS();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);showS();e.preventDefault()}else if(e.key==='Enter'&&res[sel]){pick(res[sel]);e.preventDefault()}});
+q.addEventListener('blur',()=>setTimeout(()=>{if(document.activeElement!==q&&ul.hidden)q.value=loc.name},150));
+ul.addEventListener('pointerdown',e=>e.preventDefault());
 ul.addEventListener('click',e=>{const li=e.target.closest('[data-k]');if(li)pick(res[+li.dataset.k])});
 
-safe(()=>rebuild(false),'start');loadWeather();
+q.value=loc.name;safe(()=>rebuild(false),'start');loadWeather();
 setInterval(()=>{if(nightI===0&&!drag&&document.visibilityState==='visible')renderOutlook()},10*60e3);
 }
 </script>
