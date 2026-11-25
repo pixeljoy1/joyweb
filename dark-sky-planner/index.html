@@ -250,7 +250,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 </head>
 <body>
 <header class="appbar"><div class="abin">
-  <a href="#" class="brand" id="brand" aria-label="Astroplanner, back to top"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#141b2b"/><path d="M9 7l3.5 9.5L20.5 15 24 26" fill="none" stroke="#3f6c93" stroke-width="1"/><circle cx="9" cy="7" r="2" fill="#ffb08a"/><circle cx="23" cy="8" r="1.6" fill="#cfe6ff"/><circle cx="13.2" cy="16.6" r="1.4" fill="#eaf4ff"/><circle cx="16.4" cy="15.8" r="1.4" fill="#eaf4ff"/><circle cx="19.6" cy="15" r="1.4" fill="#eaf4ff"/><circle cx="10" cy="25" r="1.6" fill="#cfe6ff"/><circle cx="24" cy="26" r="2" fill="#9fd4ff"/></svg><span class="bn">Astroplanner</span><span class="ver" id="ver">v17</span></a>
+  <a href="#" class="brand" id="brand" aria-label="Astroplanner, back to top"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#141b2b"/><path d="M9 7l3.5 9.5L20.5 15 24 26" fill="none" stroke="#3f6c93" stroke-width="1"/><circle cx="9" cy="7" r="2" fill="#ffb08a"/><circle cx="23" cy="8" r="1.6" fill="#cfe6ff"/><circle cx="13.2" cy="16.6" r="1.4" fill="#eaf4ff"/><circle cx="16.4" cy="15.8" r="1.4" fill="#eaf4ff"/><circle cx="19.6" cy="15" r="1.4" fill="#eaf4ff"/><circle cx="10" cy="25" r="1.6" fill="#cfe6ff"/><circle cx="24" cy="26" r="2" fill="#9fd4ff"/></svg><span class="bn">Astroplanner</span><span class="ver" id="ver">v18</span></a>
   <div class="search">
     <input id="q" type="search" placeholder="Search a place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
     <button id="geo" type="button" class="geo" aria-label="Use my location" title="Use my location"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="7.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></button>
@@ -280,7 +280,7 @@ td small{color:var(--mut);display:block;font-size:13px}
 
   <h2 class="sect">Sky and conditions</h2>
   <section class="box c-dome c-half"><div class="domeh"><h2>Sky charter <small id="domeT"></small></h2><select class="sel" id="track" aria-label="Track a target"></select><button type="button" class="clr" id="clrT" hidden aria-label="Clear tracked target">✕ Clear</button></div><div class="dome"><svg id="dome" role="img" aria-label="Sky dome, north up, east left"></svg></div><p class="hint" id="domeHint"></p></section>
-  <section class="box c-cond c-half"><h2>Conditions <small id="condT"></small></h2><div id="cond"><p class="msg">Fetching forecast…</p></div><h2 class="simh" id="simH">Telescope view</h2><div class="scopeBar"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l12-7 2 3.5-12 7zM16 9l1.5-1 2 3.5-1.5 1M8 19l-2 3M10 18l2 4"/></svg><select class="sel" id="scopeSel" aria-label="Telescope"></select><select class="sel" id="focSel" aria-label="Focal length" hidden></select><select class="sel" id="senSel" aria-label="Camera sensor" hidden></select><span class="msg" id="fovTxt"></span></div><p class="hint" id="simEmpty">Pick a target in the Sky charter to preview it in this telescope.</p><div class="sim" id="sim" hidden><div class="simv" id="simv"><div class="simbg" id="simbg"></div><img id="simImg" alt=""><div class="simcl" id="simcl"></div><div class="simfr"><span></span></div><div class="simhud" id="simHud"></div><div class="simmsg" id="simMsg"></div></div><p class="hint" id="simCap"></p></div></section>
+  <section class="box c-cond c-half"><h2>Conditions <small id="condT"></small></h2><div id="cond"><p class="msg">Fetching forecast…</p></div><h2 class="simh" id="simH">Telescope view</h2><div class="scopeBar"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l12-7 2 3.5-12 7zM16 9l1.5-1 2 3.5-1.5 1M8 19l-2 3M10 18l2 4"/></svg><select class="sel" id="scopeSel" aria-label="Telescope"></select><select class="sel" id="focSel" aria-label="Focal length (lens)"></select><select class="sel" id="senSel" aria-label="Camera sensor"></select><span class="msg" id="fovTxt"></span></div><p class="hint" id="simEmpty">Pick a target in the Sky charter to preview it in this telescope.</p><div class="sim" id="sim" hidden><div class="simv" id="simv"><div class="simbg" id="simbg"></div><img id="simImg" alt=""><div class="simcl" id="simcl"></div><div class="simfr"><span></span></div><div class="simhud" id="simHud"></div><div class="simmsg" id="simMsg"></div></div><p class="hint" id="simCap"></p></div></section>
   
 
   <section class="box c-glance"><div class="cath"><h2>Night weather at a glance</h2><span class="msg" id="hhNote"></span></div><div class="msline" id="ms"></div><div class="scroll"><table id="hh" class="hh"></table></div></section>
@@ -512,7 +512,7 @@ function renderHero(){const s=nightScore(N),top=[...N.tg].sort((a,b)=>b.sum-a.su
 
 /* ---------- Render: dome ---------- */
 const LV=v=>v>=55?2:v>=30?1:0, LVC=['#5a6170','#3f6c93','#8fe3ff'];
-let selId=null,domePts=[];
+let selId=store.get('sel',null),domePts=[];
 function drawDome(){const s=$('#dome'),W=s.clientWidth,H=s.clientHeight;if(!W||!N)return;const st=N.steps[idx],cx=W/2,cy=H/2,r=Math.min(W,H)/2-26;
   const P=(alt,az)=>{const rr=r*(90-Math.max(alt,-5))/90;return [cx-rr*sn(az),cy-rr*cs(az)]};
   const dk=darkF(st.sun),skyC=st.sun>-.83?'#34425f':dk===0?'#1d2436':dk<1?'#0f131c':'#05060a';
@@ -622,7 +622,7 @@ function renderPlan(){const P=buildPlan();
   :'<li class="msg">No full darkness this night.</li>'}
 function renderTrack(){const L=[...N.tg].sort((a,b)=>b.sum-a.sum);
   $('#track').innerHTML=`<option value="">Track a target…</option>`+L.map(o=>`<option value="${esc(o.id)}"${o.id===selId?' selected':''}>${esc(o.name)}${o.win?' · '+fmtT(o.win[0])+'–'+fmtT(o.win[1]):''}</option>`).join('');$('#clrT').hidden=!selId}
-function selectT(id,k){selId=id||null;if(k!=null)idx=clamp(k,0,N.steps.length-1);safe(drawTL,'timeline');safe(renderPlan,'plan');safe(renderTrack,'track');safe(()=>setIdx(idx),'time')}
+function selectT(id,k){selId=id||null;store.set('sel',selId);if(k!=null)idx=clamp(k,0,N.steps.length-1);safe(drawTL,'timeline');safe(renderPlan,'plan');safe(renderTrack,'track');safe(()=>setIdx(idx),'time')}
 /* Drag a target from the list onto the strip to pin it */
 document.addEventListener('dragstart',e=>{const li=e.target.closest&&e.target.closest('#live li[data-id]');if(li){e.dataTransfer.setData('text/plain',li.dataset.id);e.dataTransfer.effectAllowed='copy'}});
 
@@ -659,12 +659,12 @@ document.addEventListener('click',e=>{const b=e.target.closest('.ddb');const ope
   open.forEach(x=>{x.hidden=true;x.previousElementSibling.setAttribute('aria-expanded','false')})});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.ddp:not([hidden])').forEach(x=>x.hidden=true)});
 function renderScope(){$('#scopeSel').innerHTML=SCOPES.map(x=>`<option value="${x.id}"${x.id===scope.id?' selected':''}>${esc(x.name)}${x.f?' · '+x.f+' mm':''}</option>`).join('');
-  const ota=scope.id==='ota';$('#focSel').hidden=!ota;$('#senSel').hidden=!ota;
-  $('#focSel').innerHTML=FOCALS.map(f=>`<option value="${f}"${f===+scope.f?' selected':''}>${f} mm</option>`).join('');
-  $('#senSel').innerHTML=SENSORS.map(x=>`<option value="${x.id}"${x.id===scope.sen?' selected':''}>${esc(x.name)}</option>`).join('');
+  const ota=scope.id==='ota',sc=SCOPES.find(x=>x.id===scope.id)||SCOPES[0];$('#focSel').hidden=false;$('#senSel').hidden=false;
+  $('#focSel').innerHTML=(ota?'':`<option value="" selected>${sc.f?sc.f+' mm (built in)':'Built-in lens'}</option>`)+FOCALS.map(f=>`<option value="${f}"${ota&&f===+scope.f?' selected':''}>${f} mm${ota?'':' (own scope)'}</option>`).join('');
+  $('#senSel').innerHTML=(ota?'':`<option value="" selected>Built-in camera</option>`)+SENSORS.map(x=>`<option value="${x.id}"${ota&&x.id===scope.sen?' selected':''}>${esc(x.name)}</option>`).join('');
   $('#fovTxt').textContent='Field '+fovTxt();document.querySelectorAll('.scopeLbl').forEach(e=>e.textContent=FOV().name+' framing '+fovTxt())}
 function setScope(p){scope={...scope,...p};store.set('scope',scope);rebuild(true)}
-$('#scopeSel').addEventListener('change',e=>setScope({id:e.target.value}));$('#focSel').addEventListener('change',e=>setScope({f:+e.target.value}));$('#senSel').addEventListener('change',e=>setScope({sen:e.target.value}));
+$('#scopeSel').addEventListener('change',e=>setScope({id:e.target.value}));$('#focSel').addEventListener('change',e=>{if(e.target.value)setScope({id:'ota',f:+e.target.value})});$('#senSel').addEventListener('change',e=>{if(e.target.value)setScope({id:'ota',sen:e.target.value})});
 function renderFilt(){dd($('#ddFilt'),{value:filt,aria:'Filter targets',items:Object.keys(FILTERS).map(k=>({v:k,label:k==='My plan'?`My plan (${fav.size})`:k,icon:ic(FI[k])})),onPick:v=>{filt=v;renderCat();renderFilt();updateLive()}})}
 /* Live target list beside the timeline: re-ranks for the cursor time while dragging */
 let LIVE=new Map();
@@ -786,7 +786,7 @@ $('#clrS').addEventListener('click',()=>{fav.clear();store.set('fav',[]);renderC
 document.addEventListener('change',e=>{if(e.target.id==='bSel'){const b=store.get('bortle',{});b[bkey()]=+e.target.value;store.set('bortle',b);rebuild(true)}});
 $('#outlook').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;nightI=+b.dataset.i;rebuild(true)});
 document.addEventListener('click',e=>{const ps=e.target.closest('#plan [data-k]');if(ps){selectT(ps.dataset.sel||selId,+ps.dataset.k);return}
-  const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderFilt();renderBest();drawTL();drawDome();renderPlan();updateLive();return}
+  const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;const adding=!fav.has(id);adding?fav.add(id):fav.delete(id);store.set('fav',[...fav]);if(adding&&!selId){selectT(id)}renderCat();renderFilt();renderBest();drawTL();drawDome();renderPlan();updateLive();return}
   const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat();updateLive();return}
   const lv=e.target.closest('#live li[data-id]');if(lv){selectT(selId===lv.dataset.id?null:lv.dataset.id);return}
   if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=fullName()}});
