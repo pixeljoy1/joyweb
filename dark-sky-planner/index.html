@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090b10">
-<title>Dark Sky Planner</title>
+<title>Kalpurush · Dark Sky Planner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -17,7 +17,7 @@
 *{box-sizing:border-box;min-width:0}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Archivo,system-ui,sans-serif;font-variant-numeric:tabular-nums;overflow-x:clip}
 html.red body{filter:sepia(1) saturate(7) hue-rotate(-45deg) brightness(.72)}
-.wrap{position:relative}.ver{position:absolute;top:2px;right:max(3vw,12px);font-size:10.5px;line-height:1;padding:3px 6px;border-radius:999px;border:1px solid var(--line);color:var(--mut);background:var(--panel);letter-spacing:.02em;z-index:6}
+.wrap{position:relative}.verold{position:absolute;top:2px;right:max(3vw,12px);font-size:10.5px;line-height:1;padding:3px 6px;border-radius:999px;border:1px solid var(--line);color:var(--mut);background:var(--panel);letter-spacing:.02em;z-index:6}
 .menu{position:relative}.menu>button{display:flex;align-items:center;gap:6px;font-size:14px}
 .mpanel{position:absolute;right:0;top:50px;z-index:7;min-width:220px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:6px;box-shadow:0 12px 30px #0006;display:flex;flex-direction:column;gap:2px}
 .mpanel[hidden]{display:none}.mpanel p{margin:4px 8px 6px;font-size:12px;color:var(--mut)}
@@ -46,8 +46,18 @@ button,input{font:inherit;color:inherit}
 button{background:var(--panel2);border:1px solid var(--line);border-radius:10px;min-height:44px;padding:0 14px;cursor:pointer}
 button:hover{border-color:#3a4254}
 :focus-visible{outline:2px solid var(--good);outline-offset:2px}
-.wrap{max-width:1320px;margin:0 auto;padding:16px max(3vw,12px) 40px}
-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px) auto;gap:10px 12px;align-items:center;margin-bottom:14px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 max(3vw,12px) 40px}
+.appbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.abin{max-width:1320px;margin:0 auto;padding:8px max(3vw,12px);display:grid;grid-template-columns:auto minmax(0,560px) auto;justify-content:space-between;gap:12px;align-items:start}
+.brand{display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;min-height:48px}.logo{width:34px;height:34px;flex:none}
+.bn{font-weight:700;font-size:19px;letter-spacing:-.01em}
+.ver{font-size:10.5px;line-height:1;padding:3px 6px;border-radius:999px;border:1px solid var(--line);color:var(--mut);background:var(--panel);align-self:center}
+.locsub{margin:4px 2px 0;font-size:12px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.menu{padding-top:2px}
+html{scroll-padding-top:96px}
+.topline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:14px 0 12px}
+.topline h1{font-size:clamp(22px,2.6vw,30px);margin:0 8px 0 0}
+.nowc{font-size:13px;color:var(--mut);white-space:nowrap}.nowc b{color:var(--bad)}
 h1{font-size:clamp(26px,3.4vw,40px);line-height:1.05;margin:0;font-weight:700;text-wrap:balance}
 .sub{color:var(--mut);margin:4px 0 0;font-size:14px}
 .search{position:relative}
@@ -189,34 +199,34 @@ td small{color:var(--mut);display:block;font-size:13px}
 .dark-row td:first-child::after{content:' ●';color:var(--good);font-size:11px}
 .scroll{overflow-x:auto}
 @media(max-width:1100px){.c-tl,.c-live{grid-column:span 12}.c-live{height:520px}.c-half.c-dome,.c-half.c-cond{grid-column:span 12}.c-dome,.c-cond{grid-column:span 6}.c-best{grid-column:span 12}.out{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media(max-width:760px){header{grid-template-columns:minmax(0,1fr) auto}header>div:first-child{grid-column:1/-1}#themeLbl{display:none}.menu>button{padding:0 12px}.c-dome,.c-cond,.c-ms,.c-src{grid-column:span 12}.out{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.night{flex:0 0 132px;scroll-snap-align:start}}
+@media(max-width:760px){.abin{grid-template-columns:auto minmax(0,1fr) auto;gap:8px}.bn{display:none}.brand{gap:5px}.brand .ver{font-size:9.5px;padding:2px 4px}#themeLbl{display:none}.menu>button{padding:0 12px}.topline h1{width:100%}.c-dome,.c-cond,.c-ms,.c-src{grid-column:span 12}.out{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.night{flex:0 0 132px;scroll-snap-align:start}}
 @media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;color:var(--mut);font-size:13px}.stack td:empty{display:none}.tlh .t{font-size:22px}}
 @media(prefers-reduced-motion:no-preference){.bar i{transition:width .25s}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
-<div class="wrap">
-<span class="ver" id="ver">v11</span>
-<header>
-  <div><h1 id="title">Tonight</h1><p class="sub" id="sub"></p></div>
+<header class="appbar"><div class="abin">
+  <a href="#" class="brand" id="brand" aria-label="Kalpurush, back to top"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#141b2b"/><path d="M9 7l3.5 9.5L20.5 15 24 26" fill="none" stroke="#3f6c93" stroke-width="1"/><circle cx="9" cy="7" r="2" fill="#ffb08a"/><circle cx="23" cy="8" r="1.6" fill="#cfe6ff"/><circle cx="13.2" cy="16.6" r="1.4" fill="#eaf4ff"/><circle cx="16.4" cy="15.8" r="1.4" fill="#eaf4ff"/><circle cx="19.6" cy="15" r="1.4" fill="#eaf4ff"/><circle cx="10" cy="25" r="1.6" fill="#cfe6ff"/><circle cx="24" cy="26" r="2" fill="#9fd4ff"/></svg><span class="bn">Kalpurush</span><span class="ver" id="ver">v12</span></a>
   <div class="search">
-    <input id="q" type="search" placeholder="Change place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
+    <input id="q" type="search" placeholder="Search a place: Haripur, Hanle, Spiti…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sugg" aria-label="Search location">
     <button id="geo" type="button" class="geo" aria-label="Use my location" title="Use my location"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="7.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></button>
     <ul id="sugg" role="listbox" hidden></ul>
+    <p class="locsub" id="sub"></p>
   </div>
-  <div class="acts"><div class="menu"><button id="themeBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="themeMenu" aria-label="Display settings"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span id="themeLbl">Display</span> ▾</button>
+  <div class="menu"><button id="themeBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="themeMenu" aria-label="Display settings"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg><span id="themeLbl">Display</span> ▾</button>
     <div class="mpanel" id="themeMenu" role="menu" hidden><p>Theme</p>
-      <button type="button" role="menuitemradio" data-theme-set="system">System</button><button type="button" role="menuitemradio" data-theme-set="dark">Dark</button><button type="button" role="menuitemradio" data-theme-set="light">Light</button><button type="button" role="menuitemradio" data-theme-set="red">Red astro (night vision)</button></div></div></div>
-  <div class="hdr2"><div class="nights" id="outlook" aria-label="Next 7 nights"></div><p class="status" id="status"></p></div>
-</header>
+      <button type="button" role="menuitemradio" data-theme-set="system">System</button><button type="button" role="menuitemradio" data-theme-set="dark">Dark</button><button type="button" role="menuitemradio" data-theme-set="light">Light</button><button type="button" role="menuitemradio" data-theme-set="red">Red astro (night vision)</button></div></div>
+</div></header>
+<div class="wrap" id="top">
+<div class="topline"><h1 id="title">Tonight</h1><div class="nights" id="outlook" aria-label="Next 7 nights"></div><p class="status" id="status"></p></div>
 
 <main class="grid">
   <section class="box hero" id="hero"></section>
 
   <section class="box c-tl">
     <div class="tlh"><h2>Night plan</h2><span class="t" id="tlT"></span>
-      <div class="tbtn"><button type="button" data-jump="-12" aria-label="Back one hour">−1 h</button><button id="now" type="button">Now</button><button type="button" data-jump="12" aria-label="Forward one hour">+1 h</button></div></div>
+      <span class="nowc" id="nowChip"></span><div class="tbtn"><button type="button" data-jump="-12" aria-label="Back one hour">−1 h</button><button id="now" type="button">Now</button><button type="button" data-jump="12" aria-label="Forward one hour">+1 h</button></div></div>
     <p class="hint" id="nowNote">Drag along the strip and the target list re-ranks for that moment. Tap a target to track it; drag one onto the strip to pin it.</p>
     <div id="tlwrap" tabindex="0" aria-label="Night timeline. Use left and right arrow keys to move in time."><svg id="tl"></svg></div>
     <p class="legend"><span><i style="background:#8fe3ff"></i>Best time to shoot</span><span><i style="background:#3f6c93"></i>Usable</span><span><i style="background:var(--cloud)"></i>Cloud</span><span><i style="background:var(--moon)"></i>Moon up</span><span><i style="background:#000;border:1px solid #444"></i>Full darkness</span></p>
@@ -304,7 +314,11 @@ function parts(ms){try{const p={};new Intl.DateTimeFormat('en-US',{timeZone:loc.
 const tzOff=ms=>{const p=parts(ms);return Date.UTC(p.y,p.m-1,p.d,p.h,p.mi,p.s)-Math.floor(ms/1000)*1000};
 const fmtT=ms=>{const p=parts(ms);return String(p.h).padStart(2,'0')+':'+String(p.mi).padStart(2,'0')};
 const fmtD=(ms,o={weekday:'short',day:'numeric',month:'short'})=>{try{return new Intl.DateTimeFormat('en-GB',{timeZone:loc.tz,...o}).format(ms)}catch(e){return new Date(ms).toDateString()}};
-function nightNoon(i){const now=Date.now(),p=parts(now),back=p.h<9?1:0;const g=Date.UTC(p.y,p.m-1,p.d-back+i,12);return g-tzOff(g)}
+let NB={k:'',v:0};
+function baseNoon(){const now=Date.now(),k=loc.tz+'|'+loc.lat+'|'+Math.floor(now/(5*MIN));if(NB.k===k)return NB.v;const p=parts(now);
+  let g=Date.UTC(p.y,p.m-1,p.d-1,12);g-=tzOff(g);const c=crossings(g,10*MIN),end=(c.rise??g+19*HR)+30*MIN;
+  const v=now<=end?g:(()=>{const h=Date.UTC(p.y,p.m-1,p.d,12);return h-tzOff(h)})();NB={k,v};return v}
+function nightNoon(i){return baseNoon()+i*864e5}
 
 /* ---------- Weather lookup ---------- */
 const F=['cc','lo','mi','hi','rh','dp','tp','ws','wg','pp','vis','jet'];
@@ -367,8 +381,10 @@ function buildNight(i){const b=nightSteps(i,STEP),steps=b.steps;
   return {i,...b,tg}}
 
 /* ---------- Render: header & outlook ---------- */
-function renderHead(){$('#title').textContent=(nightI===0?'Tonight':fmtD(N.noon,{weekday:'long',day:'numeric',month:'short'}))+' from '+loc.name;
-  $('#sub').textContent=[loc.sub,`${Math.abs(loc.lat).toFixed(2)}°${loc.lat>=0?'N':'S'} ${Math.abs(loc.lon).toFixed(2)}°${loc.lon>=0?'E':'W'}`,loc.elev!=null?Math.round(loc.elev).toLocaleString('en-IN')+' m':'','site time '+fmtT(Date.now())].filter(Boolean).join(' · ')}
+const fullName=()=>[loc.name,loc.sub].filter(Boolean).join(', ');
+function renderHead(){$('#title').textContent=(nightI===0?'Tonight':fmtD(N.noon,{weekday:'long',day:'numeric',month:'short'}))+' at '+loc.name;
+  if(document.activeElement!==q)q.value=fullName();
+  $('#sub').textContent=[`${Math.abs(loc.lat).toFixed(2)}°${loc.lat>=0?'N':'S'} ${Math.abs(loc.lon).toFixed(2)}°${loc.lon>=0?'E':'W'}`,loc.elev!=null?Math.round(loc.elev).toLocaleString('en-IN')+' m':'','site time '+fmtT(Date.now())].filter(Boolean).join(' · ')}
 function renderOutlook(){let h='';for(let i=0;i<7;i++){const n=nightSteps(i,15*MIN),s=nightScore(n);
   h+=`<button class="nt" type="button" data-i="${i}" aria-pressed="${i===nightI}" title="${s.cc==null?'no forecast':Math.round(s.cc)+'% cloud'} · moon ${Math.round((s.illum??0)*100)}%${s.held&&s.held[0]?' · limited by '+s.held[0]:''}"><span>${i===0?'Tonight':esc(fmtD(n.noon,{weekday:'short',day:'numeric'}))}</span><b class="${s.hasWx?s.cls:'maybe'}">${s.score}</b></button>`}
   $('#outlook').innerHTML=h}
@@ -475,6 +491,7 @@ function drawTL(){if(!N)return;const W=$('#tlwrap').clientWidth;if(!W)return;con
     g+=lab(y+14,(fav.has(o.id)?'★ ':'')+(nm.length>(sm?13:24)?nm.slice(0,sm?12:23)+'…':nm),on||fav.has(o.id),dim);
     g+=`<rect x="${G}" y="${y+3}" width="${PW}" height="14" rx="3" fill="#161b25"/>`;
     for(const [a,b,l] of runs(o.sc.map(LV)))if(l)g+=`<rect x="${X(a)}" y="${y+3}" width="${((b-a)*cw).toFixed(1)}" height="14" rx="3" fill="${LVC[l]}" fill-opacity="${dim?.35:1}"/>`});
+  {const now=Date.now();if(now>=N.t0&&now<=N.t1){const x=(G+(now-N.t0)/STEP*cw).toFixed(1);g+=`<line x1="${x}" x2="${x}" y1="${yD-4}" y2="${H}" stroke="#ff7b72" stroke-width="1.5" stroke-dasharray="3 3"/><text x="${x}" y="${yD-6}" fill="#ff7b72" font-size="10" text-anchor="middle" font-weight="700">now</text>`}}
   g+=`<g id="cur"><line x1="0" x2="0" y1="30" y2="${H}" stroke="#fff" stroke-width="2"/><rect x="-30" y="4" width="60" height="24" rx="12" fill="#ebe8e1"/><text id="curT" x="0" y="21" fill="#090b10" font-size="13" font-weight="700" text-anchor="middle"></text></g>`;
   s.innerHTML=g;moveCursor()}
 function moveCursor(){const c=$('#cur');if(!c||!N)return;let x=G+(idx+.5)*PW/N.steps.length;c.setAttribute('transform',`translate(${x.toFixed(1)} 0)`);
@@ -548,7 +565,7 @@ function renderCat(){$('#chips').innerHTML=Object.keys(FILTERS).map(k=>`<button 
 function setIdx(i){idx=clamp(Math.round(i),0,N.steps.length-1);moveCursor();safe(updateLive,'targets');drawDome();renderCond();renderBest();markHH()}
 function defaultIdx(){const now=Date.now();if(now>=N.t0&&now<=N.t1)return (now-N.t0)/STEP;const t=N.d0?N.d0+HR:N.t0+3*HR;return (t-N.t0)/STEP}
 function rebuild(keepT){const keep=keepT&&N?N.steps[idx].t-N.noon:null;N=buildNight(nightI);if(selId&&!N.tg.some(o=>o.id===selId))selId=null;
-  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[buildLive,'live'],[renderHH,'hourly'],[drawTL,'timeline'],[renderPlan,'plan'],[renderTrack,'track']])safe(f,n);
+  for(const [f,n] of [[renderHead,'header'],[renderHero,'score'],[renderOutlook,'outlook'],[renderMS,'sun/moon'],[renderSrc,'sources'],[renderCat,'targets'],[buildLive,'live'],[renderHH,'hourly'],[drawTL,'timeline'],[renderPlan,'plan'],[renderTrack,'track'],[renderNowChip,'now']])safe(f,n);
   safe(()=>setIdx(keep!=null?(N.noon+keep-N.t0)/STEP:defaultIdx()),'time');renderStatus()}
 function renderStatus(){const ok=wx&&wx.length,sv7=sv&&sv.length,busy=wxInfo==='loading…';
   document.body.classList.toggle('busy',busy);
@@ -567,14 +584,17 @@ async function loadWeather(){const tok=++wtok;wx=null;sv=null;wxInfo='loading…
       sv=j.dataseries.map(d=>({t:init+d.timepoint*HR,see:d.seeing,tr:d.transparency,cc7:d.cloudcover})).filter(d=>d.see>0);svInfo='Model run '+fmtD(init,{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'UTC'})+' UTC';return}catch(e){}}
     if(tok!==wtok)return;svInfo='Unavailable right now; seeing is estimated from the jet stream instead'})();
   p1.then(()=>{if(tok===wtok)safe(()=>rebuild(true),'redraw')});renderStatus();p2.then(()=>{if(tok===wtok)safe(()=>rebuild(true),'redraw')});renderStatus()}
-function setLoc(l){loc=l;store.set('loc',loc);nightI=0;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';q.value=loc.name;safe(()=>rebuild(false),'start');loadWeather();window.scrollTo({top:0,behavior:'smooth'})}
+function setLoc(l){loc=l;store.set('loc',loc);nightI=0;wx=null;sv=null;wxInfo='loading…';svInfo='loading…';q.value=fullName();safe(()=>rebuild(false),'start');loadWeather();window.scrollTo({top:0,behavior:'smooth'})}
 
 /* ---------- Events ---------- */
 $('#more').addEventListener('click',()=>{showAll=!showAll;renderCat()});
 function goNow(){const now=Date.now();if(nightI!==0){nightI=0;rebuild(false)}
-  if(now>=N.t0&&now<=N.t1){setIdx((now-N.t0)/STEP);$('#nowNote').textContent=`Now at ${loc.name}: ${fmtT(now)} local time.`}
-  else{setIdx(((N.d0??N.t0+HR)-N.t0)/STEP);$('#nowNote').textContent=`It's ${fmtT(now)} at ${loc.name}, so it's still daytime there. Showing tonight from full darkness.`}}
+  if(now>=N.t0&&now<=N.t1){setIdx((now-N.t0)/STEP);$('#nowNote').textContent=`Showing now: ${fmtT(now)} at ${loc.name} (${loc.tz}).`}
+  else{setIdx(0);$('#nowNote').textContent=`It's ${fmtT(now)} at ${loc.name} (${loc.tz}): daytime. Tonight's strip starts at ${fmtT(N.t0)}, sunset ${N.set?fmtT(N.set):'–'}, full darkness ${N.d0?fmtT(N.d0):'–'}.`}
+  renderNowChip()}
+function renderNowChip(){const now=Date.now(),inN=N&&now>=N.t0&&now<=N.t1;$('#nowChip').innerHTML=`Local time <b>${fmtT(now)}</b>${inN?'':' · daytime'}`}
 $('#now').addEventListener('click',goNow);
+$('#brand').addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})});
 document.querySelectorAll('[data-jump]').forEach(b=>b.addEventListener('click',()=>setIdx(idx+ +b.dataset.jump)));
 const tw=$('#tlwrap');let drag=false,pend=false,downX=0,downY=0,downIn=false;
 const tlX=e=>{const r=tw.getBoundingClientRect();setIdx((e.clientX-r.left-G)/PW*N.steps.length-.5)};
@@ -599,7 +619,7 @@ document.addEventListener('click',e=>{const ps=e.target.closest('#plan [data-k]'
   const b=e.target.closest('[data-fav]');if(b){const id=b.dataset.fav;fav.has(id)?fav.delete(id):fav.add(id);store.set('fav',[...fav]);renderCat();renderBest();drawTL();drawDome();renderPlan();updateLive();return}
   const f=e.target.closest('[data-f]');if(f){filt=f.dataset.f;renderCat();updateLive();return}
   const lv=e.target.closest('#live li[data-id]');if(lv){selectT(selId===lv.dataset.id?null:lv.dataset.id);return}
-  if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=loc.name}});
+  if(!e.target.closest('.search')&&!ul.hidden){closeS();q.value=fullName()}});
 /* Theme: system / dark / light / red. Red is dark plus a night-vision filter. */
 const mq=matchMedia('(prefers-color-scheme: light)');
 let theme=store.get('theme',store.get('red',false)?'red':'dark');
@@ -646,14 +666,14 @@ q.addEventListener('input',()=>{clearTimeout(timer);const v=q.value.trim();const
     const key=r=>r.name.toLowerCase()+'|'+(r.admin1||'')+'|'+(r.country||''),seen=new Set(res.map(key));
     res=[...res,...remote.filter(r=>!seen.has(key(r))&&seen.add(key(r)))].slice(0,10);sel=res.length?0:-1;showS();
     if(got.every(g=>g.status==='rejected'))ul.insertAdjacentHTML('beforeend','<li class="msg">Online search is unavailable. Pick a listed spot or type coordinates like 32.18, 77.18.</li>')},300)});
-q.addEventListener('keydown',e=>{if(e.key==='Escape'){closeS();q.value=loc.name;q.blur();return}if(ul.hidden)return;if(e.key==='ArrowDown'){sel=Math.min(res.length-1,sel+1);showS();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);showS();e.preventDefault()}else if(e.key==='Enter'&&res[sel]){pick(res[sel]);e.preventDefault()}});
-q.addEventListener('blur',()=>setTimeout(()=>{if(document.activeElement!==q&&ul.hidden)q.value=loc.name},150));
+q.addEventListener('keydown',e=>{if(e.key==='Escape'){closeS();q.value=fullName();q.blur();return}if(ul.hidden)return;if(e.key==='ArrowDown'){sel=Math.min(res.length-1,sel+1);showS();e.preventDefault()}else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);showS();e.preventDefault()}else if(e.key==='Enter'&&res[sel]){pick(res[sel]);e.preventDefault()}});
+q.addEventListener('blur',()=>setTimeout(()=>{if(document.activeElement!==q&&ul.hidden)q.value=fullName()},150));
 ul.addEventListener('pointerdown',e=>e.preventDefault());
 ul.addEventListener('click',e=>{const li=e.target.closest('[data-k]');if(li)pick(res[+li.dataset.k])});
 
-q.value=loc.name;safe(()=>rebuild(false),'start');loadWeather();loadImages();
+q.value=fullName();safe(()=>rebuild(false),'start');loadWeather();loadImages();
 setInterval(()=>{if(nightI===0&&!drag&&document.visibilityState==='visible')renderOutlook()},10*60e3);
-setInterval(()=>safe(renderHead,'header'),30e3);
+setInterval(()=>{safe(renderHead,'header');safe(renderNowChip,'now')},30e3);
 }
 </script>
 </body>
